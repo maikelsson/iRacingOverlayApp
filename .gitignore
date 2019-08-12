@@ -7,3 +7,7 @@
 /iRacingSimulator/iRacingSimulator.csproj.user
 /iRacingSimulator/bin
 /iRacingSimulator/obj
+/iRacingLiveDataOverlay/obj
+/iRacingCL/obj
+/obj
+/.vs
