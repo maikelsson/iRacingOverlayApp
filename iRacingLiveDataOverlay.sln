@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29201.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iRacingLiveDataOverlay", "iRacingLiveDataOverlay.csproj", "{B997B7BE-995C-4D57-AF1E-A0EC1D6C864F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{27A43E6D-025B-4A66-938F-C7E077C6E485} = {27A43E6D-025B-4A66-938F-C7E077C6E485}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iRacingCL", "iRacingCL\iRacingCL.csproj", "{27A43E6D-025B-4A66-938F-C7E077C6E485}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B997B7BE-995C-4D57-AF1E-A0EC1D6C864F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B997B7BE-995C-4D57-AF1E-A0EC1D6C864F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B997B7BE-995C-4D57-AF1E-A0EC1D6C864F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B997B7BE-995C-4D57-AF1E-A0EC1D6C864F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27A43E6D-025B-4A66-938F-C7E077C6E485}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27A43E6D-025B-4A66-938F-C7E077C6E485}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27A43E6D-025B-4A66-938F-C7E077C6E485}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27A43E6D-025B-4A66-938F-C7E077C6E485}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F94B8595-6FB0-4B56-93CB-81430E436A26}
+	EndGlobalSection
+EndGlobal

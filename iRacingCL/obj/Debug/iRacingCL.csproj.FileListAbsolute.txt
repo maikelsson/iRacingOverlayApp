@@ -1,0 +1,8 @@
+D:\CSharp\iRacingLiveDataOverlay\iRacingCL\obj\Debug\iRacingCL.csproj.CoreCompileInputs.cache
+D:\CSharp\iRacingLiveDataOverlay\iRacingCL\bin\Debug\iRacingCL.dll
+D:\CSharp\iRacingLiveDataOverlay\iRacingCL\bin\Debug\iRacingCL.pdb
+D:\CSharp\iRacingLiveDataOverlay\iRacingCL\bin\Debug\YamlDotNet.dll
+D:\CSharp\iRacingLiveDataOverlay\iRacingCL\bin\Debug\YamlDotNet.xml
+D:\CSharp\iRacingLiveDataOverlay\iRacingCL\obj\Debug\iRacingCL.csproj.CopyComplete
+D:\CSharp\iRacingLiveDataOverlay\iRacingCL\obj\Debug\iRacingCL.dll
+D:\CSharp\iRacingLiveDataOverlay\iRacingCL\obj\Debug\iRacingCL.pdb
