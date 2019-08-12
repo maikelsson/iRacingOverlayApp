@@ -4,9 +4,27 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:iRacingLiveDataOverlay"
+        xmlns:VM="clr-namespace:iRacingLiveDataOverlay.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStartupLocation="CenterScreen"
+        Topmost="True"
+        FontSize="60"
+        Width="{Binding Source={x:Static SystemParameters.FullPrimaryScreenWidth}}"
+        Height="{Binding Source={x:Static SystemParameters.FullPrimaryScreenHeight}}"
+        Title="MainWindow">
+    <Window.DataContext>
+        <VM:LiveDataViewModel/>
+    </Window.DataContext>
+    
     <Grid>
-        
+        <Grid.Background>
+            <ImageBrush ImageSource="D:\CSharp\iRacingLiveDataOverlay\Images\cockpit.png" Stretch="UniformToFill"/>
+        </Grid.Background>
+
+        <TextBlock Text="{Binding Drivers}" Foreground="Blue"/>
     </Grid>
+    
 </Window>

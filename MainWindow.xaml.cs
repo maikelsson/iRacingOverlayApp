@@ -24,7 +24,6 @@ namespace iRacingLiveDataOverlay
         public MainWindow()
         {
             InitializeComponent();
-            var wrapper = new SdkWrapper();
         }
     }
 }

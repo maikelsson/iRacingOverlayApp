@@ -9,6 +9,6 @@
 /iRacingSimulator/obj
 /iRacingLiveDataOverlay/obj
 /iRacingCL/obj
-/obj
-/.vs
-/bin
+/obj/
+/.vs/
+/bin/
