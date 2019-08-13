@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace iRacingLiveDataOverlay.Views
 {
     /// <summary>
-    /// Interaction logic for MenuView.xaml
+    /// Interaction logic for OptionsView.xaml
     /// </summary>
-    public partial class MenuView : UserControl
+    public partial class OptionsView : UserControl
     {
-        public MenuView()
+        public OptionsView()
         {
             InitializeComponent();
         }
