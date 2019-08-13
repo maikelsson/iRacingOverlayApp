@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace iRacingLiveDataOverlay.ViewModels
 {
 
-    //Ingame viewmodel, overlay for iracing
-    public class LIveDataViewModel
+    //Toolbar, settings etc.. create maybe own view for options
+    class MenuViewModel
     {
     }
 }
