@@ -8,14 +8,15 @@
              AllowsTransparency="True"
              Background="Transparent"
              WindowStartupLocation="CenterScreen"
-             Topmost="True"
+             Topmost="False"
              FontSize="60"
              Width="{Binding Source={x:Static SystemParameters.FullPrimaryScreenWidth}}"
              Height="{Binding Source={x:Static SystemParameters.FullPrimaryScreenHeight}}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\cockpit.png" Stretch="UniformToFill"/>
+            <SolidColorBrush Color="Aqua"></SolidColorBrush>
+            <!--<ImageBrush ImageSource="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\cockpit.png" Stretch="UniformToFill"/>-->
         </Grid.Background>
     </Grid>
 </Window>

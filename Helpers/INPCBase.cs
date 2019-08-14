@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace iRacingLiveDataOverlay.Helpers
 {
+    //For models maybe..
     public class INPCBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;

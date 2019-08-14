@@ -9,5 +9,8 @@
     <StackPanel>
         <Label>Work in progress!</Label>
         <Label>Add stuff here..</Label>
+        <TextBlock Text="{Binding Path=ConnectionStatus, Mode=OneWay}"/>
+        <Button x:Name="StartWrapper" Content="{Binding Path=ConnectionBtnStatus, Mode=OneWayToSource}" Width="300"/>
+        <Label Content="{Binding Path=ConnectionStatus, Mode=OneWay}"/>
     </StackPanel>
 </UserControl>

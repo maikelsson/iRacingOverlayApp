@@ -11,7 +11,8 @@ namespace iRacingLiveDataOverlay.ViewModels
 {
     public class ShellViewModel : Conductor<object>
     {
-        private readonly SdkWrapper _sdkWrapper;
+        IWindowManager manager = new WindowManager();
+        LiveDataViewModel liveDataWindow;
 
         public bool ToolbarVisible { get; set; } = false;
 
@@ -19,20 +20,28 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         public ShellViewModel()
         {
-            var wrapper = new SdkWrapper();
-            _sdkWrapper = wrapper;
-
-            _sdkWrapper.TelemetryUpdated += OnTelemetryUpdated;
+            LoadOptionsView();
+            liveDataWindow = new LiveDataViewModel();
         }
 
-        private void OnTelemetryUpdated(object sender, SdkWrapper.TelemetryUpdatedEventArgs e)
+        public void LoadOptionsView()
         {
-            throw new NotImplementedException();
+            ActivateItem(new OptionsViewModel());
         }
 
-        public void LoadOptionsPage()
+        public void LoadHomeView()
         {
-            ActivateItem(new HomeViewModel());
+            ActivateItem(new HomeViewModel(this));
+        }
+
+        public void OpenLiveDataWindow()
+        {
+            manager.ShowWindow(liveDataWindow, null, null);
+        }
+
+        public void CloseLiveDataWindow()
+        {
+            liveDataWindow.TryClose();
         }
     }
 }

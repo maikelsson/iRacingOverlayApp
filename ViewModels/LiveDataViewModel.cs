@@ -9,11 +9,12 @@ namespace iRacingLiveDataOverlay.ViewModels
 {
 
     //Ingame viewmodel, overlay for iracing
-    public class LIveDataViewModel : Screen
+    public class LiveDataViewModel : Screen
     {
-        public LIveDataViewModel()
+        public LiveDataViewModel()
         {
 
         }
+
     }
 }
