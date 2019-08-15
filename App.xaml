@@ -4,11 +4,67 @@
              xmlns:local="clr-namespace:iRacingLiveDataOverlay">
     <Application.Resources>
         <ResourceDictionary>
+            
+            <!--#regionButton styles-->
+            <Style TargetType="Button" x:Key="BasicButton">
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="Foreground" Value="#ecf0f1"/>
+                <Setter Property="Background" Value="#2c3e50"/>
+                <Setter Property="Opacity" Value="0.9"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Background="{TemplateBinding Background}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" 
+                                         Value="True">
+                                    <Setter Property="Background" 
+                                            Value="#e67e22"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <!--#endregion-->
+
+            
+            <!--#region Colors FLATUI V1 https://flatuicolors.com/palette/defo-->
+            <SolidColorBrush x:Key="WetAsphalt" Color="#34495e"/>
+            <SolidColorBrush x:Key="MidnightBlue" Color="#2c3e50"/>
+            <SolidColorBrush x:Key="Concrete" Color="#95a5a6"/>
+            <SolidColorBrush x:Key="Asbestos" Color="#7f8c8d"/>
+            <SolidColorBrush x:Key="Amethyst" Color="#9b59b6"/>
+            <SolidColorBrush x:Key="Wisteria" Color="#8e44ad"/>
+            <SolidColorBrush x:Key="Clouds" Color="#ecf0f1"/>
+            <SolidColorBrush x:Key="Silver" Color="#bdc3c7"/>
+            <SolidColorBrush x:Key="PeterRiver" Color="#3498db"/>
+            <SolidColorBrush x:Key="BelizeHole" Color="#2980b9"/>
+            <SolidColorBrush x:Key="Alizarin" Color="#e74c3c"/>
+            <SolidColorBrush x:Key="PomeGrande" Color="#c0392b"/>
+            <SolidColorBrush x:Key="Emerald" Color="#2ecc71"/>
+            <SolidColorBrush x:Key="Nephritis" Color="#27ae60"/>
+            <SolidColorBrush x:Key="Carrot" Color="#e67e22"/>
+            <SolidColorBrush x:Key="Pumpkin" Color="#d35400"/>
+            <SolidColorBrush x:Key="Turquoise" Color="#1abc9c"/>
+            <SolidColorBrush x:Key="GreenSea" Color="#16a085"/>
+            <SolidColorBrush x:Key="SunFlower" Color="#f1c40f"/>
+            <SolidColorBrush x:Key="Orange" Color="#f39c12"/>
+            <!--#endregion-->
+            
+            <!--Bootstrap stuff-->          
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
                     <local:Bootstrapper x:Key="bootstrapper"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
+        
     </Application.Resources>
+
 </Application>

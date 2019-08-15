@@ -3,14 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:iRacingLiveDataOverlay.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="800" Background="Red">
+             d:DesignHeight="500" d:DesignWidth="800" Background="{StaticResource WetAsphalt}">
     <StackPanel>
         <Label>Work in progress!</Label>
         <Label>Add stuff here..</Label>
         <TextBlock Text="{Binding Path=ConnectionStatus, Mode=OneWay}"/>
-        <Button x:Name="StartWrapper" Content="{Binding Path=ConnectionBtnStatus, Mode=OneWayToSource}" Width="300"/>
         <Label Content="{Binding Path=ConnectionStatus, Mode=OneWay}"/>
+        <Button Style="{StaticResource BasicButton}" x:Name="StartWrapper" 
+                Content="{Binding ConnectionBtnStatus}" Width="100" Height="40"/>
     </StackPanel>
 </UserControl>
