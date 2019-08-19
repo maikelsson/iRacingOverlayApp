@@ -8,10 +8,11 @@
              AllowsTransparency="True"
              WindowStartupLocation="CenterScreen"
              Topmost="False"
-             FontSize="60"
+             FontSize="10"
+             Background="Transparent"
              Width="{Binding Source={x:Static SystemParameters.FullPrimaryScreenWidth}}"
              Height="{Binding Source={x:Static SystemParameters.FullPrimaryScreenHeight}}"
-             d:DesignHeight="450" d:DesignWidth="800" FontFamily="Segoe UI Light">
+             d:DesignHeight="450" d:DesignWidth="800" FontFamily="Segoe UI Light" Foreground="{StaticResource Clouds}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -25,15 +26,15 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid.Background>
-            <ImageBrush ImageSource="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\cockpit.png" Stretch="UniformToFill"/>
-        </Grid.Background>
-        <Canvas Margin="20" Width="500" Height="300" Grid.Column="0" Grid.Row="0" Background="Black">
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                <!--Display time and track temps etc-->
-                <TextBlock Foreground="{StaticResource Clouds}" FontSize="15" Height="20" HorizontalAlignment="Center" Text="{Binding Path=SessionInfo, Mode=OneWay}"/>
-            </StackPanel>
-        </Canvas>
-
+        <DataGrid  Background="Azure" x:Name="CurrentDrivers" AlternatingRowBackground="Gray" 
+                   Grid.Row="0" Grid.Column="0" Height="300" Width="1000"
+                   AutoGenerateColumns="False" CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}"/>
+                <DataGridTextColumn Header="iR" Binding="{Binding Path=IRating}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Path=SessionInfo, Mode=OneWay}"></TextBlock>
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding Path=DriverInfo, Mode=OneWay}"></TextBlock>
     </Grid>
 </Window>

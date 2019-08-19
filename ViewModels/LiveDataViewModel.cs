@@ -6,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using iRacingSdkWrapper;
 using iRacingLiveDataOverlay.Services;
+using iRacingSimulator.Drivers;
+using iRacingSimulator;
+using System.Collections.ObjectModel;
 
 namespace iRacingLiveDataOverlay.ViewModels
 {
@@ -19,12 +22,59 @@ namespace iRacingLiveDataOverlay.ViewModels
         public LiveDataViewModel()
         {
             _wrapper = IRacingService._wrapper;
-            _wrapper.SessionInfoUpdated += new EventHandler<SdkWrapper.SessionInfoUpdatedEventArgs>(_wrapper_SessionInfoUpdated);
+            _wrapper.TelemetryUpdateFrequency = 10;
+            //_wrapper.SessionInfoUpdated += new EventHandler<SdkWrapper.SessionInfoUpdatedEventArgs>(_wrapper_SessionInfoUpdated);
+            _wrapper.TelemetryUpdated += new EventHandler<SdkWrapper.TelemetryUpdatedEventArgs>(_wrapper_TelemetryUpdated);
+            _currentDrivers = new ObservableCollection<Driver>();
+            _wrapper.RequestSessionInfoUpdate();
         }
 
-        private void _wrapper_SessionInfoUpdated(object sender, SdkWrapper.SessionInfoUpdatedEventArgs e)
+        private void _wrapper_TelemetryUpdated(object sender, SdkWrapper.TelemetryUpdatedEventArgs e)
         {
-            SessionInfo = e.SessionInfo.TryGetValue("").ToString();
+            //_drivers.Clear();
+
+            foreach(var driver in Sim.Instance.Drivers)
+            {
+                _currentDrivers.Add(driver);
+                DriverInfo = $"{driver.Name.ToString()}, {driver.License.ToString()}";
+            }
+
+            SessionInfo = $"{e.TelemetryInfo.TrackTemp.Value.ToString()} C";
+            //SessionInfo = e.TelemetryInfo.SessionTimeRemain.Value.ToString();
+
+        }
+
+        //private void _wrapper_SessionInfoUpdated(object sender, SdkWrapper.SessionInfoUpdatedEventArgs e)
+        //{
+        //    SessionInfo = _wrapper.GetTelemetryValue<float>("TrackTemp").ToString();
+        //}
+
+        private string _driverInfo;
+        public string DriverInfo
+        {
+            get
+            {
+                return _driverInfo;
+            }
+            set
+            {
+                _driverInfo = value;
+                NotifyOfPropertyChange(() => DriverInfo);
+            }
+        }
+
+        private ObservableCollection<Driver> _currentDrivers;
+        public ObservableCollection<Driver> CurrentDrivers
+        {
+            get
+            {
+                return _currentDrivers;
+            }
+            set
+            {
+                _currentDrivers = value;
+                NotifyOfPropertyChange(() => CurrentDrivers);
+            }
         }
 
         private IObservableCollection<TelemetryInfo> _telemetryInfos;

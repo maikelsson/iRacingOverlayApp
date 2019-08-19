@@ -12,5 +12,11 @@
         <TextBlock Text="{Binding Path=ConnectionStatus, Mode=OneWay}"/>
         <Button Style="{StaticResource BasicButton}" x:Name="StartWrapper" 
                 Content="{Binding Path=ConnectionBtnStatus, Mode=OneWay}" Width="100" Height="40"/>
+        
+        
+        <!--Logging or something-->
+        <Canvas Background="{StaticResource Clouds}" Height="500" Width="400">
+            <ItemsControl></ItemsControl>
+        </Canvas>
     </StackPanel>
 </UserControl>

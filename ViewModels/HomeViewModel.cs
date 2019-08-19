@@ -61,13 +61,12 @@ namespace iRacingLiveDataOverlay.ViewModels
         private void wrapper_Disconnected(object sender, EventArgs e)
         {
             CheckWrapperStatus();
-            ConnectionBtnStatus = "Stop";
         }
 
         private void wrapper_Connected(object sender, EventArgs e)
         {
             CheckWrapperStatus();
-            ConnectionBtnStatus = "Start";
+            
         }
 
         //private void wrapper_SessionInfoUpdated(object sender, SdkWrapper.SessionInfoUpdatedEventArgs e)
@@ -109,10 +108,12 @@ namespace iRacingLiveDataOverlay.ViewModels
             if (wrapper.IsRunning)
             {
                 wrapper.Stop();
+                ConnectionBtnStatus = "Start";
             }
             else
             {
                 wrapper.Start();
+                ConnectionBtnStatus = "Stop";
             }
 
             CheckWrapperStatus();
