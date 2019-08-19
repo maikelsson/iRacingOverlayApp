@@ -55,6 +55,7 @@
             <SolidColorBrush x:Key="GreenSea" Color="#16a085"/>
             <SolidColorBrush x:Key="SunFlower" Color="#f1c40f"/>
             <SolidColorBrush x:Key="Orange" Color="#f39c12"/>
+            <SolidColorBrush x:Key="TransparentAsphalt" Color="#34495e" Opacity="0.8"/>
             <!--#endregion-->
             
             <!--Bootstrap stuff-->          

@@ -21,7 +21,7 @@ namespace iRacingLiveDataOverlay.ViewModels
         public ShellViewModel()
         {
             LoadOptionsView();
-            liveDataWindow = new LiveDataViewModel();
+            //liveDataWindow = new LiveDataViewModel();
         }
 
         public void LoadOptionsView()
@@ -36,7 +36,7 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         public void OpenLiveDataWindow()
         {
-            manager.ShowWindow(liveDataWindow, null, null);
+            manager.ShowWindow(new LiveDataViewModel(), null, null);
         }
 
         public void CloseLiveDataWindow()

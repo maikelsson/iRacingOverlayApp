@@ -7,10 +7,7 @@
              FontSize="20"
              FontFamily="Segoe UI Light"
              Title="LiveDataApp - Mikael Thornberg"
-             d:DesignHeight="600" d:DesignWidth="800" Height="600" Width="800">
-    <Window.Background>
-        <SolidColorBrush Color="White" Opacity="0.5"/>
-    </Window.Background>
+             d:DesignHeight="600" d:DesignWidth="800" Height="600" Width="800" Background="{StaticResource WetAsphalt}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -18,19 +15,19 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
+
         </Grid.RowDefinitions>
 
         <!--Tool bar, column 0, row 0-->
-        <StackPanel MinHeight="{Binding Source={x:Static SystemParameters.FullPrimaryScreenHeight}}" MinWidth="60" Orientation="Vertical" 
-                    Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
-            
-            <Button x:Name="LoadHomeView" Content="H" Height="30"></Button>
-            <Button x:Name="LoadOptionsView" Content="O" Height="30"></Button>
+        <StackPanel Background="{StaticResource TransparentAsphalt}" MinHeight="{Binding Source={x:Static SystemParameters.FullPrimaryScreenHeight}}" MinWidth="60" Orientation="Vertical" 
+                    Grid.Column="0" Grid.Row="0">
+
+            <Button Style="{StaticResource BasicButton}" x:Name="LoadHomeView" Content="H" Height="30" Margin="0 10"></Button>
+            <Button Style="{StaticResource BasicButton}" x:Name="LoadOptionsView" Content="O" Height="30"></Button>
         </StackPanel>
-        
+
         <!--Displays usercontrols-->
-        <ContentControl Grid.Row="1" Grid.Column="1" x:Name="ActiveItem"/>
+        <ContentControl Grid.Row="0" Grid.Column="2" x:Name="ActiveItem"/>
 
     </Grid>
 </Window>
