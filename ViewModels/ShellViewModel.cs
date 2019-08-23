@@ -7,6 +7,7 @@ using Caliburn.Micro;
 using iRacingLiveDataOverlay.Helpers;
 using iRacingSdkWrapper;
 
+
 namespace iRacingLiveDataOverlay.ViewModels
 {
     public class ShellViewModel : Conductor<object>
@@ -16,12 +17,9 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         public bool ToolbarVisible { get; set; } = false;
 
-        public string Drivers { get; set; } = "mattisdasdasdSDASDASDASDASDASDASDASDASASDASASDASDSADASDASD";
-
         public ShellViewModel()
         {
             LoadOptionsView();
-            
         }
 
         public void LoadOptionsView()
@@ -42,6 +40,10 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         public void CloseLiveDataWindow()
         {
+            //Check if window is open
+            if (liveDataWindow == null)
+                return;
+
             liveDataWindow.TryClose();
         }
     }

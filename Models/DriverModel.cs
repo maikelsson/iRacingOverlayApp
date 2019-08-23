@@ -9,20 +9,15 @@ namespace iRacingLiveDataOverlay
 {
     public class DriverModel
     {
-        public Driver driver { get; }
+        public string Name { get; set; }
 
-        public DriverModel(Driver _driver)
+        public int Id { get; set; }
+
+        public int Rating { get; set; }
+
+        public DriverModel()
         {
-            driver = _driver;
-        }
 
-        public string DisplayDriverInfo(Driver driver)
-        {
-            var result = new StringBuilder();
-
-            result.Append($"{driver.Name}");
-
-            return result.ToString();
         }
 
     }

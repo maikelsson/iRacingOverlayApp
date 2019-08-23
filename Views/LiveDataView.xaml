@@ -31,7 +31,7 @@
                    AutoGenerateColumns="False" CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}"/>
-                <DataGridTextColumn Header="iR" Binding="{Binding Path=IRating}"/>
+                <DataGridTextColumn Header="IR" Binding="{Binding Path=Rating}"/>
             </DataGrid.Columns>
         </DataGrid>
         <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Path=SessionInfo, Mode=OneWay}"></TextBlock>
