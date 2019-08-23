@@ -10,6 +10,7 @@ using iRacingSimulator.Drivers;
 using iRacingSimulator;
 using System.Collections.ObjectModel;
 using iRacingLiveDataOverlay.Models;
+using System.Globalization;
 
 namespace iRacingLiveDataOverlay.ViewModels
 {
@@ -32,7 +33,7 @@ namespace iRacingLiveDataOverlay.ViewModels
         }
 
         private SessionInfoModel _sessionInfoModel;
-
+        private int _currentSessionNum;
         private bool _currentlyUpdating = false;
 
         private readonly SdkWrapper _wrapper;
@@ -48,8 +49,13 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         private void _wrapper_TelemetryUpdated(object sender, SdkWrapper.TelemetryUpdatedEventArgs e)
         {
+            if (_currentlyUpdating) return;
+
+            // Store the current session number so we know which session to read 
+            // There can be multiple sessions in a server (practice, Q, race, or warmup, race, etc).
+            _currentSessionNum = e.TelemetryInfo.SessionNum.Value;
+
             SessionInfo = $"{e.TelemetryInfo.TrackTemp.Value.ToString()} C";
-            
             //SessionInfo = e.TelemetryInfo.SessionTimeRemain.Value.ToString();
 
         }
@@ -62,21 +68,59 @@ namespace iRacingLiveDataOverlay.ViewModels
             _currentlyUpdating = true;
 
             ParseDrivers(e.SessionInfo);
+            ParseTimes(e.SessionInfo);
 
             _currentlyUpdating = false;
         }
 
+        private void ParseTimes(SessionInfo info)
+        {
+            int position = 1;
+            DriverModel driver;
+
+            do
+            {
+                driver = null;
+
+                YamlQuery query = info["SessionInfo"]["Sessions"]["SessionNum", _currentSessionNum]
+                    ["ResultsPositions"]["Position", position];
+
+                string idString = query["CarIdx"].GetValue();
+                if(idString != null)
+                {
+                    int id = int.Parse(idString);
+
+                    driver = _currentDrivers.FirstOrDefault(d => d.Id == id);
+
+                    if(driver != null)
+                    {
+                        driver.CurrentPosition = position;
+                        driver.FastestLapTime = float.Parse(query["FastestTime"].GetValue("0"), CultureInfo.InvariantCulture);
+                    }
+
+                    position++;
+                }
+                
+            } while (driver != null); 
+        }
+
+        private void UpdateDriversTelemetry(TelemetryInfo info)
+        {
+
+        }
+
         private void ParseDrivers(SessionInfo info)
         {
+
+            if (_currentDrivers.Count() > 0)
+                _currentDrivers.Clear();
+
             int id = 0;
             DriverModel driver = null;
-
-            var newDrivers = new ObservableCollection<DriverModel>();
 
             //If username value == null, loop breaks and all drivers have been found
             do
             {
-
                 driver = null;
 
                 YamlQuery yaml = info["DriverInfo"]["Drivers"]["CarIdx", id];
@@ -96,14 +140,12 @@ namespace iRacingLiveDataOverlay.ViewModels
                         driver.Rating = int.Parse(yaml["IRating"].GetValue("0"));
                     }
 
-                    newDrivers.Add(driver);
+                    _currentDrivers.Add(driver);
 
                     id++;
                 } 
             } while (driver != null);
 
-            _currentDrivers.Clear();
-            _currentDrivers = newDrivers;
         }
 
         private string _driverInfo;

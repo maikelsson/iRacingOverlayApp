@@ -34,6 +34,11 @@ namespace iRacingLiveDataOverlay
         /// </summary>
         public int CurrentPosition { get; set; }
 
+        /// <summary>
+        /// Driver best lap in session
+        /// </summary>
+        public float FastestLapTime { get; set; }
+
         public DriverModel()
         {
 

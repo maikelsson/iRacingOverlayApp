@@ -30,10 +30,11 @@
                    Grid.Row="0" Grid.Column="0" Height="300" Width="800"
                    AutoGenerateColumns="False" CanUserAddRows="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Path=Position}" Width="30"/>
+                <DataGridTextColumn Binding="{Binding Path=CurrentPosition}" Width="30"/>
                 <DataGridTextColumn Binding="{Binding Path=CarNumber}" Width="30"/>
                 <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" Width="200"/>
                 <DataGridTextColumn Header="IR" Binding="{Binding Path=Rating}" Width="50"/>
+                <DataGridTextColumn Header="Best Lap" Binding="{Binding Path=FastestLapTime}" Width="100"/>
             </DataGrid.Columns>
         </DataGrid>
         <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Path=SessionInfo, Mode=OneWay}"></TextBlock>
