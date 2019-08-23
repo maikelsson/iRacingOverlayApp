@@ -8,7 +8,7 @@
              AllowsTransparency="True"
              WindowStartupLocation="CenterScreen"
              Topmost="False"
-             FontSize="10"
+             FontSize="14"
              Background="Transparent"
              Width="{Binding Source={x:Static SystemParameters.FullPrimaryScreenWidth}}"
              Height="{Binding Source={x:Static SystemParameters.FullPrimaryScreenHeight}}"
@@ -26,12 +26,14 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <DataGrid  Background="Azure" x:Name="CurrentDrivers" AlternatingRowBackground="Gray" 
-                   Grid.Row="0" Grid.Column="0" Height="300" Width="1000"
+        <DataGrid  Background="{StaticResource TransparentAsphalt}" x:Name="CurrentDrivers" AlternatingRowBackground="Gray" 
+                   Grid.Row="0" Grid.Column="0" Height="300" Width="800"
                    AutoGenerateColumns="False" CanUserAddRows="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}"/>
-                <DataGridTextColumn Header="IR" Binding="{Binding Path=Rating}"/>
+                <DataGridTextColumn Binding="{Binding Path=Position}" Width="30"/>
+                <DataGridTextColumn Binding="{Binding Path=CarNumber}" Width="30"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" Width="200"/>
+                <DataGridTextColumn Header="IR" Binding="{Binding Path=Rating}" Width="50"/>
             </DataGrid.Columns>
         </DataGrid>
         <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Path=SessionInfo, Mode=OneWay}"></TextBlock>

@@ -96,6 +96,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Models\DriverModel.cs" />
     <Compile Include="Helpers\INPCBase.cs" />
+    <Compile Include="Models\SessionInfoModel.cs" />
     <Compile Include="Services\IRacingService.cs" />
     <Compile Include="ViewModels\LiveDataViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />

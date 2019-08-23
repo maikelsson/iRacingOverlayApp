@@ -9,6 +9,7 @@ using iRacingLiveDataOverlay.Services;
 using iRacingSimulator.Drivers;
 using iRacingSimulator;
 using System.Collections.ObjectModel;
+using iRacingLiveDataOverlay.Models;
 
 namespace iRacingLiveDataOverlay.ViewModels
 {
@@ -16,7 +17,23 @@ namespace iRacingLiveDataOverlay.ViewModels
     //Ingame viewmodel, overlay for iracing
     public class LiveDataViewModel : Screen
     {
-        private List<DriverModel> _drivers = new List<DriverModel>();
+        private ObservableCollection<DriverModel> _currentDrivers;
+        public ObservableCollection<DriverModel> CurrentDrivers
+        {
+            get
+            {
+                return _currentDrivers;
+            }
+            set
+            {
+                _currentDrivers = value;
+                NotifyOfPropertyChange(() => CurrentDrivers);
+            }
+        }
+
+        private SessionInfoModel _sessionInfoModel;
+
+        private bool _currentlyUpdating = false;
 
         private readonly SdkWrapper _wrapper;
 
@@ -32,23 +49,21 @@ namespace iRacingLiveDataOverlay.ViewModels
         private void _wrapper_TelemetryUpdated(object sender, SdkWrapper.TelemetryUpdatedEventArgs e)
         {
             SessionInfo = $"{e.TelemetryInfo.TrackTemp.Value.ToString()} C";
+            
             //SessionInfo = e.TelemetryInfo.SessionTimeRemain.Value.ToString();
 
         }
 
         private void _wrapper_SessionInfoUpdated(object sender, SdkWrapper.SessionInfoUpdatedEventArgs e)
         {
-            //_drivers.Clear();
+            if (_currentlyUpdating)
+                return;
 
-            DriverInfo = e.SessionInfo["DriverInfo"]["Drivers"]["CarIdx", 0]["UserName"].Value;
+            _currentlyUpdating = true;
 
             ParseDrivers(e.SessionInfo);
 
-            //foreach (var driver in e.SessionInfo.RawYaml["Drivers"])
-            //{
-            //    _currentDrivers.Add(driver);
-            //    DriverInfo = $"{driver.Name}, {driver.License}";
-            //}
+            _currentlyUpdating = false;
         }
 
         private void ParseDrivers(SessionInfo info)
@@ -56,9 +71,10 @@ namespace iRacingLiveDataOverlay.ViewModels
             int id = 0;
             DriverModel driver = null;
 
-            bool updt = true;
+            var newDrivers = new ObservableCollection<DriverModel>();
 
-            while (updt)
+            //If username value == null, loop breaks and all drivers have been found
+            do
             {
 
                 driver = null;
@@ -67,27 +83,27 @@ namespace iRacingLiveDataOverlay.ViewModels
 
                 string name = yaml["UserName"].GetValue();
 
-                if(name != null)
+                if (name != null)
                 {
-                    driver = _drivers.FirstOrDefault(d => d.Name == name);
+                    driver = _currentDrivers.FirstOrDefault(d => d.Name == name);
 
-                    if(driver == null)
+                    if (driver == null)
                     {
                         driver = new DriverModel();
                         driver.Id = id;
                         driver.Name = name;
-                        //driver.CarNumber = int.Parse(yaml["CarNumber"].GetValue("").TrimStart('\"').TrimEnd('\"'));
+                        driver.CarNumber = "#" + yaml["CarNumber"].GetValue("").TrimStart('\"').TrimEnd('\"');
                         driver.Rating = int.Parse(yaml["IRating"].GetValue("0"));
                     }
-                }
 
-                _currentDrivers.Add(driver);
+                    newDrivers.Add(driver);
 
-                id++;
+                    id++;
+                } 
+            } while (driver != null);
 
-                updt = false;
-            }
-
+            _currentDrivers.Clear();
+            _currentDrivers = newDrivers;
         }
 
         private string _driverInfo;
@@ -104,33 +120,19 @@ namespace iRacingLiveDataOverlay.ViewModels
             }
         }
 
-        private ObservableCollection<DriverModel> _currentDrivers;
-        public ObservableCollection<DriverModel> CurrentDrivers
-        {
-            get
-            {
-                return _currentDrivers;
-            }
-            set
-            {
-                _currentDrivers = value;
-                NotifyOfPropertyChange(() => CurrentDrivers);
-            }
-        }
-
-        private IObservableCollection<TelemetryInfo> _telemetryInfos;
-        public IObservableCollection<TelemetryInfo> TelemetryInfos
-        {
-            get
-            {
-                return _telemetryInfos;
-            }
-            set
-            {
-                _telemetryInfos = value;
-                NotifyOfPropertyChange(() => TelemetryInfos);
-            }
-        }
+        //private ObservableCollection<DriverModel> _currentDrivers;
+        //public ObservableCollection<DriverModel> CurrentDrivers
+        //{
+        //    get
+        //    {
+        //        return _currentDrivers;
+        //    }
+        //    set
+        //    {
+        //        _currentDrivers = value;
+        //        NotifyOfPropertyChange(() => CurrentDrivers);
+        //    }
+        //}
 
         private string _sessionInfo;
         public string SessionInfo
