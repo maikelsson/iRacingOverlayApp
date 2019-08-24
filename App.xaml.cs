@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using iRacingSimulator;
+using System.Windows;
 
 namespace iRacingLiveDataOverlay
 {
@@ -10,6 +11,13 @@ namespace iRacingLiveDataOverlay
         public App()
         {
             InitializeComponent();
+            
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
+            Sim.Instance.Stop();
         }
     }
 }

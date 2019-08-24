@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using iRacingLiveDataOverlay.Helpers;
 using iRacingSdkWrapper;
-
+using iRacingSimulator;
 
 namespace iRacingLiveDataOverlay.ViewModels
 {
@@ -44,7 +44,9 @@ namespace iRacingLiveDataOverlay.ViewModels
             if (liveDataWindow == null)
                 return;
 
+            Sim.Instance.Stop();
             liveDataWindow.TryClose();
+            
         }
     }
 }

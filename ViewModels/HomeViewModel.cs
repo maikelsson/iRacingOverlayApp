@@ -53,7 +53,6 @@ namespace iRacingLiveDataOverlay.ViewModels
             _shell = shell;
             Services.IRacingService.Initialize();
             wrapper = Services.IRacingService._wrapper;
-            //wrapper.SessionInfoUpdated += new EventHandler<SdkWrapper.SessionInfoUpdatedEventArgs>(wrapper_SessionInfoUpdated);
             wrapper.Connected += wrapper_Connected;
             wrapper.Disconnected += wrapper_Disconnected;
         }
@@ -68,11 +67,6 @@ namespace iRacingLiveDataOverlay.ViewModels
             CheckWrapperStatus();
             
         }
-
-        //private void wrapper_SessionInfoUpdated(object sender, SdkWrapper.SessionInfoUpdatedEventArgs e)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         public void CheckWrapperStatus()
         {
