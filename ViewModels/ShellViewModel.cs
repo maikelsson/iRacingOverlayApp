@@ -44,7 +44,6 @@ namespace iRacingLiveDataOverlay.ViewModels
             if (liveDataWindow == null)
                 return;
 
-            Sim.Instance.Stop();
             liveDataWindow.TryClose();
             
         }

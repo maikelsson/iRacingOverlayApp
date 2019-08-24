@@ -30,9 +30,9 @@
                    Grid.Row="0" Grid.Column="0" Height="300" Width="800"
                    AutoGenerateColumns="False" CanUserAddRows="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Path=LongDisplay}" Width="60"/>
+                <DataGridTextColumn Header="Pos" Binding="{Binding Path=CurrentResults.Position}" Width="60"/>
                 <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" Width="200"/>
-                <DataGridTextColumn Header="IR" Binding="{Binding Path=Rating}" Width="50"/>
+                <DataGridTextColumn Header="IR" Binding="{Binding Path=IRating}" Width="50"/>
                 <DataGridTextColumn Header="Best Lap" Binding="{Binding Path=FastestLapTime}" Width="100"/>
             </DataGrid.Columns>
         </DataGrid>

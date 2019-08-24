@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using iRacingSdkWrapper;
 using System.ComponentModel;
+using iRacingSimulator;
 
 namespace iRacingLiveDataOverlay.ViewModels
 {
@@ -17,6 +18,7 @@ namespace iRacingLiveDataOverlay.ViewModels
         private ShellViewModel _shell;
 
         private string _connectionBtnStatus = "Start";
+        private bool _instanceIsRunning = false;
 
         public string ConnectionBtnStatus
         {
@@ -46,73 +48,66 @@ namespace iRacingLiveDataOverlay.ViewModels
             }
         }
 
-        private readonly SdkWrapper wrapper;
-
         public HomeViewModel(ShellViewModel shell)
         {
+
             _shell = shell;
-            Services.IRacingService.Initialize();
-            wrapper = Services.IRacingService._wrapper;
-            wrapper.Connected += wrapper_Connected;
-            wrapper.Disconnected += wrapper_Disconnected;
-        }
 
-        private void wrapper_Disconnected(object sender, EventArgs e)
-        {
-            CheckWrapperStatus();
-        }
-
-        private void wrapper_Connected(object sender, EventArgs e)
-        {
-            CheckWrapperStatus();
+            //Setting up the simulator, check if running
+            if(_instanceIsRunning == false)
+            {
+                Sim.Instance.Start();
+            }
             
+            _instanceIsRunning = true;
+
+            Sim.Instance.Connected += OnConnected;
+            Sim.Instance.Disconnected += OnDisconnected;
         }
 
-        public void CheckWrapperStatus()
+        private void OnDisconnected(object sender, EventArgs e)
         {
-            if (wrapper.IsConnected)
+            CheckSimStatus();
+            _instanceIsRunning = false;
+        }
+
+        private void OnConnected(object sender, EventArgs e)
+        {
+            CheckSimStatus();
+            _instanceIsRunning = true;
+        }
+
+        public void CheckSimStatus()
+        {
+            if (_instanceIsRunning)
             {
-                if (wrapper.IsRunning)
-                {
-                    ConnectionStatus = "Connected";
-                    _shell.OpenLiveDataWindow();
-                }
-                else
-                {
-                    ConnectionStatus = "Disconnected";
-                    _shell.CloseLiveDataWindow();
-                }
+                ConnectionStatus = "Instance is running";
+                _connectionBtnStatus = "Stop";
             }
             else
             {
-                if (wrapper.IsRunning)
-                {
-                    ConnectionStatus = $"Disconnected: Waiting for sim";
-                }
-                else
-                {
-                    ConnectionStatus = "Disconnected";
-                    _shell.CloseLiveDataWindow();
-                }
-            }      
+                ConnectionStatus = "Instance not running";
+                _connectionBtnStatus = "Start";
+            }
         }
 
-        public void StartWrapper()
+        public void ShowLiveData()
         {
-            if (wrapper.IsRunning)
+            if (_instanceIsRunning)
             {
-                wrapper.Stop();
-                ConnectionBtnStatus = "Start";
+                ConnectionStatus = "Instance is running";
+                _connectionBtnStatus = "Start";
+                _shell.OpenLiveDataWindow();
             }
             else
             {
-                wrapper.Start();
-                ConnectionBtnStatus = "Stop";
+                ConnectionStatus = "Instance not running";
+                _connectionBtnStatus = "Stop";
+                _shell.CloseLiveDataWindow();
+
+
             }
-
-            CheckWrapperStatus();
         }
-
         
     }
 }
