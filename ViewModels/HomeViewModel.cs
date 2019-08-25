@@ -34,7 +34,6 @@ namespace iRacingLiveDataOverlay.ViewModels
         }
 
         private string _connectionStatus;
-
         public string ConnectionStatus
         {
             get
@@ -54,10 +53,6 @@ namespace iRacingLiveDataOverlay.ViewModels
             _shell = shell;
 
             //Setting up the simulator, check if running
-            if(_instanceIsRunning == false)
-            {
-                Sim.Instance.Start();
-            }
             
             _instanceIsRunning = true;
 

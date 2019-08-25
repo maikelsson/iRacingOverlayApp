@@ -40,6 +40,7 @@ namespace iRacingLiveDataOverlay.ViewModels
         {
             _currentDrivers = new ObservableCollection<Driver>();
             Sim.Instance.SessionInfoUpdated += OnSessionInfoUpdated;
+            Sim.Instance.Start();
             //Sim.Instance.TelemetryUpdated += OnTelemetryInfoUpdated;
         }
 
@@ -62,6 +63,9 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         private void ParseDynamicInfo(SessionInfo info)
         {
+            //Remove items from list to prevent duplicates happening..
+            _currentDrivers.Clear();
+
             foreach(var driver in Sim.Instance.Drivers)
             {
                 _currentDrivers.Add(driver);
