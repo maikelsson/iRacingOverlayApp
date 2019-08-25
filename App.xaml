@@ -35,6 +35,7 @@
 
             
             <!--#region Colors FLATUI V1 https://flatuicolors.com/palette/defo-->
+            <SolidColorBrush x:Key="TransBlackPearl" Color="#1e272e" Opacity="0.5"/>
             <SolidColorBrush x:Key="WetAsphalt" Color="#34495e"/>
             <SolidColorBrush x:Key="MidnightBlue" Color="#2c3e50"/>
             <SolidColorBrush x:Key="Concrete" Color="#95a5a6"/>

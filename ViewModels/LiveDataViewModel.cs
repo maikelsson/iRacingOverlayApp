@@ -17,6 +17,20 @@ namespace iRacingLiveDataOverlay.ViewModels
     public class LiveDataViewModel : Screen
     {
 
+        private string _trackTemp;
+        public string TrackTemp
+        {
+            get
+            {
+                return _trackTemp;
+            }
+            set
+            {
+                _trackTemp = value;
+                NotifyOfPropertyChange(() => TrackTemp);
+            }
+        }
+
         private ObservableCollection<Driver> _currentDrivers;
         public ObservableCollection<Driver> CurrentDrivers
         {
@@ -31,10 +45,7 @@ namespace iRacingLiveDataOverlay.ViewModels
             }
         }
 
-        private int _currentSessionNum;
         private bool _currentlyUpdating = false;
-
-        //private readonly SdkWrapper _wrapper;
 
         public LiveDataViewModel()
         {
@@ -56,6 +67,7 @@ namespace iRacingLiveDataOverlay.ViewModels
 
             _currentlyUpdating = true;
 
+            GetTrackTemp(e.SessionInfo);
             ParseDynamicInfo(e.SessionInfo);
 
             _currentlyUpdating = false;
@@ -70,6 +82,11 @@ namespace iRacingLiveDataOverlay.ViewModels
             {
                 _currentDrivers.Add(driver);
             }
+        }
+
+        private void GetTrackTemp(SessionInfo info)
+        {
+            TrackTemp = Sim.Instance.SessionData.TrackSurfaceTemp;
         }
 
     }
