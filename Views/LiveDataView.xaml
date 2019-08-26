@@ -34,9 +34,9 @@
                    Grid.Row="0" Grid.Column="0" Height="300" Width="800"
                    AutoGenerateColumns="False" CanUserAddRows="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Pos" Binding="{Binding Path=Live.Position}" Width="60"/>
+                <DataGridTextColumn SortDirection="Descending" Header="Pos" Binding="{Binding Path=Live.Position}" Width="60"/>
                 <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" Width="200"/>
-                <DataGridTextColumn Header="IR" Binding="{Binding Path=IRating}" Width="50"/>
+                <DataGridTextColumn Header="IR" Binding="{Binding Path=ShortIRating}" Width="50"/>
                 <DataGridTextColumn Header="Best Lap" Binding="{Binding Path=CurrentResults.FastestTime.Display}" Width="100"/>
             </DataGrid.Columns>
         </DataGrid>
@@ -44,7 +44,7 @@
 
         <!--Display static info, track temps etc-->
         <StackPanel Orientation="Horizontal" Background="{StaticResource TransBlackPearl}" Grid.Column="3" Grid.Row="3" 
-                    Height="50" Width="500" Margin="1240,764,0,275"
+                    Height="50" Width="500" Margin="1240,812,0,227"
                     HorizontalAlignment="Left" VerticalAlignment="Center">
             <TextBlock Foreground="{StaticResource Clouds}" VerticalAlignment="Center" Text="{Binding Path=TrackTemp, Mode=OneWay}"/>
         </StackPanel>
@@ -52,7 +52,7 @@
         <!--Relatives, like blackbox-->
         <ItemsControl Background="{StaticResource TransBlackPearl}" 
                       Grid.Column="3" Grid.Row="3"
-                      Height="200" Width="500" Margin="1240,819,20,70">
+                      Height="200" Width="500" Margin="1240,867,20,22">
 
         </ItemsControl>
     </Grid>

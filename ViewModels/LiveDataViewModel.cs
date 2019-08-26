@@ -80,6 +80,11 @@ namespace iRacingLiveDataOverlay.ViewModels
 
             foreach(var driver in Sim.Instance.Drivers)
             {
+                if(driver.Live.Position == 0)
+                {
+                    driver.Live.Position = 99;
+                }
+
                 _currentDrivers.Add(driver);
             }
         }
