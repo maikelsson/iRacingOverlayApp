@@ -95,8 +95,10 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Helpers\INPCBase.cs" />
+    <Compile Include="Models\MockDriver.cs" />
     <Compile Include="ViewModels\LiveDataViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
+    <Compile Include="ViewModels\MockLiveDataViewModel.cs" />
     <Compile Include="ViewModels\OptionsViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\LiveDataView.xaml.cs">
@@ -104,6 +106,9 @@
     </Compile>
     <Compile Include="Views\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MockLiveDataView.xaml.cs">
+      <DependentUpon>MockLiveDataView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\OptionsView.xaml.cs">
       <DependentUpon>OptionsView.xaml</DependentUpon>
@@ -120,6 +125,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\HomeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MockLiveDataView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -155,6 +164,18 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Resource Include="Utility\Fonts\Roboto-Black.ttf" />
+    <Resource Include="Utility\Fonts\Roboto-BlackItalic.ttf" />
+    <Resource Include="Utility\Fonts\Roboto-Bold.ttf" />
+    <Resource Include="Utility\Fonts\Roboto-BoldItalic.ttf" />
+    <Resource Include="Utility\Fonts\Roboto-Light.ttf" />
+    <Resource Include="Utility\Fonts\Roboto-LightItalic.ttf" />
+    <Resource Include="Utility\Fonts\Roboto-Medium.ttf" />
+    <Resource Include="Utility\Fonts\Roboto-MediumItalic.ttf" />
+    <Resource Include="Utility\Fonts\Roboto-Regular.ttf" />
+    <Resource Include="Utility\Fonts\Roboto-RegularItalic.ttf" />
+    <Resource Include="Utility\Fonts\Roboto-Thin.ttf" />
+    <Resource Include="Utility\Fonts\Roboto-ThinItalic.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -181,5 +202,6 @@
       <Name>iRacingCL</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

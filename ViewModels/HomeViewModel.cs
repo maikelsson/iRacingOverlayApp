@@ -47,6 +47,11 @@ namespace iRacingLiveDataOverlay.ViewModels
             }
         }
 
+        public void OpenMockWindow()
+        {
+            _shell.OpenMockLiveDataWindow();
+        }
+
         public HomeViewModel(ShellViewModel shell)
         {
 

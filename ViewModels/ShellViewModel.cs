@@ -14,6 +14,7 @@ namespace iRacingLiveDataOverlay.ViewModels
     {
         IWindowManager manager = new WindowManager();
         LiveDataViewModel liveDataWindow;
+        MockLiveDataViewModel mockLiveDataWindow;
 
         public bool ToolbarVisible { get; set; } = false;
 
@@ -36,6 +37,12 @@ namespace iRacingLiveDataOverlay.ViewModels
         {
             liveDataWindow = new LiveDataViewModel();
             manager.ShowWindow(liveDataWindow, null, null);
+        }
+
+        public void OpenMockLiveDataWindow()
+        {
+            mockLiveDataWindow = new MockLiveDataViewModel();
+            manager.ShowWindow(mockLiveDataWindow, null, null);
         }
 
         public void CloseLiveDataWindow()
