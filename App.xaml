@@ -60,7 +60,10 @@
             <!--#endregion-->
 
             <Style x:Key="RobotoMedium">
-                <Setter Property="TextElement.FontFamily" Value="#Utility/Fonts/Roboto/Roboto-Medium"/>
+                <Setter Property="TextElement.FontFamily" Value="D:\CSharp\iRacingLiveDataOverlay\Utility\Fonts\Roboto-Medium.ttf"/>
+            </Style>
+            <Style x:Key="RobotoLight">
+                <Setter Property="TextElement.FontFamily" Value="D:\CSharp\iRacingLiveDataOverlay\Utility\Fonts\Roboto-Light.ttf"/>
             </Style>
                 <!--Bootstrap stuff-->          
             <ResourceDictionary.MergedDictionaries>

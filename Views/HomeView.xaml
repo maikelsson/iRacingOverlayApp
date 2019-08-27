@@ -10,7 +10,7 @@
         <Label>Work in progress!</Label>
         <Label>Make sure you are running sim in windowed mode</Label>
         <TextBlock Text="{Binding Path=ConnectionStatus, Mode=OneWay}"/>
-        <Button Style="{StaticResource BasicButton}" x:Name="OpenMockWindow" 
+        <Button Style="{StaticResource BasicButton}" x:Name="ShowLiveData" 
                 Content="{Binding Path=ConnectionBtnStatus, Mode=OneWay}" Width="100" Height="40"/>
         
         

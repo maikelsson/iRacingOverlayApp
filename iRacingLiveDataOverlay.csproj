@@ -202,6 +202,17 @@
       <Name>iRacingCL</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Utility\Images\x-mark-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Utility\Images\clock-5-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Utility\Images\temperatureIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Utility\Images\road-2-64.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -51,7 +51,7 @@ namespace iRacingLiveDataOverlay.ViewModels
         {
             _currentDrivers = new ObservableCollection<Driver>();
             Sim.Instance.SessionInfoUpdated += OnSessionInfoUpdated;
-            Sim.Instance.Start();
+            //Sim.Instance.Start();
             //Sim.Instance.TelemetryUpdated += OnTelemetryInfoUpdated;
         }
 

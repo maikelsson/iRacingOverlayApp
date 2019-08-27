@@ -18,7 +18,7 @@ namespace iRacingLiveDataOverlay.ViewModels
         private ShellViewModel _shell;
 
         private string _connectionBtnStatus = "Start";
-        private bool _instanceIsRunning = false;
+        private bool _instanceIsRunning = true;
 
         public string ConnectionBtnStatus
         {
@@ -54,15 +54,13 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         public HomeViewModel(ShellViewModel shell)
         {
-
             _shell = shell;
 
             //Setting up the simulator, check if running
-            
-            _instanceIsRunning = true;
-
             Sim.Instance.Connected += OnConnected;
             Sim.Instance.Disconnected += OnDisconnected;
+
+            Sim.Instance.Start();
         }
 
         private void OnDisconnected(object sender, EventArgs e)
@@ -74,11 +72,13 @@ namespace iRacingLiveDataOverlay.ViewModels
         private void OnConnected(object sender, EventArgs e)
         {
             CheckSimStatus();
+            _shell.OpenLiveDataWindow();
             _instanceIsRunning = true;
         }
 
         public void CheckSimStatus()
         {
+
             if (_instanceIsRunning)
             {
                 ConnectionStatus = "Instance is running";
