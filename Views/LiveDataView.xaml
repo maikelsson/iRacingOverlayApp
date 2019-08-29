@@ -50,7 +50,7 @@
 
         <!--Relatives, like blackbox-->
         <StackPanel Orientation="Horizontal" Background="{StaticResource TransBlackPearl}" 
-            Height="50" Width="500"/>
+            Height="50" Width="500" Margin="2050,1320,10,7"/>
         <DataGrid HeadersVisibility="None" Background="{StaticResource TransBlackPearl}"
                       Height="200" Width="500" Margin="2050,1115,10,62"/>
         <!--Display static info, track temps etc-->
