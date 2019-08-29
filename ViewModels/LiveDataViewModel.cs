@@ -9,6 +9,7 @@ using iRacingSimulator.Drivers;
 using iRacingSimulator;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Windows.Controls;
 
 namespace iRacingLiveDataOverlay.ViewModels
 {
@@ -16,6 +17,9 @@ namespace iRacingLiveDataOverlay.ViewModels
     //Ingame viewmodel, overlay for iracing
     public class LiveDataViewModel : Screen
     {
+        //TODO's
+
+        //Make LiveDataView visible only when im on track.
 
         private string _trackTemp;
         public string TrackTemp
@@ -31,6 +35,7 @@ namespace iRacingLiveDataOverlay.ViewModels
             }
         }
 
+        //List of all drivers
         private ObservableCollection<Driver> _currentDrivers;
         public ObservableCollection<Driver> CurrentDrivers
         {
@@ -45,11 +50,27 @@ namespace iRacingLiveDataOverlay.ViewModels
             }
         }
 
+        //List of drivers from session results
+        private List<Driver> _standingDrivers;
+        public List<Driver> StandingDrivers
+        {
+            get
+            {
+                return _standingDrivers;
+            }
+            set
+            {
+                _standingDrivers = value;
+                NotifyOfPropertyChange(() => StandingDrivers);
+            }
+        }
+
         private bool _currentlyUpdating = false;
 
         public LiveDataViewModel()
         {
-            _currentDrivers = new ObservableCollection<Driver>();
+            CurrentDrivers = new ObservableCollection<Driver>();
+            StandingDrivers = new List<Driver>();
             Sim.Instance.SessionInfoUpdated += OnSessionInfoUpdated;
             //Sim.Instance.Start();
             //Sim.Instance.TelemetryUpdated += OnTelemetryInfoUpdated;
@@ -76,18 +97,30 @@ namespace iRacingLiveDataOverlay.ViewModels
         private void ParseDynamicInfo(SessionInfo info)
         {
             //Remove items from list to prevent duplicates happening..
-            _currentDrivers.Clear();
+            CurrentDrivers.Clear();
+            StandingDrivers.Clear();
 
             foreach(var driver in Sim.Instance.Drivers)
-            {
-                if(driver.Live.Position == 0)
+            {               
+                CurrentDrivers.Add(driver);
+                if(driver.Live.Position != 0)
                 {
-                    driver.Live.Position = 99;
+                    StandingDrivers.Add(driver);
                 }
-
-                _currentDrivers.Add(driver);
             }
+
         }
+
+        //private void GetLiveStandings(SessionInfo info)
+        //{
+        //    var id = 0;
+        //    var query = info[];
+
+        //    foreach(var driver in Sim.Instance.SessionInfo.GetValue(""))
+        //    {
+        //        var d = CurrentDrivers.Where(c => c.Car. == id);
+        //    }
+        //}
 
         private void GetTrackTemp(SessionInfo info)
         {

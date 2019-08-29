@@ -24,5 +24,6 @@ namespace iRacingLiveDataOverlay.Views
         {
             InitializeComponent();
         }
+
     }
 }

@@ -9,22 +9,24 @@
              WindowStartupLocation="CenterScreen"
              Topmost="False"
              FontSize="14"
-             Background="Transparent"
+             Background="White"
              Width="{Binding Source={x:Static SystemParameters.FullPrimaryScreenWidth}}"
              Height="{Binding Source={x:Static SystemParameters.FullPrimaryScreenHeight}}"
              d:DesignHeight="450" d:DesignWidth="800" Foreground="{StaticResource Clouds}">
 
     <Grid>
-
+        <Border CornerRadius="3">
+            
+        </Border>
         <DataGrid Margin="10,10,0,1067" Foreground="{StaticResource Clouds}" Background="Transparent" 
                   x:Name="CurrentDrivers" AlternatingRowBackground="Transparent" 
                   Height="300" Width="600" VerticalScrollBarVisibility="Hidden"
-                  AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="None"
+                  AutoGenerateColumns="False" CanUserAddRows="False"
                   RowBackground="{StaticResource TransBlackPearl}" BorderBrush="{DynamicResource Pumpkin}" 
                   FontFamily="/iRacingLiveDataOverlay;component/Utility/Fonts/#Roboto Medium" 
                   HorizontalAlignment="Left">
-            <DataGrid.Columns>
-                <DataGridTextColumn SortDirection="Descending" Header="Pos" Binding="{Binding Live.Position}" Width="60"/>
+            <DataGrid.Columns >
+                <DataGridTextColumn SortDirection="Ascending" Header="Pos" Binding="{Binding Live.Position}" Width="60"/>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="200"/>
                 <DataGridTextColumn Header="IR" Binding="{Binding ShortIRating}" Width="50"/>
                 <DataGridTextColumn Header="Best Lap" Binding="{Binding CurrentResults.FastestTime.Display}" Width="100"/>
@@ -41,6 +43,7 @@
 
             <!--offtrack icon and bind-->
             <Image Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\x-mark-64.png"  Width="20" Height="20"/>
+            <TextBlock VerticalAlignment="Center" Text="{Binding OffTracksDisplay, Mode=OneWay}"/>
 
             <!--Session time and bind-->
             <Image Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\clock-5-64.png" Width="25" Height="25"/>
@@ -49,12 +52,22 @@
 
 
         <!--Relatives, like blackbox-->
-        <StackPanel Orientation="Horizontal" Background="{StaticResource TransBlackPearl}" 
-            Height="50" Width="500" Margin="2050,1320,10,7"/>
-        <DataGrid HeadersVisibility="None" Background="{StaticResource TransBlackPearl}"
-                      Height="200" Width="500" Margin="2050,1115,10,62"/>
-        <!--Display static info, track temps etc-->
+
+        <ListView Background="{StaticResource TransBlackPearl}" ItemsSource="{Binding StandingDrivers}"
+                      Height="200" Width="500" Margin="2050,1115,10,62" Foreground="{StaticResource Clouds}">
+            <ListView.ItemTemplate >
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Background="White">sdsd</TextBlock>
+                        <TextBlock Text="{Binding IRating, Mode=OneWay}"/>
+                        <TextBlock Text="{Binding Name, Mode=OneWay}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 
         <!--Here we display laps and session time left etc..-->
+        <StackPanel Orientation="Horizontal" Background="{StaticResource TransBlackPearl}" 
+            Height="50" Width="500" Margin="2050,1320,10,7"/>
     </Grid>
 </Window>
