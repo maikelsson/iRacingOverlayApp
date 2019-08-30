@@ -53,7 +53,7 @@
 
         <!--Relatives, like blackbox-->
 
-        <ListView Background="{StaticResource TransBlackPearl}" ItemsSource="{Binding StandingDrivers}"
+        <ListView Background="{StaticResource TransBlackPearl}" ItemsSource="{Binding ICurrentDrivers}"
                       Height="200" Width="500" Margin="2050,1115,10,62" Foreground="{StaticResource Clouds}">
             <ListView.ItemTemplate >
                 <DataTemplate>
