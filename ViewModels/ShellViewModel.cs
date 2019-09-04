@@ -12,15 +12,59 @@ namespace iRacingLiveDataOverlay.ViewModels
 {
     public class ShellViewModel : Conductor<object>
     {
-        IWindowManager manager;
-        LiveDataViewModel liveDataWindow;
-        MockLiveDataViewModel mockLiveDataWindow;
+        private IWindowManager manager;
+        private LiveDataViewModel liveDataWindow;
+        private MockLiveDataViewModel mockLiveDataWindow;
+        private readonly Sim _sim;
+
+        private string _simConnectionStatus;
+        public string SimConnectionStatus
+        {
+            get
+            {
+                return _simConnectionStatus;
+            }
+            set
+            {
+                _simConnectionStatus = value;
+                NotifyOfPropertyChange(() => SimConnectionStatus);
+            }
+        }
 
         public bool ToolbarVisible { get; set; } = false;
 
         public ShellViewModel()
         {
             manager = new WindowManager();
+            _sim = Sim.Instance;
+            _sim.Sdk.Connected += OnSdkConnected;
+            _sim.Sdk.Disconnected += OnSdkDisconnected;
+            CheckSimStatus();
+        }
+        
+        private void OnSdkDisconnected(object sender, EventArgs e)
+        {
+            CheckSimStatus();
+        }
+
+        private void OnSdkConnected(object sender, EventArgs e)
+        {
+            CheckSimStatus();
+        }
+
+        private void CheckSimStatus()
+        {
+
+            InitializeSim();
+
+            if (_sim.Sdk.IsRunning)
+            {
+                SimConnectionStatus = "Sdk running";
+            }
+            else
+            {
+                SimConnectionStatus = "Sdk not running";
+            }
         }
 
         public void OpenLiveDataWindow()
@@ -51,7 +95,7 @@ namespace iRacingLiveDataOverlay.ViewModels
             {
                 await Task.Run(() =>
                 {
-                    Sim.Instance.Start();
+                    _sim.Start();
                 });
             }
             catch (Exception ex)

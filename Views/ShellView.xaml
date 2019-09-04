@@ -28,7 +28,7 @@
         <!--App name etc.-->
         <StackPanel Margin="2" HorizontalAlignment="Center" Grid.Column="1">
             <TextBlock Margin="5" Text="Overlay App for IRacing, run game windowed fullscreen."/>
-            <TextBlock Margin="5" Text="{Binding Path=SimConnectionStatus}" Foreground="{Binding Path=SimConnectionStatusColor}"/>
+            <TextBlock HorizontalAlignment="Center" Margin="5" Text="{Binding Path=SimConnectionStatus}" Foreground="{Binding Path=SimConnectionStatusColor}"/>
 
             <Button Margin="5" Content="Live" x:Name="OpenLiveDataWindow" Style="{StaticResource BasicButton}" Width="50"/>
             <Button Margin="5" Content="Mock" x:Name="OpenMockDataWindow" Style="{StaticResource BasicButton}" Width="50"/>
