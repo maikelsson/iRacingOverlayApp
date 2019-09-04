@@ -10,6 +10,8 @@ using iRacingSimulator;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows.Controls;
+using System.ComponentModel;
+using System.Windows.Data;
 
 namespace iRacingLiveDataOverlay.ViewModels
 {
@@ -35,7 +37,11 @@ namespace iRacingLiveDataOverlay.ViewModels
             }
         }
 
+<<<<<<< HEAD
         public ICollection<Driver> ICurrentDrivers;
+=======
+        public ICollection<Driver> IStandings;
+>>>>>>> dev
         //List of all drivers
         private ObservableCollection<Driver> _currentDrivers;
         public ObservableCollection<Driver> CurrentDrivers
@@ -52,8 +58,8 @@ namespace iRacingLiveDataOverlay.ViewModels
         }
 
         //List of drivers from session results
-        private List<Driver> _standingDrivers;
-        public List<Driver> StandingDrivers
+        private ObservableCollection<Driver> _standingDrivers;
+        public ObservableCollection<Driver> StandingDrivers
         {
             get
             {
@@ -70,48 +76,70 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         public LiveDataViewModel()
         {
-            CurrentDrivers = new ObservableCollection<Driver>();
-            StandingDrivers = new List<Driver>();
+            _currentDrivers = new ObservableCollection<Driver>();
+            _standingDrivers = new ObservableCollection<Driver>();
             Sim.Instance.SessionInfoUpdated += OnSessionInfoUpdated;
             //Sim.Instance.TelemetryUpdated += OnTelemetryInfoUpdated;
         }
 
         //private void OnTelemetryInfoUpdated(object sender, SdkWrapper.TelemetryUpdatedEventArgs e)
         //{
-        //    throw new NotImplementedException();
+        //    if (_currentlyUpdating)
+        //        return;
+
+        //    _currentlyUpdating = true;
+
+        //    ParseDynamicInfo(e.TelemetryInfo);
+
+        //    _currentlyUpdating = false;
         //}
 
         private void OnSessionInfoUpdated(object sender, SdkWrapper.SessionInfoUpdatedEventArgs e)
         {
-            if (_currentlyUpdating)
-                return;
-
-            _currentlyUpdating = true;
 
             GetTrackTemp(e.SessionInfo);
             ParseDynamicInfo(e.SessionInfo);
 
-            _currentlyUpdating = false;
         }
 
         private void ParseDynamicInfo(SessionInfo info)
         {
             //Remove items from list to prevent duplicates happening..
             CurrentDrivers.Clear();
+<<<<<<< HEAD
             StandingDrivers.Clear();
             ICurrentDrivers.Clear();
+=======
+>>>>>>> dev
 
             foreach(var driver in Sim.Instance.Drivers)
             {               
                 CurrentDrivers.Add(driver);
-                if(driver.Live.Position != 0)
+            }
+
+            UpdateStandings(CurrentDrivers);
+
+        }
+
+        private void UpdateStandings(ObservableCollection<Driver> drivers)
+        {
+            StandingDrivers.Clear();
+
+            foreach (var d in drivers)
+            {
+                if(d.Live.Position != 0)
                 {
-                    StandingDrivers.Add(driver);
+                    StandingDrivers.Add(d); 
                 }
             }
 
+<<<<<<< HEAD
             ICurrentDrivers = this.CurrentDrivers;
             ICurrentDrivers.OrderBy(p => p.Live.Position);
+=======
+            SortDrivers(StandingDrivers);
+
+>>>>>>> dev
         }
 
         //private void GetLiveStandings(SessionInfo info)
@@ -130,5 +158,24 @@ namespace iRacingLiveDataOverlay.ViewModels
             TrackTemp = Sim.Instance.SessionData.TrackSurfaceTemp;
         }
 
+        //Sorting for observablecollections with type Driver, modify to accept other types maybe
+        public static ObservableCollection<Driver> SortDrivers(ObservableCollection<Driver> drivers)
+        {
+            ObservableCollection<Driver> sorted;
+            sorted = new ObservableCollection<Driver>(drivers.OrderBy(p => p.Live.Position));
+            drivers.Clear();
+            
+            foreach(Driver d in sorted)
+            {
+                drivers.Add(d);
+            }
+
+            return drivers;
+
+        }
+
     }
+
 }
+
+

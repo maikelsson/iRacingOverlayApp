@@ -31,11 +31,10 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            <!--#endregion-->
-
-            
+            <!--#endregion-->         
             <!--#region Colors FLATUI V1 https://flatuicolors.com/palette/defo-->
             <SolidColorBrush x:Key="TransBlackPearl" Color="#1e272e" Opacity="0.8"/>
+            <SolidColorBrush x:Key="TransBlackPearlAlt" Color="#1e272e" Opacity="0.6"/>
             <SolidColorBrush x:Key="WetAsphalt" Color="#34495e"/>
             <SolidColorBrush x:Key="MidnightBlue" Color="#2c3e50"/>
             <SolidColorBrush x:Key="Concrete" Color="#95a5a6"/>
@@ -58,14 +57,14 @@
             <SolidColorBrush x:Key="Orange" Color="#f39c12"/>
             <SolidColorBrush x:Key="TransparentAsphalt" Color="#34495e" Opacity="0.8"/>
             <!--#endregion-->
-
             <Style x:Key="RobotoMedium">
                 <Setter Property="TextElement.FontFamily" Value="D:\CSharp\iRacingLiveDataOverlay\Utility\Fonts\Roboto-Medium.ttf"/>
             </Style>
             <Style x:Key="RobotoLight">
                 <Setter Property="TextElement.FontFamily" Value="D:\CSharp\iRacingLiveDataOverlay\Utility\Fonts\Roboto-Light.ttf"/>
             </Style>
-                <!--Bootstrap stuff-->          
+
+            <!--Bootstrap stuff-->
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
                     <local:Bootstrapper x:Key="bootstrapper"/>

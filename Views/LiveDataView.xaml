@@ -2,37 +2,57 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"         
              mc:Ignorable="d"
              WindowStyle="None"
              AllowsTransparency="True"
              WindowStartupLocation="CenterScreen"
              Topmost="False"
              FontSize="14"
-             Background="White"
+             Background="Transparent"
              Width="{Binding Source={x:Static SystemParameters.FullPrimaryScreenWidth}}"
              Height="{Binding Source={x:Static SystemParameters.FullPrimaryScreenHeight}}"
              d:DesignHeight="450" d:DesignWidth="800" Foreground="{StaticResource Clouds}">
 
     <Grid>
-        <Border CornerRadius="3">
-            
-        </Border>
-        <DataGrid Margin="10,10,0,1067" Foreground="{StaticResource Clouds}" Background="Transparent" 
-                  x:Name="CurrentDrivers" AlternatingRowBackground="Transparent" 
+        
+        <!--Display Currentsession time etc.-->
+        <WrapPanel x:Name="SessionInfo" Background="{StaticResource TransBlackPearl}" 
+                   Height="30" Width="600" 
+                   Margin="20,10,1940,1337">
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Text="{Binding }"/>
+        </WrapPanel>
+        
+        <DataGrid Margin="20,50,0,1027" Foreground="{StaticResource Clouds}" Background="{StaticResource TransBlackPearl}"
+                  x:Name="CurrentDrivers" AlternatingRowBackground="{StaticResource TransBlackPearlAlt}" 
                   Height="300" Width="600" VerticalScrollBarVisibility="Hidden"
-                  AutoGenerateColumns="False" CanUserAddRows="False"
+                  AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="All"
                   RowBackground="{StaticResource TransBlackPearl}" BorderBrush="{DynamicResource Pumpkin}" 
                   FontFamily="/iRacingLiveDataOverlay;component/Utility/Fonts/#Roboto Medium" 
-                  HorizontalAlignment="Left">
+                  HorizontalAlignment="Left" FontSize="16">
             <DataGrid.Columns >
-                <DataGridTextColumn SortDirection="Ascending" Header="Pos" Binding="{Binding Live.Position}" Width="60"/>
+                <DataGridTextColumn SortDirection="Descending" Header="Pos" Binding="{Binding CurrentResults.Position}" Width="30"/>
+                <DataGridTextColumn Header="Car" Binding="{Binding Car.CarNumber}"/>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="200"/>
                 <DataGridTextColumn Header="IR" Binding="{Binding ShortIRating}" Width="50"/>
                 <DataGridTextColumn Header="Best Lap" Binding="{Binding CurrentResults.FastestTime.Display}" Width="100"/>
             </DataGrid.Columns>
 
         </DataGrid>
+
+        <!--<ListView ScrollViewer.VerticalScrollBarVisibility="Hidden" x:Name="StandingDrivers" 
+                      Height="300" Width="600" Margin="10,10,1950,1067"
+                      Foreground="{StaticResource Clouds}" >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="20" DisplayMemberBinding="{Binding Live.Position}"/>
+                        <GridViewColumn Width="300" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding CurrentResults.FastestTime.Display}"/>
+                    </GridView>
+                </ListView.View>
+
+            </ListView>-->
+
         <StackPanel Orientation="Horizontal" Background="{DynamicResource TransBlackPearl}" 
                     Height="50" Width="500"
                     HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2050,1060,0,267">
@@ -55,13 +75,12 @@
 
         <ListView Background="{StaticResource TransBlackPearl}" ItemsSource="{Binding StandingDrivers}"
                       Height="200" Width="500" Margin="2050,1115,10,62" Foreground="{StaticResource Clouds}">
-            <ListView.ItemTemplate >
+            <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Background="White">sdsd</TextBlock>
-                        <TextBlock Text="{Binding IRating, Mode=OneWay}"/>
-                        <TextBlock Text="{Binding Name, Mode=OneWay}"/>
-                    </StackPanel>
+                    <WrapPanel>
+                        <TextBlock Text="{Binding Live.Position, Mode=OneWay}" Margin="2"/>
+                        <TextBlock Text="{Binding Name, Mode=OneWay}" Margin="2"/>
+                    </WrapPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
