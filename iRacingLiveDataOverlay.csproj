@@ -97,21 +97,13 @@
     <Compile Include="Helpers\INPCBase.cs" />
     <Compile Include="Models\MockDriver.cs" />
     <Compile Include="ViewModels\LiveDataViewModel.cs" />
-    <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\MockLiveDataViewModel.cs" />
-    <Compile Include="ViewModels\OptionsViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\LiveDataView.xaml.cs">
       <DependentUpon>LiveDataView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\HomeView.xaml.cs">
-      <DependentUpon>HomeView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\MockLiveDataView.xaml.cs">
       <DependentUpon>MockLiveDataView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\OptionsView.xaml.cs">
-      <DependentUpon>OptionsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
@@ -124,15 +116,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\HomeView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\MockLiveDataView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\OptionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

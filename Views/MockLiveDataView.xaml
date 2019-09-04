@@ -13,7 +13,7 @@
         d:DesignHeight="450" d:DesignWidth="800"
         Width="{Binding Source={x:Static SystemParameters.FullPrimaryScreenWidth}}"
         Height="{Binding Source={x:Static SystemParameters.FullPrimaryScreenHeight}}"
-        Background="IndianRed">
+        Background="Transparent">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -30,7 +30,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <DataGrid Foreground="White" Background="Transparent" x:Name="MockDrivers" AlternatingRowBackground="Transparent" 
+        <DataGrid Foreground="White" Background="{StaticResource TransBlackPearlAlt}" x:Name="MockDrivers" AlternatingRowBackground="Transparent" 
                    Grid.Row="0" Grid.Column="0" Height="300" Width="600" VerticalScrollBarVisibility="Hidden" Style="{StaticResource RobotoMedium}"
                    AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="None" RowBackground="{StaticResource TransBlackPearl}" BorderThickness="0">
             <DataGrid.Columns>

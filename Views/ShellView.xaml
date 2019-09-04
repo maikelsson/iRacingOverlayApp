@@ -4,9 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d"
-             FontSize="20"
+             FontSize="16"
              Title="LiveDataApp - Mikael Thornberg"
-             d:DesignHeight="600" d:DesignWidth="800" Height="600" Width="800" Background="{StaticResource WetAsphalt}">
+             d:DesignHeight="600" d:DesignWidth="800" Height="600" Width="800" Background="{StaticResource Clouds}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -14,19 +14,27 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-
+    
         </Grid.RowDefinitions>
 
         <!--Tool bar, column 0, row 0-->
-        <StackPanel Background="{StaticResource TransparentAsphalt}" MinHeight="{Binding Source={x:Static SystemParameters.FullPrimaryScreenHeight}}" MinWidth="60" Orientation="Vertical" 
+        <StackPanel Visibility="Collapsed" Background="{StaticResource Alizarin}" Height="600" MinWidth="60" Orientation="Vertical" 
                     Grid.Column="0" Grid.Row="0">
 
             <Button Style="{StaticResource BasicButton}" x:Name="LoadHomeView" Content="H" Height="30" Margin="0 10"></Button>
             <Button Style="{StaticResource BasicButton}" x:Name="LoadOptionsView" Content="O" Height="30"></Button>
         </StackPanel>
 
-        <!--Displays usercontrols-->
-        <ContentControl Grid.Row="0" Grid.Column="2" x:Name="ActiveItem"/>
+        <!--App name etc.-->
+        <StackPanel Margin="2" HorizontalAlignment="Center" Grid.Column="1">
+            <TextBlock Margin="5" Text="Overlay App for IRacing, run game windowed fullscreen."/>
+            <TextBlock Margin="5" Text="{Binding Path=SimConnectionStatus}" Foreground="{Binding Path=SimConnectionStatusColor}"/>
+
+            <Button Margin="5" Content="Live" x:Name="OpenLiveDataWindow" Style="{StaticResource BasicButton}" Width="50"/>
+            <Button Margin="5" Content="Mock" x:Name="OpenMockDataWindow" Style="{StaticResource BasicButton}" Width="50"/>
+        </StackPanel>
+        
+        
 
     </Grid>
 </Window>

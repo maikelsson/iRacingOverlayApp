@@ -37,11 +37,11 @@ namespace iRacingLiveDataOverlay.ViewModels
             }
         }
 
-<<<<<<< HEAD
+
         public ICollection<Driver> ICurrentDrivers;
-=======
+
         public ICollection<Driver> IStandings;
->>>>>>> dev
+
         //List of all drivers
         private ObservableCollection<Driver> _currentDrivers;
         public ObservableCollection<Driver> CurrentDrivers
@@ -106,11 +106,10 @@ namespace iRacingLiveDataOverlay.ViewModels
         {
             //Remove items from list to prevent duplicates happening..
             CurrentDrivers.Clear();
-<<<<<<< HEAD
+
             StandingDrivers.Clear();
             ICurrentDrivers.Clear();
-=======
->>>>>>> dev
+
 
             foreach(var driver in Sim.Instance.Drivers)
             {               
@@ -133,13 +132,13 @@ namespace iRacingLiveDataOverlay.ViewModels
                 }
             }
 
-<<<<<<< HEAD
+
             ICurrentDrivers = this.CurrentDrivers;
             ICurrentDrivers.OrderBy(p => p.Live.Position);
-=======
+
             SortDrivers(StandingDrivers);
 
->>>>>>> dev
+
         }
 
         //private void GetLiveStandings(SessionInfo info)

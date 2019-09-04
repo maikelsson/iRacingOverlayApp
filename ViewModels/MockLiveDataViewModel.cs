@@ -35,8 +35,6 @@ namespace iRacingLiveDataOverlay.ViewModels
         private void LoadMockDrivers()
         {  
 
-
-
             MockDriver driver1 = new MockDriver("Mikael Thornberg", 1200, 3);
             MockDriver driver2 = new MockDriver("Test Driver", 5630, 1);
             MockDriver driver3 = new MockDriver("Kimi Räikkönen", 7600, 2);

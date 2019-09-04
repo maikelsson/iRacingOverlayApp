@@ -15,15 +15,26 @@
              d:DesignHeight="450" d:DesignWidth="800" Foreground="{StaticResource Clouds}">
 
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <!--Display Currentsession time etc.-->
-        <WrapPanel x:Name="SessionInfo" Background="{StaticResource TransBlackPearl}" 
-                   Height="30" Width="600" 
-                   Margin="20,10,1940,1337">
+        <WrapPanel Grid.Row="0" Grid.Column="0" x:Name="SessionInfo" Background="{StaticResource TransBlackPearl}" 
+                   Height="30" Width="600">
             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Text="{Binding }"/>
         </WrapPanel>
         
-        <DataGrid Margin="20,50,0,1027" Foreground="{StaticResource Clouds}" Background="{StaticResource TransBlackPearl}"
+        <DataGrid Foreground="{StaticResource Clouds}" Background="{StaticResource TransBlackPearl}"
                   x:Name="CurrentDrivers" AlternatingRowBackground="{StaticResource TransBlackPearlAlt}" 
                   Height="300" Width="600" VerticalScrollBarVisibility="Hidden"
                   AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="All"

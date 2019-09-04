@@ -12,7 +12,7 @@ namespace iRacingLiveDataOverlay.ViewModels
 {
     public class ShellViewModel : Conductor<object>
     {
-        IWindowManager manager = new WindowManager();
+        IWindowManager manager;
         LiveDataViewModel liveDataWindow;
         MockLiveDataViewModel mockLiveDataWindow;
 
@@ -20,17 +20,7 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         public ShellViewModel()
         {
-            LoadOptionsView();
-        }
-
-        public void LoadOptionsView()
-        {
-            ActivateItem(new OptionsViewModel());
-        }
-
-        public void LoadHomeView()
-        {
-            ActivateItem(new HomeViewModel(this));
+            manager = new WindowManager();
         }
 
         public void OpenLiveDataWindow()
@@ -39,7 +29,7 @@ namespace iRacingLiveDataOverlay.ViewModels
             manager.ShowWindow(liveDataWindow, null, null);
         }
 
-        public void OpenMockLiveDataWindow()
+        public void OpenMockDataWindow()
         {
             mockLiveDataWindow = new MockLiveDataViewModel();
             manager.ShowWindow(mockLiveDataWindow, null, null);
@@ -52,7 +42,22 @@ namespace iRacingLiveDataOverlay.ViewModels
                 return;
 
             liveDataWindow.TryClose();
-            
+        }
+
+        //Trying to initialize sim instance
+        private async Task InitializeSim()
+        {
+            try
+            {
+                await Task.Run(() =>
+                {
+                    Sim.Instance.Start();
+                });
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
         }
     }
 }
