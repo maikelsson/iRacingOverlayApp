@@ -37,6 +37,7 @@ namespace iRacingLiveDataOverlay.ViewModels
         {
             manager = new WindowManager();
             _sim = Sim.Instance;
+            _sim.Start();
             _sim.Sdk.Connected += OnSdkConnected;
             _sim.Sdk.Disconnected += OnSdkDisconnected;
             CheckSimStatus();
@@ -54,8 +55,6 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         private void CheckSimStatus()
         {
-
-            InitializeSim();
 
             if (_sim.Sdk.IsRunning)
             {

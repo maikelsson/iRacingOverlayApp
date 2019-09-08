@@ -13,3 +13,8 @@
 /.vs/
 /bin/
 /Utility/
+*.dll
+*.pdb
+*.nupkg
+*.p7s
+/packages/MaterialDesignThemes.2.6.0

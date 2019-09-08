@@ -33,7 +33,8 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            <!--#endregion-->         
+            <!--#endregion--> 
+            
             <!--#region Colors FLATUI V1 https://flatuicolors.com/palette/defo-->
             <SolidColorBrush x:Key="TransBlackPearl" Color="#1e272e" Opacity="0.8"/>
             <SolidColorBrush x:Key="TransBlackPearlAlt" Color="#1e272e" Opacity="0.6"/>
@@ -59,6 +60,7 @@
             <SolidColorBrush x:Key="Orange" Color="#f39c12"/>
             <SolidColorBrush x:Key="TransparentAsphalt" Color="#34495e" Opacity="0.8"/>
             <!--#endregion-->
+            
             <Style x:Key="RobotoMedium">
                 <Setter Property="TextElement.FontFamily" Value="D:\CSharp\iRacingLiveDataOverlay\Utility\Fonts\Roboto-Medium.ttf"/>
             </Style>

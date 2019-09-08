@@ -23,6 +23,8 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         //Make LiveDataView visible only when im on track.
 
+        #region SessionData variables
+
         private string _trackTemp;
         public string TrackTemp
         {
@@ -37,10 +39,51 @@ namespace iRacingLiveDataOverlay.ViewModels
             }
         }
 
+        private string _currentSessionType;
+        public string CurrentSessionType
+        {
+            get
+            {
+                return _currentSessionType;
+            }
+            set
+            {
+                _currentSessionType = value;
+                NotifyOfPropertyChange(() => CurrentSessionType);
+            }
+        }
 
-        public ICollection<Driver> ICurrentDrivers;
+        private double _sessionTimeElapsed;
+        public double SessionTimeElapsed
+        {
+            get
+            {
+                return _sessionTimeElapsed;
+            }
+            set
+            {
+                _sessionTimeElapsed = value;
+                NotifyOfPropertyChange(() => SessionTimeElapsed);
+            }
+        }
 
-        public ICollection<Driver> IStandings;
+        private double _sessionTimeLeft;
+        public double SessionTimeLeft
+        {
+            get
+            {
+                return _sessionTimeLeft;
+            }
+            set
+            {
+                _sessionTimeLeft = value;
+                NotifyOfPropertyChange(() => SessionTimeLeft);
+            }
+        }
+
+
+
+        #endregion
 
         //List of all drivers
         private ObservableCollection<Driver> _currentDrivers;
@@ -72,47 +115,35 @@ namespace iRacingLiveDataOverlay.ViewModels
             }
         }
 
-        private bool _currentlyUpdating = false;
-
         public LiveDataViewModel()
         {
             _currentDrivers = new ObservableCollection<Driver>();
             _standingDrivers = new ObservableCollection<Driver>();
             Sim.Instance.SessionInfoUpdated += OnSessionInfoUpdated;
-            //Sim.Instance.TelemetryUpdated += OnTelemetryInfoUpdated;
+            Sim.Instance.TelemetryUpdated += OnTelemetryInfoUpdated;
+            ParseDynamicInfo();
+            GetTrackTemp();
         }
 
-        //private void OnTelemetryInfoUpdated(object sender, SdkWrapper.TelemetryUpdatedEventArgs e)
-        //{
-        //    if (_currentlyUpdating)
-        //        return;
-
-        //    _currentlyUpdating = true;
-
-        //    ParseDynamicInfo(e.TelemetryInfo);
-
-        //    _currentlyUpdating = false;
-        //}
+        private void OnTelemetryInfoUpdated(object sender, SdkWrapper.TelemetryUpdatedEventArgs e)
+        {
+            SessionTimeElapsed = Sim.Instance.SessionData.TimeRemaining;
+        }
 
         private void OnSessionInfoUpdated(object sender, SdkWrapper.SessionInfoUpdatedEventArgs e)
         {
-
-            GetTrackTemp(e.SessionInfo);
-            ParseDynamicInfo(e.SessionInfo);
-
+            GetTrackTemp();
+            ParseDynamicInfo();
         }
 
-        private void ParseDynamicInfo(SessionInfo info)
+        //Gets all drivers from Session
+        private void ParseDynamicInfo()
         {
             //Remove items from list to prevent duplicates happening..
             CurrentDrivers.Clear();
 
-            StandingDrivers.Clear();
-            ICurrentDrivers.Clear();
-
-
             foreach(var driver in Sim.Instance.Drivers)
-            {               
+            {
                 CurrentDrivers.Add(driver);
             }
 
@@ -120,57 +151,28 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         }
 
+        //Updates standing list, top left corner
         private void UpdateStandings(ObservableCollection<Driver> drivers)
         {
             StandingDrivers.Clear();
 
-            foreach (var d in drivers)
+            foreach(var d in drivers)
             {
-                if(d.Live.Position != 0)
+                
+                //Adding driver to standings list only if has completed a valid lap
+                if (d.Results.Current.LapsComplete != 0)
                 {
-                    StandingDrivers.Add(d); 
+                    StandingDrivers.Add(d);
                 }
             }
-
-
-            ICurrentDrivers = this.CurrentDrivers;
-            ICurrentDrivers.OrderBy(p => p.Live.Position);
-
-            SortDrivers(StandingDrivers);
-
-
         }
 
-        //private void GetLiveStandings(SessionInfo info)
-        //{
-        //    var id = 0;
-        //    var query = info[];
-
-        //    foreach(var driver in Sim.Instance.SessionInfo.GetValue(""))
-        //    {
-        //        var d = CurrentDrivers.Where(c => c.Car. == id);
-        //    }
-        //}
-
-        private void GetTrackTemp(SessionInfo info)
+        //Just to get track temps, there might be easier or simpler way to do this.. 
+        private void GetTrackTemp()
         {
             TrackTemp = Sim.Instance.SessionData.TrackSurfaceTemp;
-        }
-
-        //Sorting for observablecollections with type Driver, modify to accept other types maybe
-        public static ObservableCollection<Driver> SortDrivers(ObservableCollection<Driver> drivers)
-        {
-            ObservableCollection<Driver> sorted;
-            sorted = new ObservableCollection<Driver>(drivers.OrderBy(p => p.Live.Position));
-            drivers.Clear();
-            
-            foreach(Driver d in sorted)
-            {
-                drivers.Add(d);
-            }
-
-            return drivers;
-
+            CurrentSessionType = Sim.Instance.SessionData.SessionType;
+            SessionTimeLeft = Sim.Instance.SessionData.SessionTime;
         }
 
     }
