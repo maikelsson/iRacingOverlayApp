@@ -53,6 +53,14 @@ namespace iRacingLiveDataOverlay.ViewModels
             }
         }
 
+        public TimeSpan SessionTimeElapsedDisplay
+        {
+            get
+            {
+                return ConvertToTime(_sessionTimeElapsed);
+            }
+        }
+
         private double _sessionTimeElapsed;
         public double SessionTimeElapsed
         {
@@ -81,6 +89,13 @@ namespace iRacingLiveDataOverlay.ViewModels
             }
         }
 
+        public TimeSpan SessionTimeLeftDisplay
+        {
+            get
+            {
+                return ConvertToTime(_sessionTimeLeft);
+            }
+        }
 
 
         #endregion
@@ -122,7 +137,7 @@ namespace iRacingLiveDataOverlay.ViewModels
             Sim.Instance.SessionInfoUpdated += OnSessionInfoUpdated;
             Sim.Instance.TelemetryUpdated += OnTelemetryInfoUpdated;
             ParseDynamicInfo();
-            GetTrackTemp();
+            GetSessionInfo();
         }
 
         private void OnTelemetryInfoUpdated(object sender, SdkWrapper.TelemetryUpdatedEventArgs e)
@@ -132,7 +147,7 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         private void OnSessionInfoUpdated(object sender, SdkWrapper.SessionInfoUpdatedEventArgs e)
         {
-            GetTrackTemp();
+            GetSessionInfo();
             ParseDynamicInfo();
         }
 
@@ -168,13 +183,17 @@ namespace iRacingLiveDataOverlay.ViewModels
         }
 
         //Just to get track temps, there might be easier or simpler way to do this.. 
-        private void GetTrackTemp()
+        private void GetSessionInfo()
         {
             TrackTemp = Sim.Instance.SessionData.TrackSurfaceTemp;
             CurrentSessionType = Sim.Instance.SessionData.SessionType;
             SessionTimeLeft = Sim.Instance.SessionData.SessionTime;
         }
 
+        private TimeSpan ConvertToTime(double time)
+        {
+            return TimeSpan.FromSeconds(time);
+        }
     }
 
 }

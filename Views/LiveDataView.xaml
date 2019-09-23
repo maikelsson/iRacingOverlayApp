@@ -13,7 +13,7 @@
              Background="Transparent"
              Width="{Binding Source={x:Static SystemParameters.FullPrimaryScreenWidth}}"
              Height="{Binding Source={x:Static SystemParameters.FullPrimaryScreenHeight}}"
-             d:DesignHeight="450" d:DesignWidth="800" Foreground="{StaticResource Clouds}">
+             d:DesignHeight="450" d:DesignWidth="800" Foreground="{StaticResource Clouds}" FontFamily="Segoe UI Light">
 
     <Window.Resources>
         <CollectionViewSource Source="{Binding StandingDrivers}" x:Key="SortedDrivers">
@@ -21,6 +21,14 @@
                 <scm:SortDescription PropertyName="CurrentResults.Position" Direction="Ascending"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
+        <Style x:Key="alternativeBgColor" TargetType="ListViewItem">
+            <!--<Setter Property="Background" Value="{StaticResource TransBlackPearlAlt}"/>-->
+            <Style.Triggers>
+                <Trigger Property="ListView.AlternationIndex" Value="1">
+                    <Setter Property="Background" Value="{StaticResource TransBlackPearlAlt}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -37,47 +45,34 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        
         <!--Display Currentsession time etc.-->
         <WrapPanel Grid.Row="0" Grid.Column="0" x:Name="SessionInfo" Background="{StaticResource TransBlackPearl}" 
-                   Height="50" Width="600" Margin="10,10,1950,1337">
+                   Height="50" Width="600" Margin="10,10,1950,1417">
             
             <TextBlock VerticalAlignment="Center" FontSize="18" FontWeight="Bold">
                 <Run Text="{Binding CurrentSessionType, Mode=OneWay}"/>
-                <Run Text="{Binding SessionTimeElapsed, Mode=OneWay}"/>
-                <Run Text="/"/>
-                <Run Text="{Binding SessionTimeLeft, Mode=OneWay}"/>
+                <Run Text="{Binding SessionTimeElapsedDisplay, Mode=OneWay}"/>
+                <Run Text="/" FontWeight="Bold" FontSize="30"/>
+                <Run Text="{Binding SessionTimeLeftDisplay, Mode=OneWay}"/>
             </TextBlock>
         </WrapPanel>
 
-        <DataGrid ItemsSource="{Binding Source={StaticResource SortedDrivers}}" Foreground="{StaticResource Clouds}" Background="{StaticResource TransBlackPearl}"
-                  AlternatingRowBackground="{StaticResource TransBlackPearlAlt}" 
-                  Height="300" Width="600" VerticalScrollBarVisibility="Hidden" IsReadOnly="True"
-                  AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="All"
-                  RowBackground="{StaticResource TransBlackPearl}" BorderBrush="{DynamicResource Pumpkin}"  
-                  HorizontalAlignment="Left" FontSize="16" Margin="10,55,0,1022">
-            <DataGrid.Columns >
-                <DataGridTextColumn SortDirection="Ascending" Header="Pos" Binding="{Binding CurrentResults.Position}" Width="30"/>
-                <DataGridTextColumn Header="Car" Binding="{Binding Car.CarNumber}"/>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="200"/>
-                <DataGridTextColumn Header="IR" Binding="{Binding ShortIRating}" Width="50"/>
-                <DataGridTextColumn Header="Best Lap" Binding="{Binding CurrentResults.FastestTime.Display}" Width="100"/>
-            </DataGrid.Columns>
-
-        </DataGrid>
-
-        <!--<ListView ScrollViewer.VerticalScrollBarVisibility="Hidden" x:Name="StandingDrivers" 
-                      Height="300" Width="600" Margin="10,10,1950,1067"
-                      Foreground="{StaticResource Clouds}" >
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Width="20" DisplayMemberBinding="{Binding Live.Position}"/>
-                        <GridViewColumn Width="300" DisplayMemberBinding="{Binding Name}"/>
-                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding CurrentResults.FastestTime.Display}"/>
-                    </GridView>
-                </ListView.View>
-
-            </ListView>-->
-
+        <ListView ItemContainerStyle="{StaticResource alternativeBgColor}" AlternationCount="2" Background="Transparent" Foreground="{StaticResource Clouds}" Height="400" Width="600" 
+                  Margin="10,65,1950,1012" ItemsSource="{Binding Source={StaticResource SortedDrivers}}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <WrapPanel>
+                        <TextBlock>
+                            <Run Text="{Binding CurrentResults.Position, StringFormat=#{0}}"/>
+                            <Run Text="{Binding Name}"/>
+                        </TextBlock>
+                    </WrapPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
+        <!--Session info panel, track temps, sof etc.-->
         <StackPanel Orientation="Horizontal" Background="{DynamicResource TransBlackPearl}" 
                     Height="50" Width="500"
                     HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2050,1060,0,267">
@@ -98,9 +93,9 @@
         </StackPanel>
 
 
-        <!--Relatives, like blackbox-->
+        <!--Relatives, like blackbox, maybe suspend this atm.-->
 
-        <ListView Background="{StaticResource TransBlackPearl}" ItemsSource="{Binding StandingDrivers}"
+        <ListView Background="{StaticResource TransBlackPearl}" ItemsSource="{Binding Source={StaticResource SortedDrivers}}"
                       Height="200" Width="500" Margin="2050,1115,10,62" Foreground="{StaticResource Clouds}">
             <ListView.ItemTemplate>
                 <DataTemplate>
