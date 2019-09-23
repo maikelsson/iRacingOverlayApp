@@ -15,6 +15,17 @@
         Height="{Binding Source={x:Static SystemParameters.FullPrimaryScreenHeight}}"
         Background="Transparent">
 
+
+    <Window.Resources>
+        <Style x:Key="alternativeBgColor" TargetType="ListViewItem">
+            <!--<Setter Property="Background" Value="{StaticResource TransBlackPearlAlt}"/>-->
+            <Style.Triggers>
+                <Trigger Property="ListView.AlternationIndex" Value="1">
+                    <Setter Property="Background" Value="{StaticResource TransBlackPearlAlt}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -30,7 +41,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <DataGrid Foreground="White" Background="{StaticResource TransBlackPearlAlt}" x:Name="MockDrivers" AlternatingRowBackground="Transparent" 
+        <!--<DataGrid Foreground="White" Background="{StaticResource TransBlackPearlAlt}" x:Name="MockDrivers" AlternatingRowBackground="Transparent" 
                    Grid.Row="0" Grid.Column="0" Height="300" Width="600" VerticalScrollBarVisibility="Hidden" Style="{StaticResource RobotoMedium}"
                    AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="None" RowBackground="{StaticResource TransBlackPearl}" BorderThickness="0">
             <DataGrid.Columns>
@@ -39,6 +50,19 @@
                 <DataGridTextColumn Header="IR" Binding="{Binding Path=IRating}" Width="50" ElementStyle="{StaticResource RobotoLight}"/>
             </DataGrid.Columns>
 
-        </DataGrid>
+        </DataGrid>-->
+
+        <ListView Height="500" Width="600" Background="Transparent" Foreground="{StaticResource Clouds}">
+            <ListViewItem Width="600" Height="30" Background="{StaticResource TransBlackPearl}">
+                <TextBlock>
+                    Jorma
+                </TextBlock>
+            </ListViewItem>
+            <ListViewItem Width="600" Height="30" Background="{StaticResource TransBlackPearlAlt}">
+                <TextBlock>
+                    Jorma
+                </TextBlock>
+            </ListViewItem>
+        </ListView>
     </Grid>
 </Window>
