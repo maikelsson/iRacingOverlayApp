@@ -22,6 +22,9 @@ namespace iRacingLiveDataOverlay.ViewModels
         //TODO's
 
         //Make LiveDataView visible only when im on track.
+        //Race clock atm not working correctly.. needs to start when greenflag event is raised.. 
+
+        private bool IsGreenFlag = false;
 
         #region SessionData variables
 
@@ -53,7 +56,7 @@ namespace iRacingLiveDataOverlay.ViewModels
             }
         }
 
-        public TimeSpan SessionTimeElapsedDisplay
+        public string SessionTimeElapsedDisplay
         {
             get
             {
@@ -72,6 +75,7 @@ namespace iRacingLiveDataOverlay.ViewModels
             {
                 _sessionTimeElapsed = value;
                 NotifyOfPropertyChange(() => SessionTimeElapsed);
+                NotifyOfPropertyChange(() => SessionTimeElapsedDisplay);
             }
         }
 
@@ -86,10 +90,12 @@ namespace iRacingLiveDataOverlay.ViewModels
             {
                 _sessionTimeLeft = value;
                 NotifyOfPropertyChange(() => SessionTimeLeft);
+                NotifyOfPropertyChange(() => SessionTimeLeftDisplay);
+
             }
         }
 
-        public TimeSpan SessionTimeLeftDisplay
+        public string SessionTimeLeftDisplay
         {
             get
             {
@@ -136,13 +142,25 @@ namespace iRacingLiveDataOverlay.ViewModels
             _standingDrivers = new ObservableCollection<Driver>();
             Sim.Instance.SessionInfoUpdated += OnSessionInfoUpdated;
             Sim.Instance.TelemetryUpdated += OnTelemetryInfoUpdated;
+            Sim.Instance.RaceEvent += OnRaceEventInfoUpdated;
             ParseDynamicInfo();
             GetSessionInfo();
         }
 
+        private void OnRaceEventInfoUpdated(object sender, Sim.RaceEventArgs e)
+        {
+            if (e.Event.Type.Equals(1))
+            {
+                IsGreenFlag = true;
+            }
+        }
+
         private void OnTelemetryInfoUpdated(object sender, SdkWrapper.TelemetryUpdatedEventArgs e)
         {
-            SessionTimeElapsed = Sim.Instance.SessionData.TimeRemaining;
+            if (IsGreenFlag)
+            {
+                SessionTimeElapsed = Sim.Instance.SessionData.TimeRemaining;
+            }
         }
 
         private void OnSessionInfoUpdated(object sender, SdkWrapper.SessionInfoUpdatedEventArgs e)
@@ -182,17 +200,30 @@ namespace iRacingLiveDataOverlay.ViewModels
             }
         }
 
-        //Just to get track temps, there might be easier or simpler way to do this.. 
+        //Get track temps, sessiontype etc. there might be easier or simpler way to do this.. 
         private void GetSessionInfo()
         {
             TrackTemp = Sim.Instance.SessionData.TrackSurfaceTemp;
             CurrentSessionType = Sim.Instance.SessionData.SessionType;
-            SessionTimeLeft = Sim.Instance.SessionData.SessionTime;
+            SessionTimeLeft = Sim.Instance.SessionData.RaceTime;
         }
 
-        private TimeSpan ConvertToTime(double time)
+        private string ConvertToTime(double time)
         {
-            return TimeSpan.FromSeconds(time);
+            TimeSpan span = TimeSpan.FromSeconds(time);
+            string output = "";
+
+            if (time < 3600)
+            {
+                output = span.ToString(@"mm\:ss");
+            }
+
+            else
+            {
+                output = span.ToString(@"hh\:mm\:ss");
+            }
+            
+            return output;
         }
     }
 
