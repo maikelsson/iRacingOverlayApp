@@ -9,7 +9,7 @@
              AllowsTransparency="True"
              WindowStartupLocation="CenterScreen"
              Topmost="False"
-             FontSize="18"
+             FontSize="16"
              Background="Transparent"
              Width="{Binding Source={x:Static SystemParameters.FullPrimaryScreenWidth}}"
              Height="{Binding Source={x:Static SystemParameters.FullPrimaryScreenHeight}}"
@@ -25,11 +25,8 @@
             <!--<Setter Property="Background" Value="{StaticResource TransBlackPearlAlt}"/>-->
             <Style.Triggers>
                 <Trigger Property="ListView.AlternationIndex" Value="0">
-                    <Setter Property="Background" Value="{StaticResource BlackPearl}"/>
+                    <Setter Property="Background" Value="{StaticResource BalticSeaTrans2}"/>
                 </Trigger>
-                <!--<Trigger Property="ListView.AlternationIndex" Value="1">
-                    <Setter Property="Background" Value="{StaticResource BlackPearl}"/>
-                </Trigger>-->
             </Style.Triggers>
         </Style>
     </Window.Resources>
@@ -48,11 +45,10 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
         <!--Display Currentsession time etc.-->
-        <WrapPanel Grid.Row="0" Grid.Column="0" x:Name="SessionInfo" Background="{StaticResource TransBlackPearl}" 
-                   Height="50" Width="600" Margin="10,10,1950,1417">
-            
+        <WrapPanel Grid.Row="0" Grid.Column="0" x:Name="SessionInfo" Background="{StaticResource BalticSeaTrans2}" Width="600" Margin="10,10,1950,1432">
+
             <TextBlock VerticalAlignment="Center" FontSize="20" FontWeight="Bold">
                 <Run Text="{Binding CurrentSessionType, Mode=OneWay}"/>
                 <Run Text="{Binding SessionTimeElapsedDisplay, Mode=OneWay}"/>
@@ -60,15 +56,20 @@
                 <Run Text="{Binding SessionTimeLeftDisplay, Mode=OneWay}"/>
             </TextBlock>
         </WrapPanel>
-        
-        <ListView ItemContainerStyle="{StaticResource alternativeBgColor}" AlternationCount="2" Background="{StaticResource TransBlackPearl}" Foreground="{StaticResource Clouds}" Height="400" Width="600" 
-                  Margin="10,65,1950,1012" ItemsSource="{Binding Source={StaticResource SortedDrivers}}"
-                  ScrollViewer.VerticalScrollBarVisibility="Hidden" BorderThickness="0">
-            <ListView.ItemTemplate >
-                <DataTemplate >
+
+        <ListView ItemContainerStyle="{StaticResource alternativeBgColor}" AlternationCount="2" 
+                   Background="{StaticResource BalticSeaTrans}" Foreground="{StaticResource Clouds}" 
+                  Height="300" Width="600" 
+                  Margin="10,51,1950,1127" ItemsSource="{Binding Source={StaticResource SortedDrivers}}"
+                  ScrollViewer.VerticalScrollBarVisibility="Hidden" BorderThickness="0" FontWeight="Bold">
+            <ListView.ItemTemplate>
+                <DataTemplate>
                     <WrapPanel>
-                        <TextBlock>
-                            <Run Text="{Binding CurrentResults.Position, StringFormat=#{0}}"/>
+                        <TextBlock Width="40" Background="{StaticResource BlackPearl}" Foreground="{StaticResource Pumpkin}">
+                            <Run Text="{Binding CurrentResults.Position}"/>
+                        </TextBlock>
+                        <TextBlock Width="30">
+                            <Run Text="{Binding CarNumber, Mode=OneWay, StringFormat=#{0}}"/>
                         </TextBlock>
                         <TextBlock>
                             <Run Text="{Binding Name}"/>
@@ -77,41 +78,43 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        
+
         <!--Session info panel, track temps, sof etc.-->
-        <StackPanel Orientation="Horizontal" Background="{DynamicResource TransBlackPearl}" 
-                    Height="50" Width="500"
-                    HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2050,1060,0,267">
+        <WrapPanel Orientation="Horizontal" Background="{DynamicResource BalticSeaTrans2}" 
+                        Height="50" Width="600"
+                        HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="-970" Canvas.Top="-359" Margin="10,356,0,1072">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <!--Track Temp icon and bind-->
+                <Image Grid.Column="0" Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\road-2-64.png" Width="25" Height="30"/>
+                <TextBlock Grid.Column="1" VerticalAlignment="Center" FontWeight="Bold">
+                    <Run Text="{Binding TrackTemp, Mode=OneWay}"/>
+                    <Run Text="°C"/>
+                </TextBlock>
 
-            <!--Track Temp icon and bind-->
-            <Image Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\road-2-64.png" Width="25" Height="30"/>
-            <TextBlock VerticalAlignment="Center" Text="{Binding TrackTemp, Mode=OneWay}"/>
+                <!--offtrack icon and bind-->
+                <Image Grid.Column="2"  Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\x-mark-64.png"  Width="20" Height="20"/>
+                <TextBlock Grid.Column="3" VerticalAlignment="Center" Text="{Binding OffTracksDisplay, Mode=OneWay}"/>
 
-            <!--offtrack icon and bind-->
-            <Image Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\x-mark-64.png"  Width="20" Height="20"/>
-            <TextBlock VerticalAlignment="Center" Text="{Binding OffTracksDisplay, Mode=OneWay}"/>
+                <!--Session time and bind-->
+                <Image Grid.Column="4" Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\clock-5-64.png" Width="25" Height="25"/>
+                <TextBlock Grid.Column="5" Text="SOF" VerticalAlignment="Center" FontSize="16" FontWeight="Bold"/>
+            </Grid>
 
-            <!--Session time and bind-->
-            <Image Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\clock-5-64.png" Width="25" Height="25"/>
-            <TextBlock Text="SOF" VerticalAlignment="Center" FontSize="20" FontWeight="Bold"/>
-            
-
-        </StackPanel>
-
-
-        <!--Relatives, like blackbox, maybe suspend this atm.-->
-
-        <!--<ListView Background="{StaticResource TransBlackPearl}" ItemsSource="{Binding Source={StaticResource SortedDrivers}}"
-                      Height="200" Width="500" Margin="2050,1115,10,62" Foreground="{StaticResource Clouds}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <WrapPanel>
-                        <TextBlock Text="{Binding Live.Position, Mode=OneWay}" Margin="2"/>
-                        <TextBlock Text="{Binding Name, Mode=OneWay}" Margin="2"/>
-                    </WrapPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>-->
+        </WrapPanel>
 
     </Grid>
 </Window>

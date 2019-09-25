@@ -33,7 +33,7 @@ namespace iRacingLiveDataOverlay.ViewModels
         {
             get
             {
-                return _trackTemp;
+                return _trackTemp.Trim('C').Trim(' ');
             }
             set
             {
