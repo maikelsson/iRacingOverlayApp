@@ -12,6 +12,8 @@ using System.Globalization;
 using System.Windows.Controls;
 using System.ComponentModel;
 using System.Windows.Data;
+using System.Windows.Media;
+using System.Diagnostics;
 
 namespace iRacingLiveDataOverlay.ViewModels
 {
@@ -23,6 +25,8 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         //Make LiveDataView visible only when im on track.
         //Race clock atm not working correctly.. needs to start when greenflag event is raised.. 
+
+        Color color = (Color)ColorConverter.ConvertFromString("#0153db");
 
         private bool IsGreenFlag = false;
 
@@ -178,6 +182,7 @@ namespace iRacingLiveDataOverlay.ViewModels
             foreach(var driver in Sim.Instance.Drivers)
             {
                 CurrentDrivers.Add(driver);
+                Debug.WriteLine(driver.License.BackgroundColor);
             }
 
             UpdateStandings(CurrentDrivers);
