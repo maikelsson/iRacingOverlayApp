@@ -26,8 +26,6 @@ namespace iRacingLiveDataOverlay.ViewModels
         //Make LiveDataView visible only when im on track.
         //Race clock atm not working correctly.. needs to start when greenflag event is raised.. 
 
-        Color color = (Color)ColorConverter.ConvertFromString("#0153db");
-
         private bool IsGreenFlag = false;
 
         #region SessionData variables

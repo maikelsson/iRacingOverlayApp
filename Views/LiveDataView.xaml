@@ -19,7 +19,7 @@
     <Window.Resources>
         <CollectionViewSource Source="{Binding StandingDrivers}" x:Key="SortedDrivers">
             <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="CurrentResults.Position" Direction="Ascending"/>
+                <scm:SortDescription PropertyName="Live.Position" Direction="Ascending"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
         <Style x:Key="alternativeBgColor" TargetType="ListViewItem">
@@ -28,6 +28,7 @@
                     <Setter Property="Background" Value="{StaticResource BalticSeaTrans2}"/>
                 </Trigger>
             </Style.Triggers>
+            <Setter Property="Focusable" Value="False"/>
         </Style>
         <Style x:Key="Bordered" TargetType="ListView">
             <Setter Property="Template">
@@ -38,6 +39,10 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+        </Style>
+        <Style x:Key="RoundedBorder" TargetType="Border">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="4"/>
         </Style>
     </Window.Resources> 
 
@@ -66,7 +71,7 @@
                 <Run Text="{Binding SessionTimeLeftDisplay, Mode=OneWay}"/>
             </TextBlock>
         </WrapPanel>
-        
+
         <ListView Background="{StaticResource BalticSeaTrans2}" ItemContainerStyle="{StaticResource alternativeBgColor}" AlternationCount="2" Foreground="{StaticResource Clouds}" 
                   Height="300" Width="600" 
                   Margin="10,51,1950,1127" ItemsSource="{Binding Source={StaticResource SortedDrivers}}"
@@ -81,14 +86,17 @@
                                 <ColumnDefinition Width="40"/>
                                 <ColumnDefinition Width="200"/>
                                 <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="35"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="22"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Column="0" Foreground="{StaticResource Pumpkin}">
-                                <Run Text="{Binding CurrentResults.Position}"/>
+                            <TextBlock Grid.Column="0" Foreground="{StaticResource SunFlower}">
+                                <Run Text="{Binding Live.Position}"/>
                             </TextBlock>
                             <TextBlock Grid.Column="1">
                                 <Run Text="{Binding CarNumber, Mode=OneWay, StringFormat=#{0}}"/>
@@ -96,21 +104,28 @@
                             <TextBlock Grid.Column="2">
                                 <Run Text="{Binding Name}"/>
                             </TextBlock>
-                            <TextBlock Grid.Column="3" Background="{Binding License.GetSolidColorBrush}" 
-                                       Foreground="{Binding License.GetTextColor}">
-                                <Run Text="{Binding License.Display, Mode=OneTime}"/>
-                            </TextBlock>
-                            <Border CornerRadius="2" BorderThickness="1" Background="{StaticResource Clouds}" Grid.Column="4">
-                                <TextBlock Background="{StaticResource Clouds}">
-                                    <Run Text="{Binding ShortIRating, Mode=OneWay}" Foreground="Black"/>
+                            <Border Margin="2" Style="{StaticResource RoundedBorder}" Grid.Column="3" BorderBrush="{Binding License.GetSolidColorBrush}">
+                                <TextBlock Background="{Binding License.GetSolidColorBrush}" 
+                                       Foreground="{Binding License.GetTextColor}" FontSize="14">
+                                    <Run Text="{Binding License.Display, Mode=OneTime}" BaselineAlignment="Center"/>
                                 </TextBlock>
                             </Border>
+                            <Border Margin="2" Style="{StaticResource RoundedBorder}" Grid.Column="4" BorderBrush="{StaticResource Clouds}">
+                                <TextBlock Background="{StaticResource Clouds}" FontSize="14">
+                                    <Run Text="{Binding ShortIRating, Mode=OneWay}" Foreground="Black" BaselineAlignment="Center"/>
+                                </TextBlock>
+                            </Border>
+                            <TextBlock Grid.Column="5" Margin="2">
+                                <Run Text="{Binding Live.DeltaToLeader}"/>
+                            </TextBlock>
+                            <TextBlock Grid.Column="6" Margin="2">
+                                <Run Text="{Binding Live.DeltaToNext}"/>
+                            </TextBlock>
                         </Grid>
                     </WrapPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
         <!--Session info panel, track temps, sof etc.-->
         <WrapPanel Orientation="Horizontal" 
                         Height="50" Width="600"
@@ -134,18 +149,18 @@
                     <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
                 <!--Track Temp icon and bind-->
-                <Image Grid.Column="0" Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\road-2-64.png" Width="25" Height="30"/>
+                <Image Grid.Column="0" Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\road-2-64.png" Width="25"/>
                 <TextBlock Grid.Column="1" VerticalAlignment="Center" FontWeight="Bold">
                     <Run Text="{Binding TrackTemp, Mode=OneWay}"/>
                     <Run Text="°C"/>
                 </TextBlock>
 
                 <!--offtrack icon and bind-->
-                <Image Grid.Column="2"  Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\x-mark-64.png"  Width="20" Height="20"/>
+                <Image Grid.Column="2"  Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\x-mark-64.png"  Width="20"/>
                 <TextBlock Grid.Column="3" VerticalAlignment="Center" Text="{Binding OffTracksDisplay, Mode=OneWay}"/>
 
                 <!--Session time and bind-->
-                <Image Grid.Column="4" Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\clock-5-64.png" Width="25" Height="25"/>
+                <Image Grid.Column="4" Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\clock-5-64.png" Width="25"/>
                 <TextBlock Grid.Column="5" Text="SOF" VerticalAlignment="Center" FontSize="16" FontWeight="Bold"/>
             </Grid>
             </Border>
