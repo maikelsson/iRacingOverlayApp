@@ -26,6 +26,8 @@ namespace iRacingLiveDataOverlay.ViewModels
         //Make LiveDataView visible only when im on track.
         //Race clock atm not working correctly.. needs to start when greenflag event is raised.. 
 
+        private bool _isCurrentlyUpdating = false;
+
         private bool IsGreenFlag = false;
 
         #region SessionData variables
@@ -105,6 +107,19 @@ namespace iRacingLiveDataOverlay.ViewModels
             }
         }
 
+        private string _raceTimeDisplay;
+        public string RaceTimeDisplay
+        {
+            get
+            {
+                return _raceTimeDisplay;
+            }
+            set
+            {
+                _raceTimeDisplay = value;
+                NotifyOfPropertyChange(() => RaceTimeDisplay);
+            }
+        }
 
         #endregion
 
@@ -159,16 +174,21 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         private void OnTelemetryInfoUpdated(object sender, SdkWrapper.TelemetryUpdatedEventArgs e)
         {
+            //Todo race clock.
             if (IsGreenFlag)
             {
-                SessionTimeElapsed = Sim.Instance.SessionData.TimeRemaining;
+                SessionTimeElapsed += SessionTimeElapsed - Sim.Instance.SessionData.TimeRemaining;
             }
+
+            SessionTimeElapsed = Sim.Instance.SessionData.TimeRemaining;
+            
+            UpdateStandings(CurrentDrivers);
         }
 
         private void OnSessionInfoUpdated(object sender, SdkWrapper.SessionInfoUpdatedEventArgs e)
         {
-            GetSessionInfo();
             ParseDynamicInfo();
+            GetSessionInfo();
         }
 
         //Gets all drivers from Session
@@ -180,27 +200,32 @@ namespace iRacingLiveDataOverlay.ViewModels
             foreach(var driver in Sim.Instance.Drivers)
             {
                 CurrentDrivers.Add(driver);
-                Debug.WriteLine(driver.License.BackgroundColor);
             }
-
-            UpdateStandings(CurrentDrivers);
 
         }
 
         //Updates standing list, top left corner
         private void UpdateStandings(ObservableCollection<Driver> drivers)
         {
+            
             StandingDrivers.Clear();
 
-            foreach(var d in drivers)
+            if (!_isCurrentlyUpdating)
             {
-                
-                //Adding driver to standings list only if has completed a valid lap
-                if (d.Results.Current.LapsComplete != 0)
+                _isCurrentlyUpdating = true;
+
+                foreach (var d in drivers)
                 {
-                    StandingDrivers.Add(d);
+                    //Adding driver to standings list only if has completed a valid lap
+                    if (d.Results.Current.LapsComplete != 0)
+                    {
+                        StandingDrivers.Add(d);
+                    }
                 }
             }
+
+            _isCurrentlyUpdating = false;
+            
         }
 
         //Get track temps, sessiontype etc. there might be easier or simpler way to do this.. 
@@ -219,6 +244,7 @@ namespace iRacingLiveDataOverlay.ViewModels
             if (time < 3600)
             {
                 output = span.ToString(@"mm\:ss");
+                
             }
 
             else
