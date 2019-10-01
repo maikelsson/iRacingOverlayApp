@@ -44,7 +44,7 @@
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="CornerRadius" Value="4"/>
         </Style>
-    </Window.Resources> 
+    </Window.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -71,15 +71,16 @@
                 <Run Text="{Binding SessionTimeLeftDisplay, Mode=OneWay}"/>
             </TextBlock>
         </WrapPanel>
-
+        
         <ListView Background="{StaticResource BalticSeaTrans2}" ItemContainerStyle="{StaticResource alternativeBgColor}" AlternationCount="2" Foreground="{StaticResource Clouds}" 
                   Height="300" Width="600" 
                   Margin="10,51,1950,1127" ItemsSource="{Binding Source={StaticResource SortedDrivers}}"
-                  ScrollViewer.VerticalScrollBarVisibility="Hidden" FontWeight="Bold" BorderThickness="0" IsEnabled="{Binding IsGreenFlag}">
-
+                  ScrollViewer.VerticalScrollBarVisibility="Hidden" FontWeight="Bold" BorderThickness="0">
             <ListView.ItemTemplate>
                 <DataTemplate>
+
                     <WrapPanel>
+
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="40"/>
@@ -95,10 +96,11 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="22"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Column="0" Foreground="{StaticResource SunFlower}">
+
+                            <TextBlock Grid.Column="0" Foreground="{DynamicResource Wisteria}">
                                 <Run Text="{Binding Live.ClassPosition}"/>
                             </TextBlock>
-                            <TextBlock Grid.Column="1">
+                            <TextBlock Grid.Column="1" Foreground="{Binding Car.GetClassColor}">
                                 <Run Text="{Binding CarNumber, Mode=OneWay, StringFormat=#{0}}"/>
                             </TextBlock>
                             <TextBlock Grid.Column="2">
@@ -132,43 +134,45 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
+
         <!--Session info panel, track temps, sof etc.-->
         <WrapPanel Orientation="Horizontal" 
                         Height="50" Width="600"
                         HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="-970" Canvas.Top="-359" Margin="10,356,0,1072">
-            
+
             <Border CornerRadius="2" BorderBrush="{StaticResource BalticSeaTrans2}" BorderThickness="1">
-                
-            <Grid Width="600" Background="{StaticResource BalticSeaTrans2}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="50"/>
-                </Grid.RowDefinitions>
-                <!--Track Temp icon and bind-->
-                <Image Grid.Column="0" Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\road-2-64.png" Width="25"/>
-                <TextBlock Grid.Column="1" VerticalAlignment="Center" FontWeight="Bold">
+
+                <Grid Width="600" Background="{StaticResource BalticSeaTrans2}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+                    <!--Track Temp icon and bind-->
+                    <Image Grid.Column="0" Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\road-2-64.png" Width="25"/>
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center" FontWeight="Bold">
                     <Run Text="{Binding TrackTemp, Mode=OneWay}"/>
                     <Run Text="°C"/>
-                </TextBlock>
+                    </TextBlock>
 
-                <!--offtrack icon and bind-->
-                <Image Grid.Column="2"  Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\x-mark-64.png"  Width="20"/>
-                <TextBlock Grid.Column="3" VerticalAlignment="Center" Text="{Binding OffTracksDisplay, Mode=OneWay}"/>
+                    <!--offtrack icon and bind-->
+                    <Image Grid.Column="2"  Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\x-mark-64.png"  Width="20"/>
+                    <TextBlock Grid.Column="3" VerticalAlignment="Center" Text="{Binding OffTracksDisplay, Mode=OneWay}"/>
 
-                <!--Session time and bind-->
-                <Image Grid.Column="4" Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\clock-5-64.png" Width="25"/>
-                <TextBlock Grid.Column="5" Text="SOF" VerticalAlignment="Center" FontSize="16" FontWeight="Bold"/>
-            </Grid>
+                    <!--Session time and bind-->
+                    <Image Grid.Column="4" Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\clock-5-64.png" Width="25"/>
+                    <TextBlock Grid.Column="5" Text="SOF" VerticalAlignment="Center" FontSize="16" FontWeight="Bold"/>
+                </Grid>
             </Border>
         </WrapPanel>
 

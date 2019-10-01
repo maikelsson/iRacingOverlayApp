@@ -197,10 +197,17 @@ namespace iRacingLiveDataOverlay.ViewModels
             //Remove items from list to prevent duplicates happening..
             CurrentDrivers.Clear();
 
-            foreach(var driver in Sim.Instance.Drivers)
+            if (!_isCurrentlyUpdating)
             {
-                CurrentDrivers.Add(driver);
+                _isCurrentlyUpdating = true;
+
+                foreach (var driver in Sim.Instance.Drivers)
+                {
+                    CurrentDrivers.Add(driver);
+                }
             }
+
+            _isCurrentlyUpdating = false;
 
         }
 

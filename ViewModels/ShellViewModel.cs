@@ -37,7 +37,7 @@ namespace iRacingLiveDataOverlay.ViewModels
         {
             manager = new WindowManager();
             _sim = Sim.Instance;
-            _sim.Start(2);
+            _sim.Start(1);
             _sim.Sdk.Connected += OnSdkConnected;
             _sim.Sdk.Disconnected += OnSdkDisconnected;
             CheckSimStatus();
@@ -85,23 +85,6 @@ namespace iRacingLiveDataOverlay.ViewModels
                 return;
 
             liveDataWindow.TryClose();
-        }
-
-        //Trying to initialize sim instance
-        private async Task InitializeSim()
-        {
-            try
-            {
-                await Task.Run(() =>
-                {
-                    _sim.Start(2);
-                    return Task.CompletedTask;
-                });
-            }
-            catch (Exception ex)
-            {
-                return;
-            }
         }
     }
 }
