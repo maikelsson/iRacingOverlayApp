@@ -60,6 +60,7 @@ namespace iRacingLiveDataOverlay.ViewModels
             }
         }
 
+        //Displays session time remaining, currently at race not working. Countdown needs to start when green flag event happens.
         public string SessionTimeElapsedDisplay
         {
             get
@@ -170,6 +171,8 @@ namespace iRacingLiveDataOverlay.ViewModels
             {
                 IsGreenFlag = true;
             }
+
+            
         }
 
         private void OnTelemetryInfoUpdated(object sender, SdkWrapper.TelemetryUpdatedEventArgs e)
@@ -203,7 +206,12 @@ namespace iRacingLiveDataOverlay.ViewModels
 
                 foreach (var driver in Sim.Instance.Drivers)
                 {
-                    CurrentDrivers.Add(driver);
+                   
+                    if (driver.Results.Current.LapsComplete != 0)
+                    {
+                        CurrentDrivers.Add(driver);
+                    }
+                        
                 }
             }
 
