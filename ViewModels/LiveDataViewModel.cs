@@ -14,6 +14,8 @@ using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Diagnostics;
+using System.Windows;
+using System.Windows.Media;
 
 namespace iRacingLiveDataOverlay.ViewModels
 {
@@ -154,15 +156,26 @@ namespace iRacingLiveDataOverlay.ViewModels
             }
         }
 
+        public static readonly RoutedEvent PositionChangedEvent = EventManager.RegisterRoutedEvent("PositionChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LiveDataViewModel));
+
         public LiveDataViewModel()
         {
+            
             _currentDrivers = new ObservableCollection<Driver>();
             _standingDrivers = new ObservableCollection<Driver>();
+
             Sim.Instance.SessionInfoUpdated += OnSessionInfoUpdated;
             Sim.Instance.TelemetryUpdated += OnTelemetryInfoUpdated;
             Sim.Instance.RaceEvent += OnRaceEventInfoUpdated;
+
             ParseDynamicInfo();
             GetSessionInfo();
+        }
+
+        void RaisePositionChangedEvent()
+        {
+            RoutedEventArgs args = new RoutedEventArgs(LiveDataViewModel.PositionChangedEvent);
+            RaiseEvent(args);
         }
 
         private void OnRaceEventInfoUpdated(object sender, Sim.RaceEventArgs e)
@@ -171,8 +184,6 @@ namespace iRacingLiveDataOverlay.ViewModels
             {
                 IsGreenFlag = true;
             }
-
-            
         }
 
         private void OnTelemetryInfoUpdated(object sender, SdkWrapper.TelemetryUpdatedEventArgs e)

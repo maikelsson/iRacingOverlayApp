@@ -37,7 +37,7 @@
                     <EventTrigger.Actions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="LayoutTransform.ScaleY" From="0" Duration="0:0:.8"/>
+                                <DoubleAnimation Storyboard.TargetProperty="LayoutTransform.ScaleX" From="0" Duration="0:0:.4"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger.Actions>
