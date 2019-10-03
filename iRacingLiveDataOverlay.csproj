@@ -94,7 +94,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Helpers\INPCBase.cs" />
     <Compile Include="Models\MockDriver.cs" />
     <Compile Include="ViewModels\LiveDataViewModel.cs" />
     <Compile Include="ViewModels\MockLiveDataViewModel.cs" />

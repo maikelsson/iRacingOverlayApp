@@ -15,14 +15,21 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Diagnostics;
 using System.Windows;
-using System.Windows.Media;
+using System.Threading;
 
 namespace iRacingLiveDataOverlay.ViewModels
 {
 
     //Ingame viewmodel, overlay for iracing
-    public class LiveDataViewModel : Screen
+    public class LiveDataViewModel : Window, INotifyPropertyChanged
     {
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         //TODO's
 
         //Make LiveDataView visible only when im on track.
@@ -30,7 +37,22 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         private bool _isCurrentlyUpdating = false;
 
-        private bool IsGreenFlag = false;
+        private bool _isGreenFlag = false;
+
+        public bool IsGreenFlag
+        {
+            get
+            {
+                return _isGreenFlag;
+            }
+            set
+            {
+                _isGreenFlag = value;
+                OnPropertyChanged("IsGreenFlag");
+            }
+        }
+
+        private double _elapsedTimeOffset = 0;
 
         #region SessionData variables
 
@@ -44,7 +66,7 @@ namespace iRacingLiveDataOverlay.ViewModels
             set
             {
                 _trackTemp = value;
-                NotifyOfPropertyChange(() => TrackTemp);
+                OnPropertyChanged("TrackTemp");
             }
         }
 
@@ -58,11 +80,10 @@ namespace iRacingLiveDataOverlay.ViewModels
             set
             {
                 _currentSessionType = value;
-                NotifyOfPropertyChange(() => CurrentSessionType);
+                OnPropertyChanged("CurrentSessionType");
             }
         }
 
-        //Displays session time remaining, currently at race not working. Countdown needs to start when green flag event happens.
         public string SessionTimeElapsedDisplay
         {
             get
@@ -81,8 +102,8 @@ namespace iRacingLiveDataOverlay.ViewModels
             set
             {
                 _sessionTimeElapsed = value;
-                NotifyOfPropertyChange(() => SessionTimeElapsed);
-                NotifyOfPropertyChange(() => SessionTimeElapsedDisplay);
+                OnPropertyChanged("SessionTimeElapsed");
+                OnPropertyChanged("SessionTimeElapsedDisplay");
             }
         }
 
@@ -96,8 +117,8 @@ namespace iRacingLiveDataOverlay.ViewModels
             set
             {
                 _sessionTimeLeft = value;
-                NotifyOfPropertyChange(() => SessionTimeLeft);
-                NotifyOfPropertyChange(() => SessionTimeLeftDisplay);
+                OnPropertyChanged("SessionTimeLeft");
+                OnPropertyChanged("SessionTimeLeftDisplay");
 
             }
         }
@@ -120,7 +141,7 @@ namespace iRacingLiveDataOverlay.ViewModels
             set
             {
                 _raceTimeDisplay = value;
-                NotifyOfPropertyChange(() => RaceTimeDisplay);
+                OnPropertyChanged("RaceTimeDisplay");
             }
         }
 
@@ -137,7 +158,7 @@ namespace iRacingLiveDataOverlay.ViewModels
             set
             {
                 _currentDrivers = value;
-                NotifyOfPropertyChange(() => CurrentDrivers);
+                OnPropertyChanged("CurrentDrivers");
             }
         }
 
@@ -152,11 +173,9 @@ namespace iRacingLiveDataOverlay.ViewModels
             set
             {
                 _standingDrivers = value;
-                NotifyOfPropertyChange(() => StandingDrivers);
+                OnPropertyChanged("StandingDrivers");
             }
         }
-
-        public static readonly RoutedEvent PositionChangedEvent = EventManager.RegisterRoutedEvent("PositionChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LiveDataViewModel));
 
         public LiveDataViewModel()
         {
@@ -172,31 +191,33 @@ namespace iRacingLiveDataOverlay.ViewModels
             GetSessionInfo();
         }
 
-        void RaisePositionChangedEvent()
-        {
-            RoutedEventArgs args = new RoutedEventArgs(LiveDataViewModel.PositionChangedEvent);
-            RaiseEvent(args);
-        }
+        
 
         private void OnRaceEventInfoUpdated(object sender, Sim.RaceEventArgs e)
         {
-            if (e.Event.Type.Equals(1))
+            //Resetting the clock when the race starts
+            if (!e.Event.Type.Equals(1))
             {
                 IsGreenFlag = true;
+                _elapsedTimeOffset = SessionTimeLeft - SessionTimeElapsed;
+                Debug.WriteLine(_elapsedTimeOffset);
             }
         }
 
         private void OnTelemetryInfoUpdated(object sender, SdkWrapper.TelemetryUpdatedEventArgs e)
         {
-            //Todo race clock.
-            if (IsGreenFlag)
-            {
-                SessionTimeElapsed += SessionTimeElapsed - Sim.Instance.SessionData.TimeRemaining;
-            }
-
-            SessionTimeElapsed = Sim.Instance.SessionData.TimeRemaining;
             
             UpdateStandings(CurrentDrivers);
+
+            if (IsGreenFlag)
+            {
+                SessionTimeElapsed = Sim.Instance.SessionData.TimeRemaining + _elapsedTimeOffset;
+            }
+            else
+            {
+                SessionTimeElapsed = Sim.Instance.SessionData.TimeRemaining;
+            }
+            
         }
 
         private void OnSessionInfoUpdated(object sender, SdkWrapper.SessionInfoUpdatedEventArgs e)
@@ -280,6 +301,7 @@ namespace iRacingLiveDataOverlay.ViewModels
             
             return output;
         }
+
     }
 
 }

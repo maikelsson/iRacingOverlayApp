@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using iRacingLiveDataOverlay.Helpers;
 using iRacingSdkWrapper;
 using iRacingSimulator;
 
@@ -76,15 +75,6 @@ namespace iRacingLiveDataOverlay.ViewModels
         {
             mockLiveDataWindow = new MockLiveDataViewModel();
             manager.ShowWindow(mockLiveDataWindow, null, null);
-        }
-
-        public void CloseLiveDataWindow()
-        {
-            //Check if window is open
-            if (liveDataWindow == null)
-                return;
-
-            liveDataWindow.TryClose();
         }
     }
 }

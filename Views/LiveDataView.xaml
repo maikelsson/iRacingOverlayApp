@@ -10,7 +10,7 @@
              WindowStyle="None"
              AllowsTransparency="True"
              WindowStartupLocation="CenterScreen"
-             Topmost="False"
+             Topmost="True"
              FontSize="16"
              Background="Transparent"
              Width="{Binding Source={x:Static SystemParameters.FullPrimaryScreenWidth}}"
@@ -93,7 +93,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <WrapPanel>
-                        
+
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="30"/>
