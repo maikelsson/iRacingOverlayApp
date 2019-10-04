@@ -1,21 +1,22 @@
 ﻿<Window x:Class="iRacingLiveDataOverlay.Views.LiveDataView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:my="clr-namespace:iRacingSimulator.Drivers;assembly=iRacingCL"
-             mc:Ignorable="d"
-             WindowStyle="None"
-             AllowsTransparency="True"
-             WindowStartupLocation="CenterScreen"
-             Topmost="True"
-             FontSize="16"
-             Background="Transparent"
-             Width="{Binding Source={x:Static SystemParameters.FullPrimaryScreenWidth}}"
-             Height="{Binding Source={x:Static SystemParameters.FullPrimaryScreenHeight}}"
-             d:DesignHeight="450" d:DesignWidth="800" Foreground="{StaticResource Clouds}" FontFamily="/iRacingLiveDataOverlay;component/Utility/Fonts/#Roboto-Bold">
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
+        xmlns:my="clr-namespace:iRacingSimulator.Drivers;assembly=iRacingCL"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen"
+        Topmost="True"
+        FontSize="16"
+        Background="Transparent"
+        Width="{Binding Source={x:Static SystemParameters.FullPrimaryScreenWidth}}"
+        Height="{Binding Source={x:Static SystemParameters.FullPrimaryScreenHeight}}"
+        d:DesignHeight="450" d:DesignWidth="800" Foreground="{StaticResource Clouds}" FontFamily="/iRacingLiveDataOverlay;component/Utility/Fonts/#Roboto-Bold">
 
     <Window.Resources>
         <CollectionViewSource Source="{Binding StandingDrivers}" x:Key="SortedDrivers">
@@ -37,11 +38,13 @@
                     <EventTrigger.Actions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="LayoutTransform.ScaleX" From="0" Duration="0:0:.4"/>
+                                <!--<DoubleAnimation Storyboard.TargetProperty="LayoutTransform.ScaleX" From="0" Duration="0:0:.8"/>-->
+                                <DoubleAnimation Storyboard.TargetProperty="Width" From="10" To="600" Duration="0:0:.8" AutoReverse="True"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger.Actions>
                 </EventTrigger>
+
             </Style.Triggers>
         </Style>
         <Style x:Key="Bordered" TargetType="ListView">
@@ -60,41 +63,28 @@
         </Style>
     </Window.Resources>
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <StackPanel Margin="10">
 
-        <!--Display Currentsession time etc.-->
-        <WrapPanel Grid.Row="0" Grid.Column="0" x:Name="SessionInfo" Background="{StaticResource BalticSeaTrans2}" Width="600" Margin="10,10,1950,1432">
-
-            <TextBlock VerticalAlignment="Center" FontSize="20" FontWeight="Bold">
-                <Run Text="{Binding CurrentSessionType, Mode=OneWay}"/>
+        <!--Displays Currentsession time etc.-->
+        <WrapPanel Height="25" HorizontalAlignment="Left" x:Name="SessionInfo" Background="{StaticResource BalticSeaTrans2}" Width="600">
+            <TextBlock Height="25" FontSize="20" FontWeight="Bold" TextAlignment="Center">
+                <Run Text="{Binding CurrentSessionType, Mode=OneWay, FallbackValue=Session}"/>
                 <Run Text="{Binding SessionTimeElapsedDisplay, Mode=OneWay}"/>
-                <Run Text="/" FontWeight="Bold" FontSize="30"/>
+                <Run Text="/" FontWeight="Bold" FontSize="20"/>
                 <Run Text="{Binding SessionTimeLeftDisplay, Mode=OneWay}"/>
             </TextBlock>
         </WrapPanel>
-
-        <ListView Background="{StaticResource BalticSeaTrans2}" ItemContainerStyle="{StaticResource alternativeBgColor}" AlternationCount="2" Foreground="{StaticResource Clouds}" 
-                  Height="300" Width="600" 
-                  Margin="10,51,1950,1127" ItemsSource="{Binding Source={StaticResource SortedDrivers}}"
-                  ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" FontWeight="Bold" BorderThickness="0">
+        
+        <!--Standings list-->
+        <ListView HorizontalAlignment="Left" Background="{StaticResource BalticSeaTrans2}" ItemContainerStyle="{StaticResource alternativeBgColor}" AlternationCount="2" Foreground="{StaticResource Clouds}" 
+                  Height="305" Width="600"
+                  ItemsSource="{Binding Source={StaticResource SortedDrivers}}"
+                  ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" FontWeight="Bold" BorderThickness="0" AutomationProperties.IsColumnHeader="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <WrapPanel>
+                    <WrapPanel VerticalAlignment="Center">
 
-                        <Grid>
+                        <Grid VerticalAlignment="Center">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="30"/>
                                 <ColumnDefinition Width="40"/>
@@ -108,54 +98,55 @@
                                 <ColumnDefinition Width="40"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="22"/>
+                                <RowDefinition Height="30"/>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Grid.Column="0" Foreground="{DynamicResource Clouds}">
-                                <Run Text="{Binding Live.ClassPosition}"/>
-                            </TextBlock>
-                            <TextBlock Grid.Column="1" Foreground="{Binding Car.GetClassColor}">
-                                <Run Text="{Binding CarNumber, Mode=OneWay, StringFormat=#{0}}"/>
-                            </TextBlock>
-                            <TextBlock Grid.Column="2">
-                                <Run Text="{Binding Name}"/>
-                            </TextBlock>
-                            <Border Margin="2" Style="{StaticResource RoundedBorder}" Grid.Column="3" BorderBrush="{Binding License.GetSolidColorBrush}">
+                            <TextBlock Grid.Column="0" Foreground="{StaticResource Clouds}" 
+                                       Text="{Binding Live.ClassPosition}" VerticalAlignment="Center"/>
+                            <!--<TextBlock Grid.Column="0" Foreground="{DynamicResource Clouds}">
+                                <Run Text="{Binding Live.ClassPosition}" BaselineAlignment="Center"/>
+                            </TextBlock>-->
+                            <TextBlock Grid.Column="1" Foreground="{Binding Car.GetClassColor}" 
+                                       VerticalAlignment="Center" Text="{Binding CarNumber, Mode=OneWay, StringFormat=#{0}}"/>
+
+                            <TextBlock Grid.Column="2" Text="{Binding Name}" VerticalAlignment="Center"/>
+                            
+                            <Border Style="{StaticResource RoundedBorder}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="3" BorderBrush="{Binding License.GetSolidColorBrush}">
                                 <TextBlock Background="{Binding License.GetSolidColorBrush}" 
-                                       Foreground="{Binding License.GetTextColor}" FontSize="14">
-                                    <Run Text="{Binding License.Display, Mode=OneTime}" BaselineAlignment="Center"/>
+                                       Foreground="{Binding License.GetTextColor}" FontSize="15"
+                                       Text="{Binding License.Display, Mode=OneTime}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+                            <Border VerticalAlignment="Center" Margin="2" Style="{StaticResource RoundedBorder}" Grid.Column="4" BorderBrush="{StaticResource Clouds}">
+                                <TextBlock VerticalAlignment="Center" Background="{StaticResource Clouds}" FontSize="15">
+                                    <Run Text="{Binding ShortIRating, Mode=OneTime}" Foreground="Black"/>
                                 </TextBlock>
                             </Border>
-                            <Border Margin="2" Style="{StaticResource RoundedBorder}" Grid.Column="4" BorderBrush="{StaticResource Clouds}">
-                                <TextBlock Background="{StaticResource Clouds}" FontSize="14">
-                                    <Run Text="{Binding ShortIRating, Mode=OneTime}" Foreground="Black" BaselineAlignment="Center"/>
-                                </TextBlock>
-                            </Border>
-                            <TextBlock Grid.Column="5" Margin="5 0 0 0">
+                            <TextBlock Grid.Column="5" Margin="5 0 0 0" VerticalAlignment="Center">
                                 <Run Text="{Binding Live.DeltaToLeader}"/>
                             </TextBlock>
-                            <TextBlock Grid.Column="6" Margin="5 0 0 0">
-                                <Run Text="{Binding Live.DeltaToNext}"/>
+                            <TextBlock Grid.Column="6" Margin="5 0 0 0" VerticalAlignment="Center">
+                                <Run Text="{Binding Live.DeltaToNext, FallbackValue=Lap}"/>
                             </TextBlock>
-                            <TextBlock Grid.Column="7" Margin="5 0 0 0" Background="Transparent">
+                            <TextBlock Grid.Column="7" Margin="5 0 0 0" Background="Transparent" VerticalAlignment="Center">
                                 <Run Text="{Binding CurrentResults.LastTime.DisplayShort, Mode=OneWay}"/>
                             </TextBlock>
-                            <TextBlock Grid.Column="8" Margin="5 0 0 0" Background="Transparent" Foreground="{DynamicResource Nephritis}">
+                            <TextBlock Grid.Column="8" Margin="5 0 0 0" Background="Transparent" Foreground="{DynamicResource Nephritis}" VerticalAlignment="Center">
                                 <Run Text="{Binding CurrentResults.FastestTime.DisplayShort, Mode=OneWay}"/>
                             </TextBlock>
-                            <TextBlock Grid.Column="9" Margin="5 0 0 0" Foreground="{StaticResource SunFlower}">
+                            <TextBlock Grid.Column="9" Margin="5 0 0 0" Foreground="{StaticResource SunFlower}" VerticalAlignment="Center">
                                 <Run Text="{Binding PitInfo.LastPitLap, StringFormat=L{0}, Mode=OneWay}"/>
                             </TextBlock>
                         </Grid>
                     </WrapPanel>
+
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        
+
         <!--Session info panel, track temps, sof etc.-->
         <WrapPanel Orientation="Horizontal" 
-                        Height="50" Width="600"
-                        HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="-970" Canvas.Top="-359" Margin="10,356,0,1072">
+                   Height="50" Width="600"
+                   HorizontalAlignment="Left" VerticalAlignment="Center">
 
             <Border CornerRadius="2" BorderBrush="{StaticResource BalticSeaTrans2}" BorderThickness="1">
 
@@ -177,13 +168,17 @@
                     <!--Track Temp icon and bind-->
                     <Image Grid.Column="0" Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\road-2-64.png" Width="25"/>
                     <TextBlock Grid.Column="1" VerticalAlignment="Center" FontWeight="Bold">
-                    <Run Text="{Binding TrackTemp, Mode=OneWay}"/>
-                    <Run Text="°C"/>
+                        <Run Text="{Binding TrackTemp, Mode=OneWay}"/>
+                        <Run Text="°C"/>
                     </TextBlock>
 
                     <!--offtrack icon and bind-->
-                    <Image Grid.Column="2"  Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\x-mark-64.png"  Width="20"/>
-                    <TextBlock Grid.Column="3" VerticalAlignment="Center" Text="{Binding OffTracksDisplay, Mode=OneWay}"/>
+                    <Image Grid.Column="2"  Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\x-mark-64.png" Width="20"/>
+                    <TextBlock Grid.Column="3" VerticalAlignment="Center">
+                        <Run Text="{Binding MyOffTrackCount, Mode=OneWay, FallbackValue=0}"/>
+                        <Run Text="/" FontWeight="Bold"/>
+                        <Run Text="{Binding OffTrackLimit, Mode=OneWay, FallbackValue=X}"/>
+                    </TextBlock>
 
                     <!--Session time and bind-->
                     <Image Grid.Column="4" Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\clock-5-64.png" Width="25"/>
@@ -192,5 +187,5 @@
             </Border>
         </WrapPanel>
 
-    </Grid>
+    </StackPanel>
 </Window>

@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Diagnostics;
 using System.Windows;
 using System.Threading;
+using iRSDKSharp;
 
 namespace iRacingLiveDataOverlay.ViewModels
 {
@@ -33,7 +34,7 @@ namespace iRacingLiveDataOverlay.ViewModels
         //TODO's
 
         //Make LiveDataView visible only when im on track.
-        //Race clock atm not working correctly.. needs to start when greenflag event is raised.. 
+        //
 
         private bool _isCurrentlyUpdating = false;
 
@@ -69,6 +70,8 @@ namespace iRacingLiveDataOverlay.ViewModels
                 OnPropertyChanged("TrackTemp");
             }
         }
+
+        public string OffTrackLimit { get; set; }
 
         private string _currentSessionType;
         public string CurrentSessionType
@@ -147,6 +150,8 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         #endregion
 
+        private readonly iRacingSDK sdk;
+
         //List of all drivers
         private ObservableCollection<Driver> _currentDrivers;
         public ObservableCollection<Driver> CurrentDrivers
@@ -177,6 +182,22 @@ namespace iRacingLiveDataOverlay.ViewModels
             }
         }
 
+        public TelemetryInfo telemetryInfo;
+
+        private bool _driverLoaded = false;
+        public bool DriverLoaded
+        {
+            get
+            {
+                return _driverLoaded;
+            }
+            set
+            {
+                _driverLoaded = value;
+                OnPropertyChanged("DriverLoaded");
+            }
+        }
+
         public LiveDataViewModel()
         {
             
@@ -187,7 +208,7 @@ namespace iRacingLiveDataOverlay.ViewModels
             Sim.Instance.TelemetryUpdated += OnTelemetryInfoUpdated;
             Sim.Instance.RaceEvent += OnRaceEventInfoUpdated;
 
-            ParseDynamicInfo();
+            GetAllDrivers();
             GetSessionInfo();
         }
 
@@ -222,12 +243,13 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         private void OnSessionInfoUpdated(object sender, SdkWrapper.SessionInfoUpdatedEventArgs e)
         {
-            ParseDynamicInfo();
+            
+            GetAllDrivers();
             GetSessionInfo();
         }
 
-        //Gets all drivers from Session
-        private void ParseDynamicInfo()
+        //Gets all drivers from the current Session
+        private void GetAllDrivers()
         {
             //Remove items from list to prevent duplicates happening..
             CurrentDrivers.Clear();
@@ -267,7 +289,10 @@ namespace iRacingLiveDataOverlay.ViewModels
                     if (d.Results.Current.LapsComplete != 0)
                     {
                         StandingDrivers.Add(d);
+                        DriverLoaded = true;
                     }
+
+                    DriverLoaded = false;
                 }
             }
 
@@ -281,25 +306,41 @@ namespace iRacingLiveDataOverlay.ViewModels
             TrackTemp = Sim.Instance.SessionData.TrackSurfaceTemp;
             CurrentSessionType = Sim.Instance.SessionData.SessionType;
             SessionTimeLeft = Sim.Instance.SessionData.RaceTime;
+            OffTrackLimit = "sds";
         }
 
         private string ConvertToTime(double time)
         {
             TimeSpan span = TimeSpan.FromSeconds(time);
             string output = "";
-
-            if (time < 3600)
-            {
-                output = span.ToString(@"mm\:ss");
-                
-            }
-
-            else
-            {
-                output = span.ToString(@"hh\:mm\:ss");
-            }
-            
+            output = span.ToString(@"mm\:ss");
             return output;
+        }
+
+    }
+
+    public partial class CustomEvents : Control
+    {
+        // Create a custom routed event by first registering a RoutedEventID 
+        // This event uses the bubbling routing strategy
+        public static readonly RoutedEvent CustomEvent = EventManager.RegisterRoutedEvent("PositionChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(CustomEvents));
+
+        // Provide CLR accessors for the event 
+        public event RoutedEventHandler CustomTest
+        {
+            add { AddHandler(CustomEvent, value); }
+            remove { RemoveHandler(CustomEvent, value); }
+        }
+
+        private void AddHandler(RoutedEvent customEvent, RoutedEventHandler value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RaiseMyEvent()
+        {
+            RoutedEventArgs newEventArgs = new RoutedEventArgs(CustomEvent);
+            RaiseEvent(newEventArgs);
         }
 
     }
