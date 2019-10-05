@@ -34,16 +34,16 @@
                 <Trigger Property="ListView.AlternationIndex" Value="0">
                     <Setter Property="Background" Value="{StaticResource BalticSeaTrans2}"/>
                 </Trigger>
-                <EventTrigger RoutedEvent="Loaded">
-                    <EventTrigger.Actions>
+                <DataTrigger Binding="{Binding Loaded}" Value="True">
+                    <DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
                                 <!--<DoubleAnimation Storyboard.TargetProperty="LayoutTransform.ScaleX" From="0" Duration="0:0:.8"/>-->
                                 <DoubleAnimation Storyboard.TargetProperty="Width" From="10" To="600" Duration="0:0:.8" AutoReverse="True"/>
                             </Storyboard>
                         </BeginStoryboard>
-                    </EventTrigger.Actions>
-                </EventTrigger>
+                    </DataTrigger.EnterActions>
+                </DataTrigger>
 
             </Style.Triggers>
         </Style>
@@ -63,7 +63,7 @@
         </Style>
     </Window.Resources>
 
-    <StackPanel Margin="10">
+    <StackPanel Margin="10" >
 
         <!--Displays Currentsession time etc.-->
         <WrapPanel Height="25" HorizontalAlignment="Left" x:Name="SessionInfo" Background="{StaticResource BalticSeaTrans2}" Width="600">
@@ -74,7 +74,7 @@
                 <Run Text="{Binding SessionTimeLeftDisplay, Mode=OneWay}"/>
             </TextBlock>
         </WrapPanel>
-        
+
         <!--Standings list-->
         <ListView HorizontalAlignment="Left" Background="{StaticResource BalticSeaTrans2}" ItemContainerStyle="{StaticResource alternativeBgColor}" AlternationCount="2" Foreground="{StaticResource Clouds}" 
                   Height="305" Width="600"
@@ -110,7 +110,7 @@
                                        VerticalAlignment="Center" Text="{Binding CarNumber, Mode=OneWay, StringFormat=#{0}}"/>
 
                             <TextBlock Grid.Column="2" Text="{Binding Name}" VerticalAlignment="Center"/>
-                            
+
                             <Border Style="{StaticResource RoundedBorder}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="3" BorderBrush="{Binding License.GetSolidColorBrush}">
                                 <TextBlock Background="{Binding License.GetSolidColorBrush}" 
                                        Foreground="{Binding License.GetTextColor}" FontSize="15"

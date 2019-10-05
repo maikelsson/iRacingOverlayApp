@@ -57,17 +57,31 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         #region SessionData variables
 
-        private string _trackTemp;
-        public string TrackTemp
+        //private string _trackTemp;
+        //public string TrackTemp
+        //{
+        //    get
+        //    {
+        //        return _trackTemp.Trim('C').Trim(' ');
+        //    }
+        //    set
+        //    {
+        //        _trackTemp = value;
+        //        OnPropertyChanged("TrackTemp");
+        //    }
+        //}
+
+        private Visibility _visibility;
+        public Visibility VVisibility
         {
             get
             {
-                return _trackTemp.Trim('C').Trim(' ');
+                return _visibility;
             }
             set
             {
-                _trackTemp = value;
-                OnPropertyChanged("TrackTemp");
+                _visibility = value;
+                OnPropertyChanged("Visibility");
             }
         }
 
@@ -150,8 +164,6 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         #endregion
 
-        private readonly iRacingSDK sdk;
-
         //List of all drivers
         private ObservableCollection<Driver> _currentDrivers;
         public ObservableCollection<Driver> CurrentDrivers
@@ -198,15 +210,20 @@ namespace iRacingLiveDataOverlay.ViewModels
             }
         }
 
+        private readonly Sim _simulator;
+
         public LiveDataViewModel()
         {
-            
+
+            _simulator = Sim.Instance;
+            _simulator.Start(1);
+               
             _currentDrivers = new ObservableCollection<Driver>();
             _standingDrivers = new ObservableCollection<Driver>();
 
-            Sim.Instance.SessionInfoUpdated += OnSessionInfoUpdated;
-            Sim.Instance.TelemetryUpdated += OnTelemetryInfoUpdated;
-            Sim.Instance.RaceEvent += OnRaceEventInfoUpdated;
+            _simulator.SessionInfoUpdated += OnSessionInfoUpdated;
+            _simulator.TelemetryUpdated += OnTelemetryInfoUpdated;
+            _simulator.RaceEvent += OnRaceEventInfoUpdated;
 
             GetAllDrivers();
             GetSessionInfo();
@@ -232,11 +249,11 @@ namespace iRacingLiveDataOverlay.ViewModels
 
             if (IsGreenFlag)
             {
-                SessionTimeElapsed = Sim.Instance.SessionData.TimeRemaining + _elapsedTimeOffset;
+                SessionTimeElapsed = _simulator.SessionData.TimeRemaining + _elapsedTimeOffset;
             }
             else
             {
-                SessionTimeElapsed = Sim.Instance.SessionData.TimeRemaining;
+                SessionTimeElapsed = _simulator.SessionData.TimeRemaining;
             }
             
         }
@@ -258,7 +275,7 @@ namespace iRacingLiveDataOverlay.ViewModels
             {
                 _isCurrentlyUpdating = true;
 
-                foreach (var driver in Sim.Instance.Drivers)
+                foreach (var driver in _simulator.Drivers)
                 {
                    
                     if (driver.Results.Current.LapsComplete != 0)
@@ -303,9 +320,9 @@ namespace iRacingLiveDataOverlay.ViewModels
         //Get track temps, sessiontype etc. there might be easier or simpler way to do this.. 
         private void GetSessionInfo()
         {
-            TrackTemp = Sim.Instance.SessionData.TrackSurfaceTemp;
-            CurrentSessionType = Sim.Instance.SessionData.SessionType;
-            SessionTimeLeft = Sim.Instance.SessionData.RaceTime;
+            // TrackTemp = _simulator.SessionData.TrackSurfaceTemp;
+            CurrentSessionType = _simulator.SessionData.SessionType;
+            SessionTimeLeft = _simulator.SessionData.RaceTime;
             OffTrackLimit = "sds";
         }
 
