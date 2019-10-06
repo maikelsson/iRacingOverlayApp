@@ -7,6 +7,8 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
         xmlns:my="clr-namespace:iRacingSimulator.Drivers;assembly=iRacingCL"
+        xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+        xmlns:custom="clr-namespace:iRacingLiveDataOverlay.ViewModels"
         mc:Ignorable="d"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -34,18 +36,18 @@
                 <Trigger Property="ListView.AlternationIndex" Value="0">
                     <Setter Property="Background" Value="{StaticResource BalticSeaTrans2}"/>
                 </Trigger>
-                <DataTrigger Binding="{Binding Loaded}" Value="True">
-                    <DataTrigger.EnterActions>
+                <EventTrigger RoutedEvent="CustomEvents.CustomEvent">
+                    <EventTrigger.Actions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <!--<DoubleAnimation Storyboard.TargetProperty="LayoutTransform.ScaleX" From="0" Duration="0:0:.8"/>-->
-                                <DoubleAnimation Storyboard.TargetProperty="Width" From="10" To="600" Duration="0:0:.8" AutoReverse="True"/>
+                                <DoubleAnimation Storyboard.TargetProperty="LayoutTransform.ScaleY" From="0" Duration="0:0:.8"/>
+                                <!--<DoubleAnimation Storyboard.TargetProperty="Width" From="0" Duration="0:0:.8"/>-->
                             </Storyboard>
                         </BeginStoryboard>
-                    </DataTrigger.EnterActions>
-                </DataTrigger>
-
+                    </EventTrigger.Actions>
+                </EventTrigger>
             </Style.Triggers>
+            
         </Style>
         <Style x:Key="Bordered" TargetType="ListView">
             <Setter Property="Template">
@@ -62,29 +64,42 @@
             <Setter Property="CornerRadius" Value="4"/>
         </Style>
     </Window.Resources>
-
+    
     <StackPanel Margin="10" >
 
         <!--Displays Currentsession time etc.-->
-        <WrapPanel Margin="0 0 0 3" Height="25" HorizontalAlignment="Left" x:Name="SessionInfo" Background="{StaticResource BalticSeaTrans2}" Width="600">
-            <TextBlock Margin="1" Height="25" FontSize="20" FontWeight="Bold" TextAlignment="Center">
-                <Run Text="{Binding CurrentSessionType, Mode=OneWay, FallbackValue=Session}"/>
-                <Run Text="{Binding SessionTimeElapsedDisplay, Mode=OneWay}"/>
-                <Run Text="/" FontWeight="Bold" FontSize="20"/>
-                <Run Text="{Binding SessionTimeLeftDisplay, Mode=OneWay}"/>
-            </TextBlock>
+        <WrapPanel Margin="0 0 0 3" Height="30" HorizontalAlignment="Left" x:Name="SessionInfo" Width="600">
+            <Border CornerRadius="2" BorderBrush="{StaticResource BalticSeaTrans2}" BorderThickness="1">
+                <Grid Background="{StaticResource BalticSeaTrans2}" Width="600">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                    </Grid.RowDefinitions>
+                
+                    <TextBlock VerticalAlignment="Center" Grid.Column="0" Margin="1" Height="20" FontSize="20" FontWeight="Bold" TextAlignment="Center">
+                        <Run Text="{Binding CurrentSessionType, Mode=OneWay, FallbackValue=Session}"/>
+                        <Run Text="{Binding SessionTimeElapsedDisplay, Mode=OneWay}"/>
+                        <Run Text="/" FontWeight="Bold" FontSize="20"/>
+                        <Run Text="{Binding SessionTimeLeftDisplay, Mode=OneWay}"/>
+                    </TextBlock>
+                </Grid>
+            </Border>
         </WrapPanel>
 
         <!--Standings list-->
-        <ListView HorizontalAlignment="Left" Background="{StaticResource BalticSeaTrans2}" ItemContainerStyle="{StaticResource alternativeBgColor}" AlternationCount="2" Foreground="{StaticResource Clouds}" 
-                  Height="305" Width="600"
+        <ListView HorizontalAlignment="Left" ItemContainerStyle="{StaticResource alternativeBgColor}" AlternationCount="2" Foreground="{StaticResource Clouds}" 
+                  Height="310" Width="auto" Background="{StaticResource BalticSeaTrans2}"
                   ItemsSource="{Binding Source={StaticResource SortedDrivers}}"
-                  ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" FontWeight="Bold" BorderThickness="0" AutomationProperties.IsColumnHeader="True">
+                  ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" FontWeight="Bold" BorderThickness="0">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <WrapPanel Margin="1" VerticalAlignment="Center">
+                    <WrapPanel VerticalAlignment="Center">
 
-                        <Grid VerticalAlignment="Center">
+                        <Grid VerticalAlignment="Center" x:Name="grid1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="30"/>
                                 <ColumnDefinition Width="40"/>
@@ -101,7 +116,7 @@
                                 <RowDefinition Height="30"/>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Grid.Column="0" Foreground="{StaticResource Clouds}" 
+                            <TextBlock x:Name="Position" Grid.Column="0" Foreground="{StaticResource Clouds}" 
                                        Text="{Binding Live.ClassPosition}" VerticalAlignment="Center"/>
                             <!--<TextBlock Grid.Column="0" Foreground="{DynamicResource Clouds}">
                                 <Run Text="{Binding Live.ClassPosition}" BaselineAlignment="Center"/>

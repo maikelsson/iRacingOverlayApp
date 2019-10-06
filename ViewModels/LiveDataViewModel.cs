@@ -17,6 +17,8 @@ using System.Diagnostics;
 using System.Windows;
 using System.Threading;
 using iRSDKSharp;
+using System.Windows.Media.Animation;
+using iRacingLiveDataOverlay.Views;
 
 namespace iRacingLiveDataOverlay.ViewModels
 {
@@ -196,16 +198,16 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         public TelemetryInfo telemetryInfo;
 
-        private bool _driverLoaded = false;
-        public bool DriverLoaded
+        private string _driversLoaded = "";
+        public string DriversLoaded
         {
             get
             {
-                return _driverLoaded;
+                return _driversLoaded;
             }
             set
             {
-                _driverLoaded = value;
+                _driversLoaded = value;
                 OnPropertyChanged("DriverLoaded");
             }
         }
@@ -293,7 +295,7 @@ namespace iRacingLiveDataOverlay.ViewModels
         //Updates standing list, top left corner
         private void UpdateStandings(ObservableCollection<Driver> drivers)
         {
-            
+
             StandingDrivers.Clear();
 
             if (!_isCurrentlyUpdating)
@@ -306,10 +308,9 @@ namespace iRacingLiveDataOverlay.ViewModels
                     if (d.Results.Current.LapsComplete != 0)
                     {
                         StandingDrivers.Add(d);
-                        DriverLoaded = true;
                     }
 
-                    DriverLoaded = false;
+                   
                 }
             }
 
@@ -336,31 +337,7 @@ namespace iRacingLiveDataOverlay.ViewModels
 
     }
 
-    public partial class CustomEvents : Control
-    {
-        // Create a custom routed event by first registering a RoutedEventID 
-        // This event uses the bubbling routing strategy
-        public static readonly RoutedEvent CustomEvent = EventManager.RegisterRoutedEvent("PositionChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(CustomEvents));
-
-        // Provide CLR accessors for the event 
-        public event RoutedEventHandler CustomTest
-        {
-            add { AddHandler(CustomEvent, value); }
-            remove { RemoveHandler(CustomEvent, value); }
-        }
-
-        private void AddHandler(RoutedEvent customEvent, RoutedEventHandler value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RaiseMyEvent()
-        {
-            RoutedEventArgs newEventArgs = new RoutedEventArgs(CustomEvent);
-            RaiseEvent(newEventArgs);
-        }
-
-    }
+    
 
 }
 
