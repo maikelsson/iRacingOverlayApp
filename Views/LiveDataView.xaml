@@ -66,8 +66,8 @@
     <StackPanel Margin="10" >
 
         <!--Displays Currentsession time etc.-->
-        <WrapPanel Height="25" HorizontalAlignment="Left" x:Name="SessionInfo" Background="{StaticResource BalticSeaTrans2}" Width="600">
-            <TextBlock Height="25" FontSize="20" FontWeight="Bold" TextAlignment="Center">
+        <WrapPanel Margin="0 0 0 3" Height="25" HorizontalAlignment="Left" x:Name="SessionInfo" Background="{StaticResource BalticSeaTrans2}" Width="600">
+            <TextBlock Margin="1" Height="25" FontSize="20" FontWeight="Bold" TextAlignment="Center">
                 <Run Text="{Binding CurrentSessionType, Mode=OneWay, FallbackValue=Session}"/>
                 <Run Text="{Binding SessionTimeElapsedDisplay, Mode=OneWay}"/>
                 <Run Text="/" FontWeight="Bold" FontSize="20"/>
@@ -82,7 +82,7 @@
                   ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" FontWeight="Bold" BorderThickness="0" AutomationProperties.IsColumnHeader="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <WrapPanel VerticalAlignment="Center">
+                    <WrapPanel Margin="1" VerticalAlignment="Center">
 
                         <Grid VerticalAlignment="Center">
                             <Grid.ColumnDefinitions>
@@ -145,7 +145,7 @@
 
         <!--Session info panel, track temps, sof etc.-->
         <WrapPanel Orientation="Horizontal" 
-                   Height="50" Width="600"
+                   Height="50" Width="600" Margin="0 3"
                    HorizontalAlignment="Left" VerticalAlignment="Center">
 
             <Border CornerRadius="2" BorderBrush="{StaticResource BalticSeaTrans2}" BorderThickness="1">
