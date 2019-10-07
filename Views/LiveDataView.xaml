@@ -120,12 +120,22 @@
                             </Grid.RowDefinitions>
 
                             <TextBlock Name="Position" Grid.Column="0" Foreground="{StaticResource Clouds}" 
-                                       Text="{Binding Live.ClassPosition, NotifyOnTargetUpdated=True}" VerticalAlignment="Center"/>
+                                       Text="{Binding Live.ClassPosition, Mode=TwoWay}" VerticalAlignment="Center"/>
                             
                             <TextBlock Grid.Column="1" Foreground="{Binding Car.GetClassColor}" 
                                        VerticalAlignment="Center" Text="{Binding CarNumber, Mode=OneWay, StringFormat=#{0}}"/>
 
-                            <TextBlock Grid.Column="2" Text="{Binding Name}" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="2" Text="{Binding Name}" VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Name}" Value="Jack Widdas">
+                                                <Setter Property="Foreground" Value="{StaticResource Pumpkin}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
 
                             <Border Style="{StaticResource RoundedBorder}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="3" BorderBrush="{Binding License.GetSolidColorBrush}">
                                 <TextBlock Background="{Binding License.GetSolidColorBrush}" 
@@ -137,11 +147,27 @@
                                     <Run Text="{Binding ShortIRating, Mode=OneTime}" Foreground="Black"/>
                                 </TextBlock>
                             </Border>
-                            <TextBlock Grid.Column="5" Margin="5 0 0 0" VerticalAlignment="Center">
-                                <Run Text="{Binding Live.DeltaToLeader}"/>
+                            <TextBlock Grid.Column="5" Margin="5 0 0 0" VerticalAlignment="Center" Text="{Binding Live.DeltaToLeader, Mode=TwoWay}">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Name}" Value="Jack Widdas">
+                                                <Setter Property="Foreground" Value="{StaticResource Pumpkin}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
                             </TextBlock>
-                            <TextBlock Grid.Column="6" Margin="5 0 0 0" VerticalAlignment="Center">
-                                <Run Text="{Binding Live.DeltaToNext, FallbackValue=Lap}"/>
+                            <TextBlock Grid.Column="6" Margin="5 0 0 0" VerticalAlignment="Center" Text="{Binding Live.DeltaToNext, FallbackValue=Lap, Mode=TwoWay}">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Name}" Value="Jack Widdas">
+                                                <Setter Property="Foreground" Value="{StaticResource Pumpkin}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
                             </TextBlock>
                             <TextBlock Grid.Column="7" Margin="5 0 0 0" Background="Transparent" VerticalAlignment="Center">
                                 <Run Text="{Binding CurrentResults.LastTime.DisplayShort, Mode=OneWay}"/>

@@ -190,6 +190,8 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         public TelemetryInfo telemetryInfo;
 
+        public Driver myDriver;
+
         private string _driversLoaded = "";
         public string DriversLoaded
         {
@@ -278,12 +280,14 @@ namespace iRacingLiveDataOverlay.ViewModels
 
                 foreach (var driver in Sim.Instance.Drivers)
                 {
-                   
-                    if (driver.Results.Current.LapsComplete != 0)
+                    //Find own driver, figure out better way to find me
+                    if(driver.Name == "Mikael E Thornberg")
                     {
-                        CurrentDrivers.Add(driver);
+                        myDriver = driver;
                     }
-                        
+
+                    CurrentDrivers.Add(driver);
+                     
                 }
             }
 
@@ -303,10 +307,18 @@ namespace iRacingLiveDataOverlay.ViewModels
 
                 foreach (var d in drivers)
                 {
-                    //Adding driver to standings list only if has completed a valid lap
-                    if (d.Results.Current.LapsComplete != 0)
+                    
+                    if(myDriver == null)
                     {
                         StandingDrivers.Add(d);
+                    }
+                    //Adding driver to standings list only if has completed a valid lap
+                    else 
+                    {
+                        if (d.Results.Current.LapsComplete != 0 && d.Car.CarClassId == myDriver.Car.CarClassId)
+                        {
+                            StandingDrivers.Add(d);
+                        }  
                     }
 
                    
