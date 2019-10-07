@@ -36,19 +36,22 @@
                 <Trigger Property="ListView.AlternationIndex" Value="0">
                     <Setter Property="Background" Value="{StaticResource BalticSeaTrans2}"/>
                 </Trigger>
-                <EventTrigger RoutedEvent="CustomEvents.CustomEvent">
+                <!--<EventTrigger RoutedEvent="Loaded">
                     <EventTrigger.Actions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="LayoutTransform.ScaleY" From="0" Duration="0:0:.8"/>
-                                <!--<DoubleAnimation Storyboard.TargetProperty="Width" From="0" Duration="0:0:.8"/>-->
+                                <DoubleAnimation Storyboard.TargetName="Position" Storyboard.TargetProperty="LayoutTransform.ScaleY" From="0" Duration="0:0:.8"/>
+                                -->
+                <!--<DoubleAnimation Storyboard.TargetProperty="Width" From="0" Duration="0:0:.8"/>-->
+                <!--
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger.Actions>
-                </EventTrigger>
+                </EventTrigger>-->
             </Style.Triggers>
-            
+
         </Style>
+        
         <Style x:Key="Bordered" TargetType="ListView">
             <Setter Property="Template">
                 <Setter.Value>
@@ -68,9 +71,9 @@
     <StackPanel Margin="10" >
 
         <!--Displays Currentsession time etc.-->
-        <WrapPanel Margin="0 0 0 3" Height="30" HorizontalAlignment="Left" x:Name="SessionInfo" Width="600">
+        <WrapPanel Margin="0 0 0 3" Height="30" HorizontalAlignment="Left" x:Name="SessionInfo" Width="610">
             <Border CornerRadius="2" BorderBrush="{StaticResource BalticSeaTrans2}" BorderThickness="1">
-                <Grid Background="{StaticResource BalticSeaTrans2}" Width="600">
+                <Grid Background="{StaticResource BalticSeaTrans2}" Width="610">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
@@ -91,8 +94,8 @@
         </WrapPanel>
 
         <!--Standings list-->
-        <ListView HorizontalAlignment="Left" ItemContainerStyle="{StaticResource alternativeBgColor}" AlternationCount="2" Foreground="{StaticResource Clouds}" 
-                  Height="310" Width="auto" Background="{StaticResource BalticSeaTrans2}"
+        <ListView Name="StandingListView" HorizontalAlignment="Left" ItemContainerStyle="{StaticResource alternativeBgColor}" AlternationCount="2" Foreground="{StaticResource Clouds}" 
+                  Height="310" Width="610" Background="{StaticResource BalticSeaTrans2}"
                   ItemsSource="{Binding Source={StaticResource SortedDrivers}}"
                   ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" FontWeight="Bold" BorderThickness="0">
             <ListView.ItemTemplate>
@@ -116,11 +119,9 @@
                                 <RowDefinition Height="30"/>
                             </Grid.RowDefinitions>
 
-                            <TextBlock x:Name="Position" Grid.Column="0" Foreground="{StaticResource Clouds}" 
-                                       Text="{Binding Live.ClassPosition}" VerticalAlignment="Center"/>
-                            <!--<TextBlock Grid.Column="0" Foreground="{DynamicResource Clouds}">
-                                <Run Text="{Binding Live.ClassPosition}" BaselineAlignment="Center"/>
-                            </TextBlock>-->
+                            <TextBlock Name="Position" Grid.Column="0" Foreground="{StaticResource Clouds}" 
+                                       Text="{Binding Live.ClassPosition, NotifyOnTargetUpdated=True}" VerticalAlignment="Center"/>
+                            
                             <TextBlock Grid.Column="1" Foreground="{Binding Car.GetClassColor}" 
                                        VerticalAlignment="Center" Text="{Binding CarNumber, Mode=OneWay, StringFormat=#{0}}"/>
 
@@ -160,12 +161,12 @@
 
         <!--Session info panel, track temps, sof etc.-->
         <WrapPanel Orientation="Horizontal" 
-                   Height="50" Width="600" Margin="0 3"
+                   Height="50" Width="610" Margin="0 3"
                    HorizontalAlignment="Left" VerticalAlignment="Center">
 
             <Border CornerRadius="2" BorderBrush="{StaticResource BalticSeaTrans2}" BorderThickness="1">
 
-                <Grid Width="600" Background="{StaticResource BalticSeaTrans2}">
+                <Grid Width="610" Background="{StaticResource BalticSeaTrans2}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
