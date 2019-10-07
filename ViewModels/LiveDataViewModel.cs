@@ -192,20 +192,6 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         public Driver myDriver;
 
-        private string _driversLoaded = "";
-        public string DriversLoaded
-        {
-            get
-            {
-                return _driversLoaded;
-            }
-            set
-            {
-                _driversLoaded = value;
-                OnPropertyChanged("DriverLoaded");
-            }
-        }
-
         public LiveDataViewModel()
         {
 
@@ -263,7 +249,6 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         private void OnSessionInfoUpdated(object sender, SdkWrapper.SessionInfoUpdatedEventArgs e)
         {
-            
             GetAllDrivers();
             GetSessionInfo();
         }
@@ -280,12 +265,7 @@ namespace iRacingLiveDataOverlay.ViewModels
 
                 foreach (var driver in Sim.Instance.Drivers)
                 {
-                    //Find own driver, figure out better way to find me
-                    if(driver.Name == "Mikael E Thornberg")
-                    {
-                        myDriver = driver;
-                    }
-
+       
                     CurrentDrivers.Add(driver);
                      
                 }
