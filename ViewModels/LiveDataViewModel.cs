@@ -265,9 +265,7 @@ namespace iRacingLiveDataOverlay.ViewModels
 
                 foreach (var driver in Sim.Instance.Drivers)
                 {
-       
                     CurrentDrivers.Add(driver);
-                     
                 }
             }
 

@@ -36,6 +36,11 @@
             <!--#endregion--> 
             
             <!--#region Colors FLATUI V1 https://flatuicolors.com/palette/defo-->
+            <SolidColorBrush x:Key="BlackOpacity5%" Color="Black" Opacity="0.05"/>
+            <SolidColorBrush x:Key="BlackOpacity20%" Color="Black" Opacity="0.2"/>
+            <SolidColorBrush x:Key="BlackOpacity40%" Color="Black" Opacity="0.4"/>
+            <SolidColorBrush x:Key="BlackOpacity60%" Color="Black" Opacity="0.6"/>
+            <SolidColorBrush x:Key="BlackOpacity80%" Color="Black" Opacity="0.8"/>
             <SolidColorBrush x:Key="TransBlackPearl" Color="#1e272e" Opacity="0.8"/>
             <SolidColorBrush x:Key="TransBlackPearlAlt" Color="#1e272e" Opacity="0.6"/>
             <SolidColorBrush x:Key="BalticSeaTrans" Color="#3d3d3d" Opacity="0.5"/>
