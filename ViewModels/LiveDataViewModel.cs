@@ -27,6 +27,8 @@ namespace iRacingLiveDataOverlay.ViewModels
     public class LiveDataViewModel : Window, INotifyPropertyChanged
     {
 
+        public DoubleAnimation customAnimation;
+
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged(string propertyName)
         {
@@ -207,6 +209,13 @@ namespace iRacingLiveDataOverlay.ViewModels
             Sim.Instance.TelemetryUpdated += OnTelemetryInfoUpdated;
             Sim.Instance.RaceEvent += OnRaceEventInfoUpdated;
 
+            Sim.Instance.SimulationUpdated += OnSimulationUpdated;
+
+        }
+
+        private void OnSimulationUpdated(object sender, EventArgs e)
+        {
+            GetSessionInfo();
         }
 
         private void OnSimInstanceDisconnected(object sender, EventArgs e)
@@ -298,13 +307,13 @@ namespace iRacingLiveDataOverlay.ViewModels
                     //Adding driver to standings list only if has completed a valid lap
                     else 
                     {
+
+                        //If driving, add only drivers from same class that has completed atleast one lap
                         if (d.Results.Current.LapsComplete != 0 && d.Car.CarClassId == myDriver.Car.CarClassId)
                         {
                             StandingDrivers.Add(d);
                         }  
                     }
-
-                    StandingDrivers.OrderBy(w => w.Live.ClassPosition);
                 }
             }
 

@@ -19,7 +19,7 @@
         Background="Transparent"
         Width="{Binding Source={x:Static SystemParameters.FullPrimaryScreenWidth}}"
         Height="{Binding Source={x:Static SystemParameters.FullPrimaryScreenHeight}}"
-        d:DesignHeight="450" d:DesignWidth="800" Foreground="{StaticResource Clouds}" FontFamily="/iRacingLiveDataOverlay;component/Utility/Fonts/#Roboto-Bold">
+        d:DesignHeight="450" d:DesignWidth="800" Foreground="White" FontFamily="/iRacingLiveDataOverlay;component/Utility/Fonts/#Roboto-Bold">
 
     <Window.Resources>
         <CollectionViewSource Source="{Binding StandingDrivers}" x:Key="SortedDrivers">
@@ -33,6 +33,7 @@
                     <ScaleTransform x:Name="transform"/>
                 </Setter.Value>
             </Setter>
+            <Setter Property="Margin" Value="0 -3 0 -3"/>
             <Style.Triggers>
                 <Trigger Property="ListView.AlternationIndex" Value="0">
                     <Setter Property="Background" Value="{StaticResource BlackOpacity30%}"/>
@@ -224,44 +225,45 @@
 
         <!--Session info panel, track temps, sof etc.-->
         <WrapPanel Orientation="Horizontal" 
-                   Height="50" Width="610" Margin="0 3"
+                   Height="auto" Width="auto" Margin="0 3"
                    HorizontalAlignment="Left" VerticalAlignment="Center">
 
             <Border CornerRadius="2" BorderBrush="{StaticResource BlackOpacity30%}" BorderThickness="1">
 
-                <Grid Width="610" Background="{StaticResource BlackOpacity30%}">
+                <Grid Width="auto" Background="{StaticResource BlackOpacity30%}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="30"/>
                         <ColumnDefinition Width="auto"/>
 
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
                     </Grid.RowDefinitions>
                     <!--Track Temp icon and bind-->
-                    <Image Grid.Column="0" Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\road-2-64.png" Width="25"/>
-                    <TextBlock Grid.Column="1" VerticalAlignment="Center" FontWeight="Bold" Margin="0,15,1,15">
+                    <Image Grid.Row="0" Grid.Column="0" Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\road-2-64.png" Width="15"/>
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center" FontWeight="Bold">
                         <Run Text="{Binding TrackTemp, Mode=OneWay}"/>
                         <Run Text="°C"/>
                     </TextBlock>
 
                     <!--offtrack icon and bind-->
-                    <Image Grid.Column="1"  Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\x-mark-64.png" Width="20" Grid.ColumnSpan="2" Margin="20,0,1,0"/>
-                    <TextBlock Grid.Column="3" VerticalAlignment="Center" Margin="3,15,1,15">
+                    <Image Grid.Row="1" Grid.Column="0"  Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\x-mark-64.png" Width="15" />
+                    <TextBlock Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" TextAlignment="Center">
                         <Run Text="{Binding MyOffTrackCount, Mode=OneWay, FallbackValue=0}"/>
                         <Run Text="/" FontWeight="Bold"/>
                         <Run Text="{Binding OffTrackLimit, Mode=OneWay, FallbackValue=X}"/>
                     </TextBlock>
 
                     <!--Session time and bind-->
-                    <Image Grid.Column="3" Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\clock-5-64.png" Width="25" Grid.ColumnSpan="2" Margin="40,0,7.5,0"/>
-                    <TextBlock Grid.Column="5" Text="SOF" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="0.5,15"/>
+                    <Image Grid.Row="2" Grid.Column="0" Source="D:\CSharp\iRacingLiveDataOverlay\Utility\Images\clock-5-64.png" Width="15"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding CurrentRaceTime, Mode=OneWay, FallbackValue=0:00:00}" VerticalAlignment="Center" TextAlignment="Center" FontWeight="Bold"/>
+
+                    <!--Strength of Field-->
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="SOF" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" TextAlignment="Center"/>
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding StrengthOfField, Mode=OneWay, FallbackValue=XXX}" VerticalAlignment="Center" TextAlignment="Center" FontWeight="Bold"/>
                 </Grid>
             </Border>
         </WrapPanel>
