@@ -99,7 +99,7 @@ namespace iRacingLiveDataOverlay.ViewModels
         {
             get
             {
-                return ConvertToTime(_sessionTimeElapsed);
+                return ConvertDoubleToTimeString(_sessionTimeElapsed);
             }
         }
 
@@ -138,7 +138,7 @@ namespace iRacingLiveDataOverlay.ViewModels
         {
             get
             {
-                return ConvertToTime(_sessionTimeLeft);
+                return ConvertDoubleToTimeString(_sessionTimeLeft);
             }
         }
 
@@ -223,7 +223,7 @@ namespace iRacingLiveDataOverlay.ViewModels
         private void OnRaceEventInfoUpdated(object sender, Sim.RaceEventArgs e)
         {
             //Resetting the clock when the race starts
-            if (!e.Event.Type.Equals(1))
+            if (e.Event.Type.Equals(1))
             {
                 IsGreenFlag = true;
                 _elapsedTimeOffset = SessionTimeLeft - SessionTimeElapsed;
@@ -265,6 +265,11 @@ namespace iRacingLiveDataOverlay.ViewModels
 
                 foreach (var driver in Sim.Instance.Drivers)
                 {
+                    if (driver.IsCurrentDriver)
+                    {
+                        myDriver = driver;
+                    }
+
                     CurrentDrivers.Add(driver);
                 }
             }
@@ -299,7 +304,7 @@ namespace iRacingLiveDataOverlay.ViewModels
                         }  
                     }
 
-                   
+                    StandingDrivers.OrderBy(w => w.Live.ClassPosition);
                 }
             }
 
@@ -316,7 +321,7 @@ namespace iRacingLiveDataOverlay.ViewModels
             OffTrackLimit = "sds";
         }
 
-        private string ConvertToTime(double time)
+        private string ConvertDoubleToTimeString(double time)
         {
             TimeSpan span = TimeSpan.FromSeconds(time);
             string output = "";

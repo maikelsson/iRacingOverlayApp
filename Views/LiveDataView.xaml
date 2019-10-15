@@ -15,6 +15,7 @@
         WindowStartupLocation="CenterScreen"
         Topmost="True"
         FontSize="16"
+        
         Background="Transparent"
         Width="{Binding Source={x:Static SystemParameters.FullPrimaryScreenWidth}}"
         Height="{Binding Source={x:Static SystemParameters.FullPrimaryScreenHeight}}"
@@ -34,14 +35,14 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="ListView.AlternationIndex" Value="0">
-                    <Setter Property="Background" Value="{StaticResource BlackOpacity40%}"/>
+                    <Setter Property="Background" Value="{StaticResource BlackOpacity30%}"/>
                 </Trigger>
                 <Trigger Property="ListView.AlternationIndex" Value="1">
                     <Setter Property="Background" Value="{StaticResource BlackOpacity20%}"/>
                 </Trigger>
                 <!--<EventTrigger RoutedEvent="Loaded">
-                    -->
-                <!--<EventTrigger.Actions>
+                    
+                <EventTrigger.Actions>
                         <BeginStoryboard>
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetName="Position" Storyboard.TargetProperty="LayoutTransform.ScaleY" From="0" Duration="0:0:.8"/>
@@ -49,8 +50,8 @@
                                 <DoubleAnimation Storyboard.TargetProperty="Width" From="0" Duration="0:0:.8"/>
                             </Storyboard>
                         </BeginStoryboard>
-                    </EventTrigger.Actions>-->
-                <!--
+                    </EventTrigger.Actions>
+                
                 </EventTrigger>-->
             </Style.Triggers>
 
@@ -62,6 +63,9 @@
                     <ScaleTransform x:Name="transform"/>
                 </Setter.Value>
             </Setter>
+            <Style.Triggers>
+               
+            </Style.Triggers>
         </Style>
         
         <Style x:Key="Bordered" TargetType="ListView">
@@ -83,19 +87,19 @@
     <StackPanel Margin="10" >
 
         <!--Displays Currentsession time etc.-->
-        <WrapPanel Margin="0 0 0 3" Height="30" HorizontalAlignment="Left" x:Name="SessionInfo" Width="610">
+        <WrapPanel Margin="0 0 0 3" Height="35" HorizontalAlignment="Left" x:Name="SessionInfo" Width="610">
             <Border CornerRadius="2" BorderBrush="{StaticResource BlackOpacity40%}" BorderThickness="1">
-                <Grid Background="{StaticResource BlackOpacity40%}" Width="610">
+                <Grid Background="{StaticResource BlackOpacity30%}" Width="610">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="35"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock VerticalAlignment="Center" Grid.Column="0" Margin="1" Height="20" FontSize="20" FontWeight="Bold" TextAlignment="Center">
+                    <TextBlock VerticalAlignment="Center" Grid.Column="0" Margin="1" FontSize="20" FontWeight="Bold" TextAlignment="Center">
                         <Run Text="{Binding CurrentSessionType, Mode=OneWay, FallbackValue=Session}"/>
                         <Run Text="{Binding SessionTimeElapsedDisplay, Mode=OneWay}"/>
                         <Run Text="/" FontWeight="Bold" FontSize="20"/>
@@ -107,39 +111,58 @@
 
         <!--Standings list-->
         <ListView Name="StandingListView" HorizontalAlignment="Left" ItemContainerStyle="{StaticResource alternativeBgColor}" AlternationCount="2" Foreground="{StaticResource Clouds}" 
-                  Height="auto" Width="610" MaxHeight="602" Background="Transparent"
+                  Height="auto" Width="auto" MaxHeight="602" Background="Transparent"
                   ItemsSource="{Binding Source={StaticResource SortedDrivers}}"
                   ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" FontWeight="Bold" BorderThickness="0">
             <ListView.ItemTemplate>
                 <DataTemplate>
+                    <DataTemplate.Triggers>
+                        <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="PositionTextBlock" Storyboard.TargetProperty="Width" From="50" To="100" Duration="0:0:.5"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </DataTemplate.Triggers>
                     <WrapPanel VerticalAlignment="Center">
 
                         <Grid VerticalAlignment="Center" x:Name="grid1">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="30"/>
+                                <!--Position-->
+                                <ColumnDefinition Width="auto"/>
+                                <!--Car Number-->
                                 <ColumnDefinition Width="40"/>
-                                <ColumnDefinition Width="200"/>
+                                <!--Driver Name-->
                                 <ColumnDefinition Width="50"/>
+                                <!--License Level-->
+                                <ColumnDefinition Width="50"/>
+                                <!--Irating-->
                                 <ColumnDefinition Width="35"/>
-                                <ColumnDefinition Width="50"/>
+                                <!--Delta to leader-->
+                                <ColumnDefinition Width="0" />
+                                <!--Delta to next-->
                                 <ColumnDefinition Width="40"/>
+                                <!--Last lap-->
                                 <ColumnDefinition Width="62"/>
+                                <!--Best Lap-->
                                 <ColumnDefinition Width="62"/>
-                                <ColumnDefinition Width="0"/>
+                                <!--Pit lap-->
+                                <ColumnDefinition Width="20"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="25"/>
                             </Grid.RowDefinitions>
-
-                            <TextBlock Name="Position" Grid.Column="0" Foreground="{StaticResource Clouds}" 
-                                       Text="{Binding Live.ClassPosition, Mode=TwoWay}" VerticalAlignment="Center">
+                            
+                            <TextBlock Name="PositionTextBlock" Grid.Column="0" Foreground="{StaticResource Clouds}" TextAlignment="Center"
+                                       Text="{Binding Live.ClassPosition, Mode=OneTime, NotifyOnTargetUpdated=True}" VerticalAlignment="Center" Background="Red">
 
                             </TextBlock>
 
                             <TextBlock Grid.Column="1" Foreground="{Binding Car.GetClassColor}" 
                                        VerticalAlignment="Center" Text="{Binding CarNumber, Mode=OneWay, StringFormat=#{0}}"/>
 
-                            <TextBlock Grid.Column="2" Text="{Binding Name}" VerticalAlignment="Center">
+                            <TextBlock x:Name="DriverName" Grid.Column="2" Text="{Binding Name}" VerticalAlignment="Center">
                                 <TextBlock.Style>
                                     <Style TargetType="{x:Type TextBlock}">
                                         <Style.Triggers>
@@ -161,7 +184,7 @@
                                     <Run Text="{Binding ShortIRating, Mode=OneTime}" Foreground="Black"/>
                                 </TextBlock>
                             </Border>
-                            <TextBlock Grid.Column="5" Margin="5 0 0 0" VerticalAlignment="Center" Text="{Binding Live.DeltaToLeader}">
+                            <TextBlock Grid.Column="5" Margin="5 0 0 0" VerticalAlignment="Center" Text="{Binding Live.DeltaToLeader, NotifyOnTargetUpdated=True}">
                                 <TextBlock.Style>
                                     <Style TargetType="{x:Type TextBlock}">
                                         <Style.Triggers>
@@ -189,12 +212,8 @@
                             <TextBlock Grid.Column="8" Margin="5 0 0 0" Background="Transparent" Foreground="{DynamicResource Nephritis}" VerticalAlignment="Center">
                                 <Run Text="{Binding CurrentResults.FastestTime.DisplayShort, Mode=OneWay}"/>
                             </TextBlock>
-                            <!--<TextBlock Grid.Column="9" Margin="5 0 0 0" Foreground="{StaticResource SunFlower}" VerticalAlignment="Center">
+                            <TextBlock Grid.Column="9" Margin="5 0 0 0" Foreground="{StaticResource SunFlower}" VerticalAlignment="Center">
                                 <Run Text="{Binding PitInfo.LastPitLap, StringFormat=L{0}, Mode=OneWay}"/>
-                            </TextBlock>-->
-                            <TextBlock Grid.Column="9" Margin="5 0 0 0" Foreground="{StaticResource SunFlower}" 
-                                       VerticalAlignment="Center" Text="{Binding PitInfo.LastPitLap, StringFormat=L{0}, Mode=OneWay}">
-                                
                             </TextBlock>
                         </Grid>
                     </WrapPanel>
@@ -208,9 +227,9 @@
                    Height="50" Width="610" Margin="0 3"
                    HorizontalAlignment="Left" VerticalAlignment="Center">
 
-            <Border CornerRadius="2" BorderBrush="{StaticResource BlackOpacity60%}" BorderThickness="1">
+            <Border CornerRadius="2" BorderBrush="{StaticResource BlackOpacity30%}" BorderThickness="1">
 
-                <Grid Width="610" Background="{StaticResource BlackOpacity60%}">
+                <Grid Width="610" Background="{StaticResource BlackOpacity30%}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>

@@ -38,6 +38,7 @@
             <!--#region Colors FLATUI V1 https://flatuicolors.com/palette/defo-->
             <SolidColorBrush x:Key="BlackOpacity5%" Color="Black" Opacity="0.05"/>
             <SolidColorBrush x:Key="BlackOpacity20%" Color="Black" Opacity="0.2"/>
+            <SolidColorBrush x:Key="BlackOpacity30%" Color="Black" Opacity="0.3"/>
             <SolidColorBrush x:Key="BlackOpacity40%" Color="Black" Opacity="0.4"/>
             <SolidColorBrush x:Key="BlackOpacity60%" Color="Black" Opacity="0.6"/>
             <SolidColorBrush x:Key="BlackOpacity80%" Color="Black" Opacity="0.8"/>
