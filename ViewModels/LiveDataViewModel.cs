@@ -167,7 +167,7 @@ namespace iRacingLiveDataOverlay.ViewModels
             set
             {
                 _allSessionDrivers = value;
-                OnPropertyChanged("CurrentDrivers");
+                OnPropertyChanged("AllSessionDrivers");
             }
         }
 
@@ -182,7 +182,7 @@ namespace iRacingLiveDataOverlay.ViewModels
             set
             {
                 _myClassDrivers = value;
-                OnPropertyChanged("StandingDrivers");
+                OnPropertyChanged("MyClassDrivers");
             }
         }
 
@@ -193,8 +193,8 @@ namespace iRacingLiveDataOverlay.ViewModels
 
             Sim.Instance.Start(1);
                
-            _allSessionDrivers = new ObservableCollection<Driver>();
-            _myClassDrivers = new ObservableCollection<Driver>();
+            AllSessionDrivers = new ObservableCollection<Driver>();
+            MyClassDrivers = new ObservableCollection<Driver>();
 
             Sim.Instance.Connected += OnSimInstanceConnected;
             Sim.Instance.Disconnected += OnSimInstanceDisconnected;
@@ -236,8 +236,8 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         private async void OnTelemetryInfoUpdated(object sender, SdkWrapper.TelemetryUpdatedEventArgs e)
         {
-            
-            await GetActiveDriversFromCurrentSession(AllSessionDrivers);
+
+            await GetAllDriversFromCurrentSession();
 
             if (IsGreenFlag)
             {
@@ -277,7 +277,8 @@ namespace iRacingLiveDataOverlay.ViewModels
             }
 
             _isCurrentlyUpdating = false;
-            await Task.CompletedTask;
+            await GetActiveDriversFromCurrentSession(AllSessionDrivers);
+            
         }
 
         private async Task GetActiveDriversFromCurrentSession(ObservableCollection<Driver> drivers)
@@ -290,8 +291,7 @@ namespace iRacingLiveDataOverlay.ViewModels
                 _isCurrentlyUpdating = true;
 
                 foreach (var d in drivers)
-                {
-                    
+                {  
                     if(MyDriver == null)
                     {
                         MyClassDrivers.Add(d);
@@ -310,6 +310,19 @@ namespace iRacingLiveDataOverlay.ViewModels
             }
 
             _isCurrentlyUpdating = false;
+            await Task.CompletedTask;
+        }
+
+        private async Task UpdateActiveDrivers(ObservableCollection<Driver> drivers)
+        {
+            foreach(var driver in drivers)
+            {
+                if (drivers.Contains(driver))
+                {
+                    return;
+                }
+            }
+
             await Task.CompletedTask;
         }
 

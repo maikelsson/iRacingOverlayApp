@@ -20,7 +20,6 @@
         Width="{Binding Source={x:Static SystemParameters.FullPrimaryScreenWidth}}"
         Height="{Binding Source={x:Static SystemParameters.FullPrimaryScreenHeight}}"
         d:DesignHeight="450" d:DesignWidth="800" Foreground="White" FontFamily="/iRacingLiveDataOverlay;component/Utility/Fonts/#Roboto-Bold">
-
     <Window.Resources>
         <CollectionViewSource Source="{Binding MyClassDrivers}" x:Key="SortedDrivers">
             <CollectionViewSource.SortDescriptions>
@@ -93,15 +92,15 @@
                   ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" FontWeight="Bold" BorderThickness="0">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <DataTemplate.Triggers>
-                        <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                    <!--<DataTemplate.Triggers>
+                        <EventTrigger RoutedEvent="TextBox.TextChanged">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="PositionTextBlock" Storyboard.TargetProperty="Width" From="50" To="100" Duration="0:0:.5"/>
+                                    <DoubleAnimation Storyboard.TargetName="PositionTextBlock" Storyboard.TargetProperty="Width" From="10" To="100" Duration="0:0:.5" AccelerationRatio="0.2"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
-                    </DataTemplate.Triggers>
+                    </DataTemplate.Triggers>-->
                     <WrapPanel VerticalAlignment="Center">
 
                         <Grid VerticalAlignment="Center" x:Name="grid1">
@@ -133,7 +132,15 @@
                             
                             <TextBlock Name="PositionTextBlock" Grid.Column="0" Foreground="{StaticResource Clouds}" TextAlignment="Center"
                                        Text="{Binding Live.ClassPosition, Mode=OneTime, NotifyOnTargetUpdated=True}" VerticalAlignment="Center" Background="Red">
-
+                                <TextBlock.Triggers>
+                                    <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="PositionTextBlock" Storyboard.TargetProperty="Width" From="10" To="100" Duration="0:0:.5" AccelerationRatio="0.2"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </TextBlock.Triggers>
                             </TextBlock>
 
                             <TextBlock Grid.Column="1" Foreground="{Binding Car.GetClassColor}" 

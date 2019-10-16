@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Neutronium.MVVMComponents</name>
+    </assembly>
+    <members>
+        <member name="T:Neutronium.MVVMComponents.ICommandWithoutParameter">
+            <summary>
+            Command that receive no argument
+            <seealso cref="!:ICommand"/>
+            </summary>
+        </member>
+        <member name="M:Neutronium.MVVMComponents.ICommandWithoutParameter.Execute">
+            <summary>
+            Execute the command
+            </summary>
+        </member>
+        <member name="P:Neutronium.MVVMComponents.ICommandWithoutParameter.CanExecute">
+            <summary>
+             Determines whether the command can execute in its current
+             state.
+            </summary>
+            <returns>
+            true if this command can be executed; otherwise, false.
+            </returns>
+        </member>
+        <member name="T:Neutronium.MVVMComponents.ICommand`1">
+            <summary>
+            Command that receive a typed argument
+            <seealso cref="!:ICommand"/>
+            </summary>
+        </member>
+        <member name="M:Neutronium.MVVMComponents.ICommand`1.Execute(`0)">
+            <summary>
+            Execute the command with the corresponding argument
+            </summary>
+            <param name="argument"></param>
+        </member>
+        <member name="M:Neutronium.MVVMComponents.ICommand`1.CanExecute(`0)">
+            <summary>
+            Defines the method that determines whether the command can execute in its current
+            state.
+            </summary>
+            <param name="parameter">
+            Data used by the command. If the command does not require data to be passed,
+            this object can be set to null.
+            </param>
+            <returns>
+            true if this command can be executed; otherwise, false.
+            </returns>
+        </member>
+        <member name="T:Neutronium.MVVMComponents.IResultCommand`2">
+            <summary>
+            Command that triggers a result
+            </summary>
+        </member>
+        <member name="M:Neutronium.MVVMComponents.IResultCommand`2.Execute(`0)">
+            <summary>
+            return asynchronously a result given a specific argument
+            </summary>
+            <param name="argument"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Neutronium.MVVMComponents.IResultCommand`1">
+            <summary>
+            Command that triggers a result
+            </summary>
+        </member>
+        <member name="M:Neutronium.MVVMComponents.IResultCommand`1.Execute">
+            <summary>
+            return asynchronously a result given a specific argument
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Neutronium.MVVMComponents.ISimpleCommand">
+            <summary>
+            Command that can always be executed
+            <seealso cref="!:ICommand"/>
+            </summary>
+        </member>
+        <member name="M:Neutronium.MVVMComponents.ISimpleCommand.Execute">
+            <summary>
+            Execute the command without argument
+            </summary>
+        </member>
+        <member name="T:Neutronium.MVVMComponents.ISimpleCommand`1">
+            <summary>
+            Command that can always be executed
+            <seealso cref="!:ICommand"/>
+            </summary>
+        </member>
+        <member name="M:Neutronium.MVVMComponents.ISimpleCommand`1.Execute(`0)">
+            <summary>
+            Execute the command with the corresponding argument
+            </summary>
+            <param name="argument"></param>
+        </member>
+        <member name="E:Neutronium.MVVMComponents.IUpdatableCommand.CanExecuteChanged">
+            <summary>
+                 Occurs when changes occur that affect whether or not the command should execute.
+            </summary>
+        </member>
+        <member name="T:Neutronium.MVVMComponents.Relay.RelayResultCommand">
+            <summary>
+            IResultCommand factory
+            </summary>
+        </member>
+        <member name="M:Neutronium.MVVMComponents.Relay.RelayResultCommand.Create``2(System.Func{``0,``1})">
+            <summary>
+            Create a IResultCommand from given function
+            </summary>
+            <typeparam name="TIn"></typeparam>
+            <typeparam name="TResult">
+            </typeparam>
+            <param name="function">
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:Neutronium.MVVMComponents.Relay.RelayResultCommand.Create``1(System.Func{``0})">
+            <summary>
+            Create a IResultCommand from given function
+            </summary>
+            <typeparam name="TResult"></typeparam>
+            <param name="function"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Neutronium.MVVMComponents.Relay.RelaySimpleCommand">
+            <summary>
+            ISimpleCommand implementation based on action with no argument
+            <seealso cref="T:Neutronium.MVVMComponents.ISimpleCommand"/>
+            </summary>
+        </member>
+        <member name="T:Neutronium.MVVMComponents.Relay.RelaySimpleCommand`1">
+            <summary>
+            ISimpleCommand implementation based on an action taking one argument
+            <seealso cref="T:Neutronium.MVVMComponents.ISimpleCommand"/>
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+    </members>
+</doc>

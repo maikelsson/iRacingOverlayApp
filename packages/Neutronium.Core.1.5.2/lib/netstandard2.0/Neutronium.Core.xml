@@ -1,0 +1,1871 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Neutronium.Core</name>
+    </assembly>
+    <members>
+        <member name="M:Neutronium.Core.Binding.Builder.StandardStrategyFactory.GetStrategy(Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView,Neutronium.Core.Binding.IJavascriptSessionCache,System.Boolean)">
+            <summary>
+             returns javascript building strategy
+            </summary>
+        </member>
+        <member name="T:Neutronium.Core.Infra.Reflection.ObjectObservability">
+            <summary>
+            Information about object mutability
+            </summary>
+        </member>
+        <member name="F:Neutronium.Core.Infra.Reflection.ObjectObservability.None">
+            <summary>
+            Object doed not implement INotifyPropertyChanged and is not read-only
+            </summary>
+        </member>
+        <member name="F:Neutronium.Core.Infra.Reflection.ObjectObservability.ReadOnly">
+            <summary>
+            Read only object
+            </summary>
+        </member>
+        <member name="F:Neutronium.Core.Infra.Reflection.ObjectObservability.Observable">
+            <summary>
+            Object implementing INotifyPropertyChanged
+            </summary>
+        </member>
+        <member name="F:Neutronium.Core.Infra.Reflection.ObjectObservability.ReadOnlyObservable">
+            <summary>
+             Read only object implementing INotifyPropertyChanged
+            </summary>
+        </member>
+        <member name="T:Neutronium.Core.IWebSessionLogger">
+            <summary>
+            Interface to implement to receive event from browser
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.IWebSessionLogger.Debug(System.Func{System.String})">
+            <summary>
+            Called for debug logging
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.IWebSessionLogger.Debug(System.String)">
+            <summary>
+            Called for debug logging
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.IWebSessionLogger.Info(System.String)">
+            <summary>
+            Called for information logging
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.IWebSessionLogger.Info(System.Func{System.String})">
+            <summary>
+            called for information logging 
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.IWebSessionLogger.Warning(System.String)">
+            <summary>
+            Called for warning 
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.IWebSessionLogger.Warning(System.Func{System.String})">
+            <summary>
+            Called for warning 
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.IWebSessionLogger.Error(System.String)">
+            <summary>
+            Called on critical event 
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.IWebSessionLogger.Error(System.Func{System.String})">
+            <summary>
+            Called on critical event 
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.IWebSessionLogger.LogBrowser(Neutronium.Core.WebBrowserEngine.Window.ConsoleMessageArgs,System.Uri)">
+            <summary>
+            Called on each console log called by browser 
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.IWebSessionLogger.WebBrowserError(System.Exception,System.Action)">
+            <summary>
+            Called in case of browser critical error
+            </summary>
+            <param name="exception">
+            Exception responsible for the error
+            </param>
+            <param name="cancel">
+            Action to be called to cancel browser closing,
+            has an effect only with Awesomium
+            </param>
+        </member>
+        <member name="T:Neutronium.Core.JavascriptFramework.CollectionChangeType">
+            <summary>
+            Describe modification type related to a collection
+            </summary>
+        </member>
+        <member name="F:Neutronium.Core.JavascriptFramework.CollectionChangeType.Add">
+            <summary>
+            Element added
+            </summary>
+        </member>
+        <member name="F:Neutronium.Core.JavascriptFramework.CollectionChangeType.Remove">
+            <summary>
+            Element removed
+            </summary>
+        </member>
+        <member name="T:Neutronium.Core.JavascriptFramework.DebugToolsUI">
+            <summary>
+            provide UI information about framework specific UI elements
+            to be used by debug tools
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.JavascriptFramework.DebugToolsUI.DebugToolbar">
+            <summary>
+            return window information for toolbar HTML file if any
+            null otherwise.
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.JavascriptFramework.DebugToolsUI.About">
+            <summary>
+            return window information for about screen HTML file if any
+            null otherwise.
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.JavascriptFramework.DebugToolsUI.#ctor(Neutronium.Core.JavascriptFramework.WindowInformation,Neutronium.Core.JavascriptFramework.WindowInformation)">
+            <summary>
+            Build a DebugToolsUI with corresponding about and debug UI.
+            </summary>
+            <param name="debugToolbar"></param>
+            <param name="about"></param>
+        </member>
+        <member name="T:Neutronium.Core.JavascriptFramework.IDebugFacility">
+            <summary>
+            interface used by javascript framework debug vm command
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.JavascriptFramework.IDebugFacility.RunJavascript(System.String)">
+            <summary>
+            Execute javascript in the current window
+            </summary>
+            <param name="code">
+            Code to be executed
+            </param>
+        </member>
+        <member name="M:Neutronium.Core.JavascriptFramework.IDebugFacility.OpenNewWindow(System.String,System.Int32,System.Int32,System.Func{Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView,Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView,System.IDisposable})">
+            <summary>
+            open a HTML window with the given path and given action on WebViews:
+            first is the current, second is the debug webView returning a
+            disposable function called when window is closed
+            </summary>
+            <param name="path">
+            Path to HTML
+            </param>
+            <param name="width">
+            window width
+            </param>
+            <param name="height">
+            window height
+            </param>
+            <param name="injectCode">
+            Receive main current webView and debug webView and returns an Disposable that
+            will be called on closing the debug window
+            </param>
+        </member>
+        <member name="T:Neutronium.Core.JavascriptFramework.IJavascriptChangesObserver">
+            <summary>
+            javascript observer for changes occuring on ViewModel
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.JavascriptFramework.IJavascriptChangesObserver.OnJavaScriptObjectChanges(Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject,System.String,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject)">
+            <summary>
+            Method to be called when an object property value has changed
+            </summary>
+            <param name="objectChanged">
+            Object that changes
+            </param>
+            <param name="propertyName">
+            Name of the property that changed
+            </param>
+            <param name="newValue">
+            New value for the property
+            </param>
+        </member>
+        <member name="M:Neutronium.Core.JavascriptFramework.IJavascriptChangesObserver.OnJavaScriptCollectionChanges(Neutronium.Core.JavascriptFramework.JavascriptCollectionChanges)">
+            <summary>
+            Method to be called when a collection has changed
+            </summary>
+            <param name="changes">
+            Changes that happened to the collection
+            </param>
+        </member>
+        <member name="T:Neutronium.Core.JavascriptFramework.IJavascriptFrameworkManager">
+            <summary>
+            IJavascriptFrameworkManager factory
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.JavascriptFramework.IJavascriptFrameworkManager.FrameworkName">
+            <summary>
+            Get the name of unferlying javascript framework
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.JavascriptFramework.IJavascriptFrameworkManager.FrameworkVersion">
+            <summary>
+            Get the version of unferlying javascript framework
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.JavascriptFramework.IJavascriptFrameworkManager.Name">
+            <summary>
+            name of the javascript C# bridge engine
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.JavascriptFramework.IJavascriptFrameworkManager.IsMappingObject">
+            <summary>
+            True if javascript framework as to create new javascript object to map 
+            orginal ones. False if it use standard objects.
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.JavascriptFramework.IJavascriptFrameworkManager.CreateManager(Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject,Neutronium.Core.IWebSessionLogger,System.Boolean)">
+             <summary>
+             Create an IJavascriptViewModelManager from webview and IJavascriptObserver listener object
+             </summary>
+             <param name="webView">
+             IWebView
+             </param>
+             <param name="listener">
+             listener to call on changes 
+             </param>
+             <param name="logger">
+             logger
+             </param>
+             <returns>
+             the newly created IJavascriptViewModelManager
+            </returns>
+        </member>
+        <member name="P:Neutronium.Core.JavascriptFramework.IJavascriptFrameworkManager.IsSupportingVmDebug">
+            <summary>
+            Returns true if the javascript framework manager support
+            addintional Vm debug capability. If so beguVM command will be enabled.
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.JavascriptFramework.IJavascriptFrameworkManager.DebugVm(Neutronium.Core.JavascriptFramework.IDebugFacility)">
+            <summary>
+            Run debug Vm tool
+            </summary>
+            <param name="debugHelper">
+            debug facility to inject code and open additional window
+            </param>
+        </member>
+        <member name="M:Neutronium.Core.JavascriptFramework.IJavascriptFrameworkManager.GetMainScript(System.Boolean)">
+            <summary>
+            return main javascript debug including framework code
+            </summary>
+            <param name="debugContext">
+            True if debug mode is activated
+            </param>
+        </member>
+        <member name="P:Neutronium.Core.JavascriptFramework.IJavascriptFrameworkManager.DebugToolsUI">
+            <summary>
+            Get DebugToolsUI framework specific UI if any
+            <seealso cref="P:Neutronium.Core.JavascriptFramework.IJavascriptFrameworkManager.DebugToolsUI"/>
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.JavascriptFramework.IJavascriptObjectInternalMapper.UpdateTask">
+            <summary>
+            Task that complete when mapping is done (after EndMapping is called).
+            </summary>
+        </member>
+        <member name="T:Neutronium.Core.JavascriptFramework.IJavascriptObjectMapper">
+            <summary>
+            Mapper used to create corresponde beetween simple javascript object
+            and corresponding observable javascript object
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.JavascriptFramework.IJavascriptObjectMapper.MapFirst(Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject)">
+            <summary>
+            Map the root object
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.JavascriptFramework.IJavascriptObjectMapper.Map(Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject,System.String,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject)">
+            <summary>
+            Map a child object relative to its father
+            </summary>
+            <param name="father">
+            father observable object
+            </param>
+            <param name="attribute">
+            Attribute name
+            </param>
+            <param name="child">
+            child observable object to be mapped
+            </param>
+        </member>
+        <member name="M:Neutronium.Core.JavascriptFramework.IJavascriptObjectMapper.MapCollection(Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject,System.String,System.Int32,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject)">
+            <summary>
+            Map a child object in a collection relative to its father and index
+            </summary>
+            <param name="father">
+            father observable object
+            </param>
+            <param name="attribute">
+            Attribute name of the collection
+            </param>
+            <param name="index">
+            index of the child observable object in the collection
+            </param>
+            <param name="child">
+            child observable object to be mapped
+            </param>
+        </member>
+        <member name="M:Neutronium.Core.JavascriptFramework.IJavascriptObjectMapper.EndMapping(Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject)">
+            <summary>
+            Method to be called when maping ends
+            </summary>
+            <param name="rootObject">
+            root observable object
+            </param>
+        </member>
+        <member name="T:Neutronium.Core.JavascriptFramework.IJavascriptSessionInjector">
+            <summary>
+            Abstraction of the javascript framework responsible for databind
+            and change tracking
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.JavascriptFramework.IJavascriptSessionInjector.Inject(Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject,Neutronium.Core.JavascriptFramework.IJavascriptObjectMapper)">
+             <summary>
+             Maps a simple javascript object to an observable javascript object
+             </summary>
+             <param name="rawObject">
+             Simple javascript to be mapped
+             </param>
+             <param name="mapper">
+             Mapper to be used to map the original object and the observable one.
+             Null if IsMappingObject is false
+             </param>
+             <returns>
+             the corresponding observable javascript object
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.JavascriptFramework.IJavascriptSessionInjector.RegisterMainViewModel(Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject)">
+             <summary>
+             Register main view model in javascript windows
+             </summary>
+             <param name="jsObject">
+             Main ViewModel: javascript Observable object 
+             </param>C:\Users\David\Documents\Source\Neutronium\Neutronium.Core\JavascriptFramework\IJavascriptSessionInjector.cs
+             <returns>
+             task that completes when all binding are done
+            </returns>
+        </member>
+        <member name="P:Neutronium.Core.JavascriptFramework.IJavascriptViewModelManager.Injector">
+            <summary>
+            Returns an IJavascriptSessionInjector 
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.JavascriptFramework.IJavascriptViewModelManager.ViewModelUpdater">
+            <summary>
+            Returns an IJavascriptViewModelUpdater 
+            </summary>
+        </member>
+        <member name="T:Neutronium.Core.JavascriptFramework.IJavascriptViewModelUpdater">
+            <summary>
+            Interface responsible for updating javascript ViewModel to reflect
+            C# ViewModel updates
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.JavascriptFramework.IJavascriptViewModelUpdater.UpdateProperty(Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject,System.String,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject,System.Boolean)">
+            <summary>
+            Update javascript viewmodel without raising listeners events
+            </summary>
+            <param name="father">
+            view model to be updated
+            </param>
+            <param name="propertyName">
+            Name of the property to be updated
+            </param>
+            <param name="value">
+            new value of the property
+            </param>
+            <param name="childAllowWrite">
+            true if child should be listened
+            </param>
+        </member>
+        <member name="M:Neutronium.Core.JavascriptFramework.IJavascriptViewModelUpdater.AddProperty(Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject,System.String,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject)">
+            <summary>
+            Add a property to javascript viewmodel without raising listeners events
+            </summary>
+            <param name="father">
+            view model to be updated
+            </param>
+            <param name="propertyName">
+            Name of the property to be added
+            </param>
+            <param name="value">
+            new value of the property
+            </param>
+        </member>
+        <member name="M:Neutronium.Core.JavascriptFramework.IJavascriptViewModelUpdater.SpliceCollection(Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject,System.Int32,System.Int32,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject)">
+            <summary>
+            Update javascript collection without raising listeners events
+            performing javascript splice operation https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice
+            </summary>
+            <param name="array">
+            collection to be updated
+            </param>
+            <param name="index">
+            index argument
+            </param>
+            <param name="number">
+            number argument
+            </param>
+            <param name="item">
+            item argument
+            </param>
+        </member>
+        <member name="M:Neutronium.Core.JavascriptFramework.IJavascriptViewModelUpdater.SpliceCollection(Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject,System.Int32,System.Int32,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject[])">
+            <summary>
+            Update javascript collection without raising listeners events
+            performing javascript splice operation https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice
+            </summary>
+            <param name="array">
+            collection to be updated
+            </param>
+            <param name="index">
+            index argument
+            </param>
+            <param name="number">
+            number argument
+            </param>
+            <param name="items">
+            item argument
+            </param>
+        </member>
+        <member name="M:Neutronium.Core.JavascriptFramework.IJavascriptViewModelUpdater.SpliceCollection(Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject,System.Int32,System.Int32)">
+            <summary>
+            Update javascript collection without raising listeners events
+            performing javascript splice operation https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice
+            </summary>
+            <param name="array">
+            collection to be updated
+            </param>
+            <param name="index">
+            index argument
+            </param>
+            <param name="number">
+            number argument
+            </param>
+        </member>
+        <member name="M:Neutronium.Core.JavascriptFramework.IJavascriptViewModelUpdater.ClearAllCollection(Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject)">
+            <summary>
+            Update javascript collection without raising listeners events
+            clearing collection
+            </summary>
+            <param name="array">
+            collection to be cleared
+            </param>
+        </member>
+        <member name="M:Neutronium.Core.JavascriptFramework.IJavascriptViewModelUpdater.MoveCollectionItem(Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject,System.Int32,System.Int32)">
+            <summary>
+            Update javascript collection without raising listeners events
+            moving an object position
+            </summary>
+            <param name="array">
+            collection to be updated
+            </param>
+            <param name="item">
+            item to be moved
+            </param>
+            <param name="oldIndex">
+            old index value
+            </param>
+            <param name="newIndex">
+            new index value
+            </param>
+        </member>
+        <member name="M:Neutronium.Core.JavascriptFramework.IJavascriptViewModelUpdater.UnListen(System.Collections.Generic.IEnumerable{Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject})">
+            <summary>
+            UnListen changes for the given elements
+            </summary>
+            <param name="elementsToUnlisten">
+            collection of elements to unlisten
+            </param>
+        </member>
+        <member name="M:Neutronium.Core.JavascriptFramework.IJavascriptViewModelUpdater.InjectDetached(Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject)">
+            <summary>
+            Make object reactive and listen to all changes
+            </summary>
+            <param name="javascriptObject">
+            Javascript object to br registered
+            </param>
+        </member>
+        <member name="T:Neutronium.Core.JavascriptFramework.IndividualJavascriptCollectionChange">
+            <summary>
+            Describe an atomic modifications related to a collection
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.JavascriptFramework.IndividualJavascriptCollectionChange.CollectionChangeType">
+            <summary>
+            Type of modification
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.JavascriptFramework.IndividualJavascriptCollectionChange.Index">
+            <summary>
+            Index of modification
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.JavascriptFramework.IndividualJavascriptCollectionChange.Object">
+            <summary>
+            Item of collection subject to modification
+            </summary>
+        </member>
+        <member name="T:Neutronium.Core.JavascriptFramework.JavascriptCollectionChanges">
+            <summary>
+            Describe a set of modifications related to a collection
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.JavascriptFramework.JavascriptCollectionChanges.Collection">
+            <summary>
+            Modified collection
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.JavascriptFramework.JavascriptCollectionChanges.Changes">
+            <summary>
+            Atomic changes related to the collectuions
+            </summary>
+        </member>
+        <member name="T:Neutronium.Core.Navigation.ICompleteWebViewComponent">
+            <summary>
+            WebView abstraction provided mainly to expose addictional API
+            usefull on debug context.
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.ICompleteWebViewComponent.ShowHtmlWindow(System.String,System.Int32,System.Int32,System.Func{Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView,System.IDisposable})">
+            <summary>
+            open a HTML window with the given path and given action on WebViews:
+            first is the current, second is the debug webView returning a
+            disposable function called when window is closed
+            </summary>
+            <param name="path">
+            Path to HTML
+            </param>
+            <param name="width">
+            window width
+            </param>
+            <param name="height">
+            window height
+            </param>
+            <param name="injectedCode">
+            Inject code to the browser returning a disposable that will
+            be disposed on window close.
+            </param>
+        </member>
+        <member name="T:Neutronium.Core.Navigation.INavigable">
+            <summary>
+            interface to be implemented by ViewModel in order to received
+            a reference to <see cref="T:Neutronium.Core.Navigation.INavigationSolver"/> instance during navigation
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.Navigation.INavigable.Navigation">
+            <summary>
+            Reference to <see cref="T:Neutronium.Core.Navigation.INavigationSolver"/>. Set during navigation by navigation solver.
+            </summary>
+        </member>
+        <member name="T:Neutronium.Core.Navigation.INavigationBuilder">
+            <summary>
+            interface used to build navigation beetween ViewModels
+            based on ViewModel type
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Neutronium.Core.Navigation.INavigationBuilder.Register(System.Type,System.String,System.String)" -->
+        <member name="M:Neutronium.Core.Navigation.INavigationBuilder.Register``1(System.String,System.String)">
+            <summary>
+            Register a file relative path to HTML file corresponding to a viewmodel type 
+            </summary>
+            <param name="path">
+            relative file path to HTML file
+            </param>
+            <param name="id">
+            Optional id information, can be used if same type can resolve to different 
+            view depending on context
+            </param>
+            <typeparam name="T">
+            Type of view model to register
+            </typeparam>
+            <returns>
+            the navigation builder instance
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.INavigationBuilder.RegisterAbsolute``1(System.String,System.String)">
+            <summary>
+            Register a file absolute path to HTML file corresponding to a viewmodel type 
+            </summary>
+            <param name="path">
+            absolute file path to HTML file
+            </param>
+            <param name="id">
+            Optional id information, can be used if same type can resolve to different 
+            view depending on context
+            </param>
+            <typeparam name="T">
+            Type of view model to register
+            </typeparam>
+            <returns>
+            the navigation builder instance
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.INavigationBuilder.Register``1(System.Uri,System.String)">
+            <summary>
+            Register an Uri to HTML resource corresponding to a viewmodel type 
+            </summary>
+            <param name="path">
+            Uri to HTML resource
+            </param>
+            <param name="id">
+            Optional id information, can be used if same type can resolve to different 
+            view depending on context
+            </param>
+            <typeparam name="T">
+            Type of view model to register
+            </typeparam>
+            <returns>
+            the navigation builder instance
+            </returns>
+        </member>
+        <member name="T:Neutronium.Core.Navigation.INavigationSolver">
+            <summary>
+            interface used to navigate beetween ViewModel type
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.Navigation.INavigationSolver.UseINavigable">
+            <summary>
+            if true navigation solver will try to set Navigation reference
+            on view model implementing <see cref="T:Neutronium.Core.Navigation.INavigable"/> 
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.INavigationSolver.NavigateAsync(System.Object,System.String,Neutronium.Core.JavascriptBindingMode)">
+            <summary>
+            Navigate to the view corresponding the specified viewModel <seealso cref="T:Neutronium.Core.Navigation.INavigationBuilder"/> 
+            </summary>
+            <param name="viewModel">
+            ViewModel to bring to view
+            </param>
+            <param name="id">
+            Optional id information, can be used if same type can resolve to different 
+            view depending on context <seealso cref="T:Neutronium.Core.Navigation.INavigationBuilder"/>
+            </param>
+            <param name="mode">
+            Binding mode
+            </param>
+        </member>
+        <member name="E:Neutronium.Core.Navigation.INavigationSolver.OnNavigate">
+            <summary>
+            Event fired when navigation ended <seealso cref="T:Neutronium.Core.Navigation.NavigationEvent"/> 
+            </summary>
+        </member>
+        <member name="E:Neutronium.Core.Navigation.INavigationSolver.OnDisplay">
+            <summary>
+            Event fired after navigation and entering animation ended<seealso cref="T:Neutronium.Core.Navigation.DisplayEvent"/> 
+            </summary>
+        </member>
+        <member name="E:Neutronium.Core.Navigation.INavigationSolver.OnFirstLoad">
+            <summary>
+            Event fired on first load
+            </summary>
+        </member>
+        <member name="T:Neutronium.Core.Navigation.IWebViewComponent">
+            <summary>
+            WebView abstraction provided mainly to expose addictional API
+            usefull on debug context.
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.Navigation.IWebViewComponent.HTMLWindow">
+            <summary>
+            Returns the underlying IWebBrowserWindow
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.IWebViewComponent.ReloadAsync">
+            <summary>
+            Reload the current page without changing the bindings, usefull on hot-reload context
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.IWebViewComponent.SwitchViewAsync(System.Uri)">
+            <summary>
+            Switch the current view using the provided target
+            using the same binding.
+            </summary>
+            <param name="target">
+            target uri
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.IWebViewComponent.ExecuteJavascript(System.String)">
+            <summary>
+            Execute javascript on the current web view.
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.Routing.BuilderExtension.GetTemplateConvention(Neutronium.Core.Navigation.INavigationBuilder,System.String)">
+            <summary>
+            Get a convention router based on a template
+            <seealso cref="T:Neutronium.Core.Navigation.Routing.IConventionRouter"/>
+            </summary>
+            <param name="builder">
+            </param>
+            <param name="template">
+            string template to build relative path to html file
+            {vm} will be replaced by ViewModel name (excluding ending ViewModel if any)
+            {id} will be replaced by id
+            Ex: @"View\{vm}\dist\index.html"
+                @"View\{vm}\{id}\dist\index.html"
+            </param>
+            <returns>
+            corresponding IConventionRouter
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.Routing.BuilderExtension.GetConvention(Neutronium.Core.Navigation.INavigationBuilder,System.Func{System.Type,System.String,System.String})">
+            <summary>
+             Get a convention router based on a function
+            </summary>
+            <param name="builder">
+            </param>
+            <param name="pathBuilder">
+            a function receiving type and id and returning relative path to
+            the html file
+            </param>
+            <returns>
+            corresponding IConventionRouter
+            </returns>
+        </member>
+        <member name="T:Neutronium.Core.Navigation.Routing.IConventionRouter">
+            <summary>
+            Interface to provide automatic class registration based on convention
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.Routing.IConventionRouter.Register``1(System.String)">
+            <summary>
+            register the corresponding type and id based on the current convention
+            </summary>
+            <typeparam name="T">
+            type to register
+            </typeparam>
+            <param name="id">
+            id to register
+            </param>
+            <returns>
+            the convention router instance
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.Routing.IConventionRouter.Register(System.Type,System.String)">
+            <summary>
+            register the corresponding type and id based on the current convention
+            </summary>
+            <param name="type">
+            type to register
+            </param>
+            <param name="id">
+            id to register
+            </param>
+            <returns>
+            the convention router instance
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.Routing.IConventionRouter.Register(System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            register the corresponding types without id based on the current convention
+            </summary>
+            <param name="types">
+            types to register
+            </param>
+            <returns>
+            the convention router instance
+            </returns>
+        </member>
+        <member name="T:Neutronium.Core.Navigation.Routing.ITypesProvider">
+            <summary>
+            provider of type enumerable
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.Navigation.Routing.ITypesProvider.Types">
+            <summary>
+            collection of types
+            </summary>
+        </member>
+        <member name="T:Neutronium.Core.Navigation.Routing.TypesProviderExtension">
+            <summary>
+            Provide extension methods for ITypesProvider
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.Routing.TypesProviderExtension.GetAllTypes(System.Reflection.Assembly)">
+            <summary>
+            creates a ITypesProvider with all types of the corresponding assembly
+            <seealso cref="T:Neutronium.Core.Navigation.Routing.ITypesProvider"/>
+            </summary>
+            <param name="assembly"></param>
+            <returns>
+            a ITypesProvider with all types of the corresponding assembly
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.Routing.TypesProviderExtension.GetTypesFromSameAssembly(System.Type)">
+            <summary>
+            creates a ITypesProvider with types of the type assembly
+            <seealso cref="T:Neutronium.Core.Navigation.Routing.ITypesProvider"/>
+            </summary>
+            <param name="type"></param>
+            <returns>
+            a ITypesProvider with all types of the type assembly
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.Routing.TypesProviderExtension.GetTypesFromSameAssembly(System.Object)">
+            <summary>
+            creates a ITypesProvider with types of the object assembly
+            <seealso cref="T:Neutronium.Core.Navigation.Routing.ITypesProvider"/>
+            </summary>
+            <param name="object"></param>
+            <returns>
+            a ITypesProvider with all types of the type assembly
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.Routing.TypesProviderExtension.Implementing``1(Neutronium.Core.Navigation.Routing.ITypesProvider)">
+            <summary>
+            Filter ITypesProvider returning only types implementing a given base type 
+            <seealso cref="T:Neutronium.Core.Navigation.Routing.ITypesProvider"/>
+            </summary>
+            <typeparam name="T">
+            type to filter
+            </typeparam>
+            <param name="typeProvider"></param>
+            <returns>
+            a new ITypesProvider with types deriving from given type
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.Routing.TypesProviderExtension.WithNameEndingWith(Neutronium.Core.Navigation.Routing.ITypesProvider,System.String)">
+            <summary>
+            Filter ITypesProvider returning only types with name ending by given value
+            <seealso cref="T:Neutronium.Core.Navigation.Routing.ITypesProvider"/>
+            </summary>
+            <param name="typeProvider"></param>
+            <param name="value">
+            string filter
+            </param>
+            <returns>
+            a new ITypesProvider with types which names ends by given value
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.Routing.TypesProviderExtension.InNamespace(Neutronium.Core.Navigation.Routing.ITypesProvider,System.String)">
+            <summary>
+            Filter ITypesProvider returning only types in a given namespace
+            <seealso cref="T:Neutronium.Core.Navigation.Routing.ITypesProvider"/>
+            </summary>
+            <param name="typeProvider"></param>
+            <param name="value">
+            namespace name
+            </param>
+            <returns>
+            a new ITypesProvider with types in the given namespace
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.Routing.TypesProviderExtension.InNamespaceOf(Neutronium.Core.Navigation.Routing.ITypesProvider,System.Type)">
+            <summary>
+            Filter ITypesProvider returning only types in a given namespace
+            using same namespace as provided type
+            <seealso cref="T:Neutronium.Core.Navigation.Routing.ITypesProvider"/>
+            </summary>
+            <param name="typeProvider"></param>
+            <param name="type">
+            </param>
+            <returns>
+            a new ITypesProvider with types in the given namespace
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.Routing.TypesProviderExtension.InParentNamespace(Neutronium.Core.Navigation.Routing.ITypesProvider,System.String)">
+            <summary>
+            Filter ITypesProvider returning only types in a given namespace or in a child namespace
+            <seealso cref="T:Neutronium.Core.Navigation.Routing.ITypesProvider"/>
+            </summary>
+            <param name="typeProvider"></param>
+            <param name="value">
+            namespace name
+            </param>
+            <returns>
+            a new ITypesProvider with types in the given namespace
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.Routing.TypesProviderExtension.InParentNamespaceOf(Neutronium.Core.Navigation.Routing.ITypesProvider,System.Type)">
+            <summary>
+            Filter ITypesProvider returning only types in a given namespace or in a child namespace
+            <seealso cref="T:Neutronium.Core.Navigation.Routing.ITypesProvider"/>
+            </summary>
+            <param name="typeProvider"></param>
+            <param name="type">
+            namespace name
+            </param>
+            <returns>
+            a new ITypesProvider with types in the given namespace
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.Routing.TypesProviderExtension.Add(Neutronium.Core.Navigation.Routing.ITypesProvider,Neutronium.Core.Navigation.Routing.ITypesProvider)">
+            <summary>
+            Add types of two ITypesProvider
+            <seealso cref="T:Neutronium.Core.Navigation.Routing.ITypesProvider"/>
+            </summary>
+            <param name="typesProvider"></param>
+            <param name="typesProvider2"></param>
+            <returns>
+            a new ITypesProvider with types of both typeProvider
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.Routing.TypesProviderExtension.AddTypesFrom(Neutronium.Core.Navigation.Routing.ITypesProvider,System.Reflection.Assembly)">
+            <summary>
+            Add assembly types to a given ITypesProvider
+            <seealso cref="T:Neutronium.Core.Navigation.Routing.ITypesProvider"/>
+            </summary>
+            <param name="typeProvider"></param>
+            <param name="assembly"></param>
+            <returns>
+            a new ITypesProvider with original types and types from the given assembly
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.Routing.TypesProviderExtension.AddTypesOfSameAssembly(Neutronium.Core.Navigation.Routing.ITypesProvider,System.Type)">
+            <summary>
+            Add types of the assembly of a given type to a given ITypesProvider
+            <seealso cref="T:Neutronium.Core.Navigation.Routing.ITypesProvider"/>
+            </summary>
+            <param name="typeProvider"></param>
+            <param name="type"></param>
+            <returns>
+            a new ITypesProvider with original types and types of the assembly of the given type
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.Routing.TypesProviderExtension.AddTypesOfSameAssembly(Neutronium.Core.Navigation.Routing.ITypesProvider,System.Object)">
+            <summary>
+            Add types of the assembly of a given object to a given ITypesProvider
+            <seealso cref="T:Neutronium.Core.Navigation.Routing.ITypesProvider"/>
+            </summary>
+            <param name="typeProvider"></param>
+            <param name="object"></param>
+            <returns>
+            a new ITypesProvider with original types and types of the assembly of the given object
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.Routing.TypesProviderExtension.Add(Neutronium.Core.Navigation.Routing.ITypesProvider,System.Type[])">
+            <summary>
+            Add types of the two ITypesProvider
+            <seealso cref="T:Neutronium.Core.Navigation.Routing.ITypesProvider"/>
+            </summary>
+            <param name="typeProvider"></param>
+            <param name="types"></param>
+            <returns>
+            a new ITypesProvider containing both types
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.Routing.TypesProviderExtension.Where(Neutronium.Core.Navigation.Routing.ITypesProvider,System.Func{System.Type,System.Boolean})">
+            <summary>
+            Filter types based on a given condition
+            <seealso cref="T:Neutronium.Core.Navigation.Routing.ITypesProvider"/>
+            </summary>
+            <param name="typeProvider"></param>
+            <param name="filter">
+            type filter
+            </param>
+            <returns>
+            a new ITypesProvider containing only type of given ITypesProvider corresponding
+            to the given condition
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.Routing.TypesProviderExtension.Except(Neutronium.Core.Navigation.Routing.ITypesProvider,System.Func{System.Type,System.Boolean})">
+            <summary>
+            Filter ITypesProvider types based on a given condition
+            <seealso cref="T:Neutronium.Core.Navigation.Routing.ITypesProvider"/>
+            </summary>
+            <param name="typeProvider"></param>
+            <param name="filter">
+            type filter: if type matches the criteria it will be removed from result
+            </param>
+            <returns>
+            a new ITypesProvider containing only type of given ITypesProvider corresponding
+            that do not match the filter
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.Routing.TypesProviderExtension.Except(Neutronium.Core.Navigation.Routing.ITypesProvider,System.Type[])">
+            <summary>
+            Create a new ITypesProvider without the given types
+            </summary>
+            <param name="typeProvider"></param>
+            <param name="types">
+            types to be removed from result
+            </param>
+            <returns>
+            a new ITypesProvider not containing the given types
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.Routing.TypesProviderExtension.Register(Neutronium.Core.Navigation.Routing.ITypesProvider,Neutronium.Core.Navigation.Routing.IConventionRouter)">
+            <summary>
+            Register all the types provided by typeProvider using the given convention
+            </summary>
+             <param name="typeProvider">
+            type provider 
+            </param>
+            <param name="conventionRouter">
+            Convention router
+            </param>
+            <returns>
+            the corresponding convention router
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.Navigation.Routing.TypesProviderExtension.Register(Neutronium.Core.Navigation.Routing.IConventionRouter,Neutronium.Core.Navigation.Routing.ITypesProvider)">
+            <summary>
+            Register all the types provided by typeProvider using the given convention
+            </summary>
+            <param name="conventionRouter">
+            Convention router
+            </param>
+            <param name="typeProvider">
+            type provider 
+            </param>
+            <returns>
+            the corresponding convention router
+            </returns>
+        </member>
+        <member name="T:Neutronium.Core.Utils.CJsonConverter">
+            <summary>
+            Helper class to export C# object into cjson format (circular json).
+            This format is compatible with neutronium-vue client: https://github.com/NeutroniumCore/neutronium-vue
+            using the neutronium-vm-loader: https://github.com/NeutroniumCore/neutronium-vm-loader
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.Utils.CJsonConverter.#ctor">
+            <summary>
+            Instanciate a new CJsonConverter
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.Utils.CJsonConverter.ToCjson(System.Object)">
+            <summary>
+            raw conversion to cjson format
+            </summary>
+            <param name="object">object to be serialiazed</param>
+            <returns>cjson string value</returns>
+        </member>
+        <member name="M:Neutronium.Core.Utils.CJsonConverter.ToRootVmCjson(System.Object)">
+            <summary>
+            Conversion to cjson format compatible with a data context root Vm
+            Can be used as an entry for neutronium-vm-loader https://github.com/NeutroniumCore/neutronium-vm-loader
+            </summary>
+            <param name="object">object to be serialiazed</param>
+            <returns>cjson string value</returns>
+        </member>
+        <member name="T:Neutronium.Core.WebBrowserEngine.Control.IWebBrowserWindowProvider">
+            <summary>
+            Abstraction of HTML UI control (regardless of WPF or WindowsForm framework)
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.WebBrowserEngine.Control.IWebBrowserWindowProvider.HtmlWindow">
+            <summary>
+            Return the IHTMLWindow
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.WebBrowserEngine.Control.IWebBrowserWindowProvider.UiDispatcher">
+            <summary>
+            Return the UI dispatcher
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.Control.IWebBrowserWindowProvider.Show">
+            <summary>
+            Show the control on the screen
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.Control.IWebBrowserWindowProvider.Hide">
+            <summary>
+            Hide the control
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.Control.IWebBrowserWindowProvider.OnDebugToolsRequest">
+            <summary>
+            Called when user request debug tools
+            returns false if this options is not handled, true otherwise
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.Control.IWebBrowserWindowProvider.CloseDebugTools">
+            <summary>
+            Close debug tools window if possible
+            </summary>
+        </member>
+        <member name="E:Neutronium.Core.WebBrowserEngine.Control.IWebBrowserWindowProvider.DebugToolOpened">
+            <summary>
+            event send when debug tools is openong or closing
+            </summary>
+        </member>
+        <member name="E:Neutronium.Core.WebBrowserEngine.Control.IWebBrowserWindowProvider.OnDisposed">
+            <summary>
+            event send when WebBrowserWindowProvider is disposed
+            </summary>
+        </member>
+        <member name="T:Neutronium.Core.WebBrowserEngine.Control.IWebViewLifeCycleManager">
+            <summary>
+            HTMLWindow provider
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.Control.IWebViewLifeCycleManager.Create">
+            <summary>
+            Create the HTMLWindowProvider
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.Control.IWebViewLifeCycleManager.GetDisplayDispatcher">
+            <summary>
+            Return the corresponding UI dispatcher
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.WebBrowserEngine.Control.IWebViewLifeCycleManager.DebugContext">
+            <summary>
+            True if the window is under debug 
+            </summary>
+        </member>
+        <member name="T:Neutronium.Core.WebBrowserEngine.JavascriptObject.CreationOption">
+            <summary>
+            Option of javascript attribute creation
+            </summary>
+        </member>
+        <member name="T:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject">
+            <summary>
+            Abstraction of a javascript object
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.IsUndefined">
+            <summary>
+            True if the value type is Undefined.
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.IsNull">
+            <summary>
+            True if the value type is Null.
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.IsObject">
+            <summary>
+            True if the value type is an object.
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.IsArray">
+            <summary>
+            True if the value type is an array.
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.IsString">
+            <summary>
+            True if the value type is string.
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.IsNumber">
+            <summary>
+            True if the value type is an number.
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.IsBool">
+            <summary>
+            True if the value type is an boolean.
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.GetArrayLength">
+            <summary>
+            Only available on arrays.
+            Returns the number of elements in the array.
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.HasValue(System.String)">
+            <summary>
+            Returns true if the object has a value with the specified identifier.
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.Invoke(System.String,Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject[])">
+             <summary>
+             Execute synchronously the function in the coresponding IWebView context.
+             </summary>
+             <param name="context">
+             function context
+             </param>
+             <param name="functionName">
+             function name
+             </param>
+             <param name="param">
+             function parameters
+             </param>
+             <returns>
+             the result of the execution
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.InvokeNoResult(System.String,Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject[])">
+            <summary>
+            Execute synchronously the function in the coresponding IWebView context with no result.
+            </summary>
+            <param name="context">
+            function context
+            </param>
+            <param name="functionName">
+            function name
+            </param>
+            <param name="param">
+            function parameters
+            </param>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.InvokeAsync(System.String,Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject[])">
+             <summary>
+             Execute asynchronously the function in the coresponding IWebView context.
+             </summary>
+             <param name="functionName">
+             function name
+             </param>
+             <param name="context">
+             function context
+             </param>
+             <param name="param">
+             function parameters
+             </param>
+             <returns>
+             task of the result of the execution
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.Bind(System.String,Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView,System.Action{System.String,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject[]})">
+            <summary>
+            Bind a function to a jaavscript object
+            </summary>
+            <param name="functionName">
+            function name
+            </param>
+            <param name="webView">
+            function context
+            </param>
+            <param name="action">
+            action to run when the function is called. Action argument: 
+            function name, this object, function parameters
+            </param>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.Bind(System.String,Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView,System.Action{Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject[]})">
+            <summary>
+            Bind a function to a javascript object
+            </summary>
+            <param name="functionName">
+            function name
+            </param>
+            <param name="webView">
+            function context
+            </param>
+            <param name="action">
+            action to run when the function is called. Action agurment: 
+            function name, function parameters
+            </param>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.BindArgument(System.String,Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView,System.Action{Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject})">
+            <summary>
+            Bind a function receiving one argument to a javascript object
+            </summary>
+            <param name="functionName">
+            function name
+            </param>
+            <param name="webView">
+            function context
+            </param>
+            <param name="action">
+            action to run when the function is called. Action agurment: 
+            function name, function first parameter
+            </param>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.BindArguments(System.String,Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView,System.Action{Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject})">
+            <summary>
+            Bind a function receiving two arguments to a javascript object
+            </summary>
+            <param name="functionName">
+            function name
+            </param>
+            <param name="webView">
+            function context
+            </param>
+            <param name="action">
+            action to run when the function is called. Action agurment: 
+            function name, function two first parameters
+            </param>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.BindArguments(System.String,Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView,System.Action{Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject})">
+            <summary>
+            Bind a function receiving three arguments to a javascript object
+            </summary>
+            <param name="functionName">
+            function name
+            </param>
+            <param name="webView">
+            function context
+            </param>
+            <param name="action">
+            action to run when the function is called. Action agurment: 
+            function name, function three first parameters
+            </param>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.BindArguments(System.String,Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView,System.Action{Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject})">
+            <summary>
+            Bind a function receiving four arguments to a javascript object
+            </summary>
+            <param name="functionName">
+            function name
+            </param>
+            <param name="webView">
+            function context
+            </param>
+            <param name="action">
+            action to run when the function is called. Action agurment: 
+            function name, function four first parameters
+            </param>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.SetValue(System.String,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject,Neutronium.Core.WebBrowserEngine.JavascriptObject.CreationOption)">
+            <summary>
+            Associates a value with the specified identifier.
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.SetValue(System.Int32,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject)">
+            <summary>
+            For array set the valu for a given index.
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.GetStringValue">
+            <summary>
+            Return a string value.  The underlying data will be converted to if
+            necessary.
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.GetDoubleValue">
+            <summary>
+            Return a double value.  The underlying data will be converted to if
+            necessary.
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.GetBoolValue">
+            <summary>
+            Return a boolean value.  The underlying data will be converted to if
+            necessary.
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.GetIntValue">
+            <summary>
+            Return an int value.  The underlying data will be converted to if
+            necessary.
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.ExecuteFunction(Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView)">
+            <summary>
+            Execute the function with no argument.
+            </summary>
+            <param name="context">
+            function context
+            </param>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.ExecuteFunction(Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject[])">
+             <summary>
+             Execute the function with arguments.
+             </summary>
+             <param name="webView">
+             function context
+             </param>
+             <param name="context">
+             function context
+             </param>
+             <param name="parameters">
+             function parameters
+             </param>
+             <returns>
+             the result of the execution
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.ExecuteFunctionNoResult(Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject[])">
+            <summary>
+            Execute the function with arguments and no result.
+            </summary>
+            <param name="webView">
+            function context
+            </param>
+            <param name="context">
+            function context
+            </param>
+            <param name="parameters">
+            function parameters
+            </param>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.GetValue(System.String)">
+            <summary>
+            Returns the value with the specified identifier on success. Returns NULL
+            if this method is called incorrectly or an exception is thrown.
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.GetAttributeKeys">
+            <summary>
+            Get the values of the attributes if the javascript object is an object
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.GetValue(System.Int32)">
+            <summary>
+            Only available on arrays.
+            Returns the value with the specified index on success. Returns NULL
+            if this method is called incorrectly or an exception is thrown.
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject.GetArrayElements">
+            <summary>
+            Only available on arrays.
+            Returns the elements in the array.
+            </summary>
+        </member>
+        <member name="T:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObjectConverter">
+            <summary>
+            Converter from IJavascriptObject to basic CLR Type
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObjectConverter.GetSimpleValue(Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject,System.Object@,System.Type)">
+             <summary>
+             Convert a IJavascriptObject to basic CLR Type
+             </summary>
+             <param name="value">
+             IJavascriptObject to convert
+             </param>
+             <param name="res">
+             converted object
+             </param>
+             <param name="targetType">
+             Target type for the result if any
+             </param>
+             <returns>
+             true if the operation is successfull
+            </returns>
+        </member>
+        <member name="T:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObjectFactory">
+            <summary>
+            Factory to create IJavascriptObject
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObjectFactory.CreateFromExcecutionCode(System.Collections.Generic.IEnumerable{System.String})">
+             <summary>
+             Create IJavascriptObject from basic CLR types
+             </summary>
+             <param name="from">
+             objects to be converted
+             </param>
+             <returns>
+             IJavascriptObjects created
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObjectFactory.CreateNull">
+             <summary>
+             Create IJavascriptObject representing null value
+             </summary>
+             <returns>
+             corresponding IJavascriptObject
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObjectFactory.CreateObject">
+             <summary>
+             Create IJavascriptObject object
+             </summary>
+             <returns>
+             corresponding IJavascriptObject
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObjectFactory.CreateObject(Neutronium.Core.Infra.Reflection.ObjectObservability)">
+             <summary>
+             Create IJavascriptObject object
+             </summary> 
+             <param name="objectObservability">
+             the corresponding object ObjectObservability. 
+             Readonly object have the property NeutroniumConstants.ReadOnlyFlag ("__readonly__") set to true
+             </param>
+             <returns>
+             corresponding IJavascriptObject
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObjectFactory.CreateObjects(Neutronium.Core.WebBrowserEngine.JavascriptObject.ObjectsCreationOption)">
+             <summary>
+             Create IJavascriptObject objects in bulk
+             </summary> 
+             <param name="option">
+             number of read only and read-write objects to create. 
+             Readonly object have the property NeutroniumConstants.ReadOnlyFlag ("__readonly__") set to true
+             </param>
+             <returns>
+             corresponding collection of IJavascriptObject
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObjectFactory.CreateObjectsFromConstructor(System.Int32,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject[])">
+             <summary>
+             Create IJavascriptObject object from constructor
+             </summary> 
+             <param name="number">
+             number of objects to create
+             </param>
+             <param name="constructor">
+             constructor object
+             </param>
+             <param name="parameters">
+             constructor parameters
+             </param>
+             <returns>
+             corresponding collection of IJavascriptObject
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObjectFactory.CreateObject(System.String)">
+             <summary>
+             Create IJavascriptObject object from javascript code
+             </summary>   
+             <param name="creationCode">
+             the javascript code to create the object
+             </param>
+             <returns>
+             corresponding IJavascriptObject
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObjectFactory.CreateUndefined">
+            <summary>
+            Create IJavascriptObject corresponding to undefined
+            </summary>   
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObjectFactory.CreateInt(System.Int32)">
+             <summary>
+             Create IJavascriptObject from an int
+             </summary>
+             <param name="value">
+             int to be converted
+             </param>
+             <returns>
+             corresponding IJavascriptObject
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObjectFactory.CreateUint(System.UInt32)">
+             <summary>
+             Create IJavascriptObject from an uint
+             </summary>
+             <param name="value">
+             int to be converted
+             </param>
+             <returns>
+             corresponding IJavascriptObject
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObjectFactory.CreateDouble(System.Double)">
+             <summary>
+             Create IJavascriptObject from an double
+             </summary>
+             <param name="value">
+             double to be converted
+             </param>
+             <returns>
+             corresponding IJavascriptObject
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObjectFactory.CreateString(System.String)">
+             <summary>
+             Create IJavascriptObject from an string
+             </summary>
+             <param name="value">
+             string to be converted
+             </param>
+             <returns>
+             corresponding IJavascriptObject
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObjectFactory.CreateBool(System.Boolean)">
+             <summary>
+             Create IJavascriptObject from a boolean
+             </summary>
+             <param name="value">
+             boolean to be converted
+             </param>
+             <returns>
+             corresponding IJavascriptObject
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObjectFactory.CreateDateTime(System.DateTime)">
+             <summary>
+             Create IJavascriptObject from a DateTime
+             </summary>
+             <param name="value">
+             boolean to be converted
+             </param>
+             <returns>
+             corresponding IJavascriptObject
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObjectFactory.CreateArray(System.Collections.Generic.IEnumerable{Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject})">
+             <summary>
+             Create IJavascriptObject list
+             </summary>
+             <param name="collection">
+             the elements of the collection
+             </param>
+             <returns>
+             corresponding IJavascriptObject
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObjectFactory.CreateArrays(System.Int32)">
+             <summary>
+             Create IJavascriptObject arrays in bulk
+             </summary>   
+             <param name="number">
+             number of array to create. 
+             </param>
+             <returns>
+             corresponding collection of IJavascriptObject
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObjectFactory.CreateArray(System.Int32)">
+             <summary>
+             Create IJavascriptObject list
+             </summary>
+             <param name="size">
+             the size of the collection
+             </param>
+             <returns>
+             corresponding IJavascriptObject
+            </returns>
+        </member>
+        <member name="T:Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView">
+            <summary>
+            Javascript Window interaction
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView.GetGlobal">
+            <summary>
+            Get the window object
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView.Converter">
+            <summary>
+            Get the javascript basic converter
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView.Factory">
+            <summary>
+            Get the javascript factory
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView.Eval(System.String,Neutronium.Core.WebBrowserEngine.JavascriptObject.IJavascriptObject@)">
+             <summary>
+             Evaluate a javascript code synchroneousely and return a result
+             </summary>
+             <param name="code">
+             javascript code to be executed
+             </param>
+             <param name="res">
+             javascript object returned by the code
+             </param>
+             <returns>
+             true if code run without error
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView.ExecuteJavaScript(System.String)">
+            <summary>
+             Evaluate a javascript code without result
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView.AllowBulkCreation">
+            <summary>
+             true if object bulk creation is supported
+             false for awesomium only
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView.MaxFunctionArgumentsNumber">
+            <summary>
+             return the max number of arguments 
+             javaScript functions can accept
+             https://stackoverflow.com/questions/22747068/is-there-a-max-number-of-arguments-javascript-functions-can-accept
+             http://jsfiddle.net/dede89/uxd7bycx/
+            </summary>
+        </member>
+        <member name="T:Neutronium.Core.WebBrowserEngine.JavascriptObject.ObjectsCreationOption">
+            <summary>
+            Option to create objects in bulk mode
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.WebBrowserEngine.JavascriptObject.ObjectsCreationOption.NoneObservableNumber">
+            <summary>
+            Number of none readonly none observable objects to be created
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.WebBrowserEngine.JavascriptObject.ObjectsCreationOption.ReadOnlyNumber">
+            <summary>
+            Number of read only objects to be created
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.WebBrowserEngine.JavascriptObject.ObjectsCreationOption.ObservableNumber">
+            <summary>
+            Number of observable objects to be created
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.WebBrowserEngine.JavascriptObject.ObjectsCreationOption.ReadOnlyObservableNumber">
+            <summary>
+            Number of observable read only objects to be created
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.WebBrowserEngine.JavascriptObject.ObjectsCreationOption.TotalNumber">
+            <summary>
+            Total number of objects to be created
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.ObjectsCreationOption.Visit(System.Action{Neutronium.Core.Infra.Reflection.ObjectObservability,System.Int32})">
+            <summary>
+            Visit the diferent number linked to each ObjectObservability
+            </summary>
+            <param name="visitor"></param>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.JavascriptObject.ObjectsCreationOption.#ctor(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Create a new instance
+            </summary>
+            <param name="noneObservableNumber"></param>
+            <param name="readOnlyNumber"></param>
+            <param name="observableNumber"></param>
+            <param name="readOnlyObservableNumber"></param>
+        </member>
+        <member name="T:Neutronium.Core.WebBrowserEngine.Window.IDispatcher">
+            <summary>
+            Abstraction of a dipatcher used to communication with object having thread affinity
+            such as HMTL C# browser implementation, or UI framework (WPF) 
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.Window.IDispatcher.RunAsync(System.Action)">
+             <summary>
+             Run on a safe thread the corresponding action
+             </summary>
+             <param name="act">
+             Action to be executed
+             </param>
+             <returns>
+             the corresponding task
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.Window.IDispatcher.Dispatch(System.Action)">
+            <summary>
+            Run on a safe thread the corresponding action
+            in a none-blocking manner.
+            No task is return for performance optimization
+            </summary>
+            <param name="act">
+            Action to be executed
+            </param>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.Window.IDispatcher.Run(System.Action)">
+            <summary>
+            Run on a safe thread the corresponding action and block untill completion
+            </summary>
+            <param name="act">
+            Action to be executed
+            </param>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.Window.IDispatcher.EvaluateAsync``1(System.Func{``0})">
+             <summary>
+             Compute a function on a safe thread
+             </summary>
+             <param name="compute">
+             Function to be executed
+             </param>
+             <returns>
+             the corresponding task
+            </returns>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.Window.IDispatcher.Evaluate``1(System.Func{``0})">
+            <summary>
+            Compute a function on a safe thread and wait for result
+            </summary>
+            <param name="compute">
+            Function to be executed
+            </param>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.Window.IDispatcher.IsInContext">
+            <summary>
+            True if current thread is the dispacther thread
+            </summary>
+        </member>
+        <member name="T:Neutronium.Core.WebBrowserEngine.Window.IModernWebBrowserWindow">
+            <summary>
+            HTML Window with extended capacity
+            </summary>
+        </member>
+        <member name="E:Neutronium.Core.WebBrowserEngine.Window.IModernWebBrowserWindow.BeforeJavascriptExecuted">
+            <summary>
+            event fired when script are ready to be executed
+            but external javascript have not been executed yet
+            </summary>
+        </member>
+        <member name="E:Neutronium.Core.WebBrowserEngine.Window.IModernWebBrowserWindow.OnClientReload">
+            <summary>
+            event fired when client browser try to load an HTML page
+            this is useful when using webpack hot reload in order to plug correct
+            binding
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.Window.IModernWebBrowserWindow.RegisterContextMenuItem(System.Collections.Generic.IEnumerable{Neutronium.Core.WebBrowserEngine.Window.ContextMenuItem})">
+            <summary>
+            Add a new item in contextmenu
+            <param name="contextMenuItems">
+            items to be added to the contextMenu
+            </param>
+            <returns>
+            current browser
+            </returns>
+            </summary>
+        </member>
+        <member name="T:Neutronium.Core.WebBrowserEngine.Window.IUiDispatcher">
+            <summary>
+            Abstraction of a dispatcher designed for the Ui thread
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.Window.IUiDispatcher.DispatchWithBindingPriority(System.Action)">
+            <summary>
+            Run on a safe thread the corresponding action
+            in a none-blocking manner.
+            The action should be given a binding priority
+            which is tipically slighty lower than default
+            priority.
+            No task is return for performance optimization.
+            This action should not be executed immediatly
+            even if the execution is currently in context.
+            </summary>
+            <param name="act">
+            Action to be executed
+            </param>
+        </member>
+        <member name="T:Neutronium.Core.WebBrowserEngine.Window.IWebBrowserWindow">
+            <summary>
+            HTML Window abstraction
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.WebBrowserEngine.Window.IWebBrowserWindow.MainFrame">
+            <summary>
+            Get the main frame logic
+            </summary>
+        </member>
+        <member name="M:Neutronium.Core.WebBrowserEngine.Window.IWebBrowserWindow.NavigateTo(System.Uri)">
+            <summary>
+            Navigate to the specified path
+            </summary>
+            <param name="path">
+            Uri to navigate to
+            </param>
+        </member>
+        <member name="P:Neutronium.Core.WebBrowserEngine.Window.IWebBrowserWindow.Url">
+            <summary>
+            Url of the browser
+            </summary>
+        </member>
+        <member name="P:Neutronium.Core.WebBrowserEngine.Window.IWebBrowserWindow.IsLoaded">
+            <summary>
+            true if the content is loaded and ready
+            </summary>
+        </member>
+        <member name="E:Neutronium.Core.WebBrowserEngine.Window.IWebBrowserWindow.LoadEnd">
+            <summary>
+            event fired when the window is loaded
+            </summary>
+        </member>
+        <member name="E:Neutronium.Core.WebBrowserEngine.Window.IWebBrowserWindow.ConsoleMessage">
+            <summary>
+            event fired when the console log is called in the browser
+            </summary>
+        </member>
+        <member name="E:Neutronium.Core.WebBrowserEngine.Window.IWebBrowserWindow.Crashed">
+            <summary>
+            event fired when browser process crashed
+            </summary>
+        </member>
+    </members>
+</doc>
