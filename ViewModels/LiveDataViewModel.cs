@@ -19,6 +19,7 @@ using System.Threading;
 using iRSDKSharp;
 using System.Windows.Media.Animation;
 using iRacingLiveDataOverlay.Views;
+using iRacingLiveDataOverlay.Models;
 
 namespace iRacingLiveDataOverlay.ViewModels
 {
@@ -55,6 +56,9 @@ namespace iRacingLiveDataOverlay.ViewModels
         private double _elapsedTimeOffset = 0;
 
         #region SessionData variables
+
+
+        public string StrenghtOfFieldDisplay { get; set; }
 
         private string _trackTemp;
         public string TrackTemp
@@ -171,6 +175,21 @@ namespace iRacingLiveDataOverlay.ViewModels
             }
         }
 
+
+        private ObservableCollection<CustomDriver> _customList;
+        public ObservableCollection<CustomDriver> CustomList
+        {
+            get
+            {
+                return _customList;
+            }
+            set
+            {
+                _customList = value;
+                OnPropertyChanged("CustomList");
+            }
+        }
+
         //List of drivers from session results
         private ObservableCollection<Driver> _myClassDrivers;
         public ObservableCollection<Driver> MyClassDrivers
@@ -182,17 +201,20 @@ namespace iRacingLiveDataOverlay.ViewModels
             set
             {
                 _myClassDrivers = value;
-                OnPropertyChanged("MyClassDrivers");
+                //OnPropertyChanged("MyClassDrivers");
             }
         }
 
         public Driver MyDriver;
 
+        public TelemetryInfo telemetryInfo;
+
         public LiveDataViewModel()
         {
 
-            Sim.Instance.Start(1);
-               
+            Sim.Instance.Start(10);
+
+            CustomList = new ObservableCollection<CustomDriver>();
             AllSessionDrivers = new ObservableCollection<Driver>();
             MyClassDrivers = new ObservableCollection<Driver>();
 
@@ -202,10 +224,12 @@ namespace iRacingLiveDataOverlay.ViewModels
             Sim.Instance.SessionInfoUpdated += OnSessionInfoUpdated;
             Sim.Instance.TelemetryUpdated += OnTelemetryInfoUpdated;
             Sim.Instance.RaceEvent += OnRaceEventInfoUpdated;
-
             Sim.Instance.SimulationUpdated += OnSimulationUpdated;
 
+            TelemetryInfo telemetryInfo = Sim.Instance.Telemetry;
+
         }
+
 
         private async void OnSimulationUpdated(object sender, EventArgs e)
         {
@@ -236,8 +260,7 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         private async void OnTelemetryInfoUpdated(object sender, SdkWrapper.TelemetryUpdatedEventArgs e)
         {
-
-            await GetAllDriversFromCurrentSession();
+            await GetActiveDriversFromCurrentSession(AllSessionDrivers);
 
             if (IsGreenFlag)
             {
@@ -247,7 +270,7 @@ namespace iRacingLiveDataOverlay.ViewModels
             {
                 SessionTimeElapsed = Sim.Instance.SessionData.TimeRemaining;
             }
-            
+
         }
 
         private async void OnSessionInfoUpdated(object sender, SdkWrapper.SessionInfoUpdatedEventArgs e)
@@ -260,13 +283,13 @@ namespace iRacingLiveDataOverlay.ViewModels
         {
             //Remove items from list to prevent duplicates happening..
             AllSessionDrivers.Clear();
-
             if (!_isCurrentlyUpdating)
             {
-                _isCurrentlyUpdating = true;
 
+                _isCurrentlyUpdating = true;
                 foreach (var driver in Sim.Instance.Drivers)
                 {
+                    
                     if (driver.IsCurrentDriver)
                     {
                         MyDriver = driver;
@@ -309,20 +332,8 @@ namespace iRacingLiveDataOverlay.ViewModels
                 }
             }
 
+            await CalculateSofForMyClass();
             _isCurrentlyUpdating = false;
-            await Task.CompletedTask;
-        }
-
-        private async Task UpdateActiveDrivers(ObservableCollection<Driver> drivers)
-        {
-            foreach(var driver in drivers)
-            {
-                if (drivers.Contains(driver))
-                {
-                    return;
-                }
-            }
-
             await Task.CompletedTask;
         }
 
@@ -338,6 +349,17 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         private async Task CalculateSofForMyClass()
         {
+            var SOF = 0;
+            
+            foreach(var driver in MyClassDrivers)
+            {
+                SOF += driver.IRating;
+            }
+
+            SOF = SOF / MyClassDrivers.Count();
+
+            StrenghtOfFieldDisplay = SOF.ToString();
+
             await Task.CompletedTask;
         }
 

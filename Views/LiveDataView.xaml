@@ -101,38 +101,47 @@
                             </BeginStoryboard>
                         </EventTrigger>
                     </DataTemplate.Triggers>-->
+                    <!--<DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Live.ClassPosition}" Value="12">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PositionTextBlock" Storyboard.TargetProperty="Width" From="10" To="100" Duration="0:0:.5" AccelerationRatio="0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>-->
                     <WrapPanel VerticalAlignment="Center">
 
                         <Grid VerticalAlignment="Center" x:Name="grid1">
                             <Grid.ColumnDefinitions>
                                 <!--Position-->
-                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="20"/>
                                 <!--Car Number-->
                                 <ColumnDefinition Width="40"/>
                                 <!--Driver Name-->
-                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="150"/>
                                 <!--License Level-->
                                 <ColumnDefinition Width="50"/>
                                 <!--Irating-->
                                 <ColumnDefinition Width="35"/>
                                 <!--Delta to leader-->
-                                <ColumnDefinition Width="0" />
-                                <!--Delta to next-->
                                 <ColumnDefinition Width="40"/>
                                 <!--Last lap-->
                                 <ColumnDefinition Width="62"/>
                                 <!--Best Lap-->
                                 <ColumnDefinition Width="62"/>
                                 <!--Pit lap-->
-                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="35"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="25"/>
                             </Grid.RowDefinitions>
                             
                             <TextBlock Name="PositionTextBlock" Grid.Column="0" Foreground="{StaticResource Clouds}" TextAlignment="Center"
-                                       Text="{Binding Live.ClassPosition, Mode=OneTime, NotifyOnTargetUpdated=True}" VerticalAlignment="Center" Background="Red">
-                                <TextBlock.Triggers>
+                                       Text="{Binding Live.ClassPosition, Mode=OneTime, NotifyOnTargetUpdated=True}" VerticalAlignment="Center">
+                                <!--<TextBlock.Triggers>
                                     <EventTrigger RoutedEvent="Binding.TargetUpdated">
                                         <BeginStoryboard>
                                             <Storyboard>
@@ -140,13 +149,13 @@
                                             </Storyboard>
                                         </BeginStoryboard>
                                     </EventTrigger>
-                                </TextBlock.Triggers>
+                                </TextBlock.Triggers>-->
                             </TextBlock>
 
                             <TextBlock Grid.Column="1" Foreground="{Binding Car.GetClassColor}" 
                                        VerticalAlignment="Center" Text="{Binding CarNumber, Mode=OneWay, StringFormat=#{0}}"/>
 
-                            <TextBlock x:Name="DriverName" Grid.Column="2" Text="{Binding Name}" VerticalAlignment="Center">
+                            <TextBlock x:Name="DriverNameTextBlock" Grid.Column="2" Text="{Binding Name}" VerticalAlignment="Center">
                                 <TextBlock.Style>
                                     <Style TargetType="{x:Type TextBlock}">
                                         <Style.Triggers>
@@ -179,24 +188,13 @@
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-                            <TextBlock Grid.Column="6" Margin="5 0 0 0" VerticalAlignment="Center" Text="{Binding Live.DeltaToNext}">
-                                <TextBlock.Style>
-                                    <Style TargetType="{x:Type TextBlock}">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Name}" Value="Jack Widdas">
-                                                <Setter Property="Foreground" Value="{StaticResource Pumpkin}"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                            <TextBlock Grid.Column="7" Margin="5 0 0 0" Background="Transparent" VerticalAlignment="Center">
+                            <TextBlock Grid.Column="6" Margin="5 0 0 0" Background="Transparent" VerticalAlignment="Center">
                                 <Run Text="{Binding CurrentResults.LastTime.DisplayShort, Mode=OneWay}"/>
                             </TextBlock>
-                            <TextBlock Grid.Column="8" Margin="5 0 0 0" Background="Transparent" Foreground="{DynamicResource Nephritis}" VerticalAlignment="Center">
+                            <TextBlock Grid.Column="7" Margin="5 0 0 0" Background="Transparent" Foreground="{DynamicResource Nephritis}" VerticalAlignment="Center">
                                 <Run Text="{Binding CurrentResults.FastestTime.DisplayShort, Mode=OneWay}"/>
                             </TextBlock>
-                            <TextBlock Grid.Column="9" Margin="5 0 0 0" Foreground="{StaticResource SunFlower}" VerticalAlignment="Center">
+                            <TextBlock Grid.Column="8" Margin="5 0 0 0" Foreground="{StaticResource SunFlower}" VerticalAlignment="Center">
                                 <Run Text="{Binding PitInfo.LastPitLap, StringFormat=L{0}, Mode=OneWay}"/>
                             </TextBlock>
                         </Grid>
@@ -246,10 +244,21 @@
 
                     <!--Strength of Field-->
                     <TextBlock Grid.Row="3" Grid.Column="0" Text="SOF" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" TextAlignment="Center"/>
-                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding StrengthOfField, Mode=OneWay, FallbackValue=XXX}" VerticalAlignment="Center" TextAlignment="Center" FontWeight="Bold"/>
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding StrenghtOfFieldDisplay, Mode=OneWay, FallbackValue=XXX}" VerticalAlignment="Center" TextAlignment="Center" FontWeight="Bold"/>
                 </Grid>
             </Border>
         </WrapPanel>
+        <ListView Background="White" Height="200" Width="200" ItemsSource="{Binding CustomList}" Foreground="Black">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <WrapPanel>
+                        <TextBlock Text="{Binding Position}"/>
+                        <TextBlock Text="{Binding Name, FallbackValue=kakka}"/>
+                        <TextBlock Text="{Binding DeltaToNext}"/>
+                    </WrapPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 
     </StackPanel>
 </Window>

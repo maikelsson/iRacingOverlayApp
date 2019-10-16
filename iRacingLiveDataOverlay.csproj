@@ -107,6 +107,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Models\CustomDriver.cs" />
     <Compile Include="Models\MockDriver.cs" />
     <Compile Include="ViewModels\LiveDataViewModel.cs" />
     <Compile Include="ViewModels\MockLiveDataViewModel.cs" />
