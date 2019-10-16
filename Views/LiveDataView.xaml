@@ -22,7 +22,7 @@
         d:DesignHeight="450" d:DesignWidth="800" Foreground="White" FontFamily="/iRacingLiveDataOverlay;component/Utility/Fonts/#Roboto-Bold">
 
     <Window.Resources>
-        <CollectionViewSource Source="{Binding StandingDrivers}" x:Key="SortedDrivers">
+        <CollectionViewSource Source="{Binding MyClassDrivers}" x:Key="SortedDrivers">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="Live.Position" Direction="Ascending"/>
             </CollectionViewSource.SortDescriptions>
@@ -41,34 +41,10 @@
                 <Trigger Property="ListView.AlternationIndex" Value="1">
                     <Setter Property="Background" Value="{StaticResource BlackOpacity20%}"/>
                 </Trigger>
-                <!--<EventTrigger RoutedEvent="Loaded">
-                    
-                <EventTrigger.Actions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="Position" Storyboard.TargetProperty="LayoutTransform.ScaleY" From="0" Duration="0:0:.8"/>
-
-                                <DoubleAnimation Storyboard.TargetProperty="Width" From="0" Duration="0:0:.8"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger.Actions>
-                
-                </EventTrigger>-->
             </Style.Triggers>
 
         </Style>
-        
-        <Style x:Key="DynamicTextblock" TargetType="TextBlock">
-            <Setter Property="LayoutTransform">
-                <Setter.Value>
-                    <ScaleTransform x:Name="transform"/>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-               
-            </Style.Triggers>
-        </Style>
-        
+
         <Style x:Key="Bordered" TargetType="ListView">
             <Setter Property="Template">
                 <Setter.Value>

@@ -27,15 +27,11 @@ namespace iRacingLiveDataOverlay.ViewModels
     public class LiveDataViewModel : Window, INotifyPropertyChanged
     {
 
-        public DoubleAnimation customAnimation;
-
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        //TODO's
 
         //Make LiveDataView visible only when im on track.
         //
@@ -161,46 +157,44 @@ namespace iRacingLiveDataOverlay.ViewModels
         #endregion
 
         //List of all drivers
-        private ObservableCollection<Driver> _currentDrivers;
-        public ObservableCollection<Driver> CurrentDrivers
+        private ObservableCollection<Driver> _allSessionDrivers;
+        public ObservableCollection<Driver> AllSessionDrivers
         {
             get
             {
-                return _currentDrivers;
+                return _allSessionDrivers;
             }
             set
             {
-                _currentDrivers = value;
+                _allSessionDrivers = value;
                 OnPropertyChanged("CurrentDrivers");
             }
         }
 
         //List of drivers from session results
-        private ObservableCollection<Driver> _standingDrivers;
-        public ObservableCollection<Driver> StandingDrivers
+        private ObservableCollection<Driver> _myClassDrivers;
+        public ObservableCollection<Driver> MyClassDrivers
         {
             get
             {
-                return _standingDrivers;
+                return _myClassDrivers;
             }
             set
             {
-                _standingDrivers = value;
+                _myClassDrivers = value;
                 OnPropertyChanged("StandingDrivers");
             }
         }
 
-        public TelemetryInfo telemetryInfo;
-
-        public Driver myDriver;
+        public Driver MyDriver;
 
         public LiveDataViewModel()
         {
 
             Sim.Instance.Start(1);
                
-            _currentDrivers = new ObservableCollection<Driver>();
-            _standingDrivers = new ObservableCollection<Driver>();
+            _allSessionDrivers = new ObservableCollection<Driver>();
+            _myClassDrivers = new ObservableCollection<Driver>();
 
             Sim.Instance.Connected += OnSimInstanceConnected;
             Sim.Instance.Disconnected += OnSimInstanceDisconnected;
@@ -213,9 +207,9 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         }
 
-        private void OnSimulationUpdated(object sender, EventArgs e)
+        private async void OnSimulationUpdated(object sender, EventArgs e)
         {
-            GetSessionInfo();
+            await GetSessionInfo();
         }
 
         private void OnSimInstanceDisconnected(object sender, EventArgs e)
@@ -223,10 +217,10 @@ namespace iRacingLiveDataOverlay.ViewModels
             throw new NotImplementedException();
         }
 
-        private void OnSimInstanceConnected(object sender, EventArgs e)
+        private async void OnSimInstanceConnected(object sender, EventArgs e)
         {
-            GetAllDrivers();
-            GetSessionInfo();
+            await GetAllDriversFromCurrentSession();
+            await GetSessionInfo();
         }
 
         private void OnRaceEventInfoUpdated(object sender, Sim.RaceEventArgs e)
@@ -240,10 +234,10 @@ namespace iRacingLiveDataOverlay.ViewModels
             }
         }
 
-        private void OnTelemetryInfoUpdated(object sender, SdkWrapper.TelemetryUpdatedEventArgs e)
+        private async void OnTelemetryInfoUpdated(object sender, SdkWrapper.TelemetryUpdatedEventArgs e)
         {
             
-            UpdateStandings(CurrentDrivers);
+            await GetActiveDriversFromCurrentSession(AllSessionDrivers);
 
             if (IsGreenFlag)
             {
@@ -256,17 +250,16 @@ namespace iRacingLiveDataOverlay.ViewModels
             
         }
 
-        private void OnSessionInfoUpdated(object sender, SdkWrapper.SessionInfoUpdatedEventArgs e)
+        private async void OnSessionInfoUpdated(object sender, SdkWrapper.SessionInfoUpdatedEventArgs e)
         {
-            GetAllDrivers();
-            GetSessionInfo();
+            await GetAllDriversFromCurrentSession();
+            await GetSessionInfo();
         }
 
-        //Gets all drivers from the current Session
-        private void GetAllDrivers()
+        private async Task GetAllDriversFromCurrentSession()
         {
             //Remove items from list to prevent duplicates happening..
-            CurrentDrivers.Clear();
+            AllSessionDrivers.Clear();
 
             if (!_isCurrentlyUpdating)
             {
@@ -276,22 +269,21 @@ namespace iRacingLiveDataOverlay.ViewModels
                 {
                     if (driver.IsCurrentDriver)
                     {
-                        myDriver = driver;
+                        MyDriver = driver;
                     }
 
-                    CurrentDrivers.Add(driver);
+                    AllSessionDrivers.Add(driver);
                 }
             }
 
             _isCurrentlyUpdating = false;
-
+            await Task.CompletedTask;
         }
 
-        //Updates standing list, top left corner
-        private void UpdateStandings(ObservableCollection<Driver> drivers)
+        private async Task GetActiveDriversFromCurrentSession(ObservableCollection<Driver> drivers)
         {
 
-            StandingDrivers.Clear();
+            MyClassDrivers.Clear();
 
             if (!_isCurrentlyUpdating)
             {
@@ -300,34 +292,40 @@ namespace iRacingLiveDataOverlay.ViewModels
                 foreach (var d in drivers)
                 {
                     
-                    if(myDriver == null)
+                    if(MyDriver == null)
                     {
-                        StandingDrivers.Add(d);
+                        MyClassDrivers.Add(d);
                     }
                     //Adding driver to standings list only if has completed a valid lap
                     else 
                     {
 
                         //If driving, add only drivers from same class that has completed atleast one lap
-                        if (d.Results.Current.LapsComplete != 0 && d.Car.CarClassId == myDriver.Car.CarClassId)
+                        if (d.Results.Current.LapsComplete != 0 && d.Car.CarClassId == MyDriver.Car.CarClassId)
                         {
-                            StandingDrivers.Add(d);
+                            MyClassDrivers.Add(d);
                         }  
                     }
                 }
             }
 
             _isCurrentlyUpdating = false;
-            
+            await Task.CompletedTask;
         }
 
         //Get track temps, sessiontype etc. there might be easier or simpler way to do this.. 
-        private void GetSessionInfo()
+        private async Task GetSessionInfo()
         {
             TrackTemp = Sim.Instance.SessionData.TrackSurfaceTemp;
             CurrentSessionType = Sim.Instance.SessionData.SessionType;
             SessionTimeLeft = Sim.Instance.SessionData.RaceTime;
             OffTrackLimit = "sds";
+            await Task.CompletedTask;
+        }
+
+        private async Task CalculateSofForMyClass()
+        {
+            await Task.CompletedTask;
         }
 
         private string ConvertDoubleToTimeString(double time)
