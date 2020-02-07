@@ -4,11 +4,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
-        xmlns:my="clr-namespace:iRacingSimulator.Drivers;assembly=iRacingCL"
-        xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
-        xmlns:custom="clr-namespace:iRacingLiveDataOverlay.ViewModels"
         mc:Ignorable="d"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -21,11 +16,13 @@
         Height="{Binding Source={x:Static SystemParameters.FullPrimaryScreenHeight}}"
         d:DesignHeight="450" d:DesignWidth="800" Foreground="White" FontFamily="/iRacingLiveDataOverlay;component/Utility/Fonts/#Roboto-Bold">
     <Window.Resources>
-        <CollectionViewSource Source="{Binding MyClassDrivers}" x:Key="SortedDrivers">
+
+        <CollectionViewSource IsLiveSortingRequested="True" Source="{Binding MyClassDrivers}" x:Key="SortedDrivers">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="Live.Position" Direction="Ascending"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
+        
         <Style x:Key="alternativeBgColor" TargetType="ListViewItem">
             <Setter Property="LayoutTransform">
                 <Setter.Value>
@@ -41,6 +38,8 @@
                     <Setter Property="Background" Value="{StaticResource BlackOpacity20%}"/>
                 </Trigger>
             </Style.Triggers>
+            
+
 
         </Style>
 
@@ -92,34 +91,14 @@
                   ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" FontWeight="Bold" BorderThickness="0">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <!--<DataTemplate.Triggers>
-                        <EventTrigger RoutedEvent="TextBox.TextChanged">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="PositionTextBlock" Storyboard.TargetProperty="Width" From="10" To="100" Duration="0:0:.5" AccelerationRatio="0.2"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </DataTemplate.Triggers>-->
-                    <!--<DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding Live.ClassPosition}" Value="12">
-                            <DataTrigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="PositionTextBlock" Storyboard.TargetProperty="Width" From="10" To="100" Duration="0:0:.5" AccelerationRatio="0.2"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </DataTrigger.EnterActions>
-                        </DataTrigger>
-                    </DataTemplate.Triggers>-->
                     <WrapPanel VerticalAlignment="Center">
 
                         <Grid VerticalAlignment="Center" x:Name="grid1">
                             <Grid.ColumnDefinitions>
                                 <!--Position-->
-                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="25"/>
                                 <!--Car Number-->
-                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="35"/>
                                 <!--Driver Name-->
                                 <ColumnDefinition Width="150"/>
                                 <!--License Level-->
@@ -138,18 +117,9 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="25"/>
                             </Grid.RowDefinitions>
-                            
+
                             <TextBlock Name="PositionTextBlock" Grid.Column="0" Foreground="{StaticResource Clouds}" TextAlignment="Center"
-                                       Text="{Binding Live.ClassPosition, Mode=OneTime, NotifyOnTargetUpdated=True}" VerticalAlignment="Center">
-                                <!--<TextBlock.Triggers>
-                                    <EventTrigger RoutedEvent="Binding.TargetUpdated">
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="PositionTextBlock" Storyboard.TargetProperty="Width" From="10" To="100" Duration="0:0:.5" AccelerationRatio="0.2"/>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </EventTrigger>
-                                </TextBlock.Triggers>-->
+                                       Text="{Binding Live.Position}" VerticalAlignment="Center">
                             </TextBlock>
 
                             <TextBlock Grid.Column="1" Foreground="{Binding Car.GetClassColor}" 
@@ -177,11 +147,11 @@
                                     <Run Text="{Binding ShortIRating, Mode=OneTime}" Foreground="Black"/>
                                 </TextBlock>
                             </Border>
-                            <TextBlock Grid.Column="5" Margin="5 0 0 0" VerticalAlignment="Center" Text="{Binding Live.DeltaToLeader, NotifyOnTargetUpdated=True}">
+                            <TextBlock Grid.Column="5" Margin="5 0 0 0" VerticalAlignment="Center" Text="{Binding Live.DeltaToLeader}">
                                 <TextBlock.Style>
                                     <Style TargetType="{x:Type TextBlock}">
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Name}" Value="Jack Widdas">
+                                            <DataTrigger Binding="{Binding Name}" Value="Mikael E Thornberg">
                                                 <Setter Property="Foreground" Value="{StaticResource Pumpkin}"/>
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -248,17 +218,7 @@
                 </Grid>
             </Border>
         </WrapPanel>
-        <ListView Background="White" Height="200" Width="200" ItemsSource="{Binding CustomList}" Foreground="Black">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <WrapPanel>
-                        <TextBlock Text="{Binding Position}"/>
-                        <TextBlock Text="{Binding Name, FallbackValue=kakka}"/>
-                        <TextBlock Text="{Binding DeltaToNext}"/>
-                    </WrapPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+       
 
     </StackPanel>
 </Window>

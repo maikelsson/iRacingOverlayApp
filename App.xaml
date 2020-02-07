@@ -5,7 +5,7 @@
     <Application.Resources>
         <ResourceDictionary>
             
-            <!--#regionButton styles-->
+            <!--#region Button styles-->
             <Style TargetType="Button" x:Key="BasicButton">
                 <Setter Property="FontSize" Value="15"/>
                 <Setter Property="Foreground" Value="#ecf0f1"/>

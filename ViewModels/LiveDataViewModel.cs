@@ -20,6 +20,7 @@ using iRSDKSharp;
 using System.Windows.Media.Animation;
 using iRacingLiveDataOverlay.Views;
 using iRacingLiveDataOverlay.Models;
+using iRacingSimulator.Events;
 
 namespace iRacingLiveDataOverlay.ViewModels
 {
@@ -56,7 +57,6 @@ namespace iRacingLiveDataOverlay.ViewModels
         private double _elapsedTimeOffset = 0;
 
         #region SessionData variables
-
 
         public string StrenghtOfFieldDisplay { get; set; }
 
@@ -114,7 +114,11 @@ namespace iRacingLiveDataOverlay.ViewModels
             }
             set
             {
-                _sessionTimeElapsed = value;
+                if (IsGreenFlag)
+                    _sessionTimeElapsed = value + _elapsedTimeOffset;
+                else
+                    _sessionTimeElapsed = value;
+
                 OnPropertyChanged("SessionTimeElapsed");
                 OnPropertyChanged("SessionTimeElapsedDisplay");
             }
@@ -159,7 +163,6 @@ namespace iRacingLiveDataOverlay.ViewModels
         }
 
         #endregion
-
         //List of all drivers
         private ObservableCollection<Driver> _allSessionDrivers;
         public ObservableCollection<Driver> AllSessionDrivers
@@ -172,9 +175,11 @@ namespace iRacingLiveDataOverlay.ViewModels
             {
                 _allSessionDrivers = value;
                 OnPropertyChanged("AllSessionDrivers");
+                OnPropertyChanged("MyClassDrivers");
             }
         }
 
+        private readonly Sim _simInstance;
 
         private ObservableCollection<CustomDriver> _customList;
         public ObservableCollection<CustomDriver> CustomList
@@ -201,20 +206,17 @@ namespace iRacingLiveDataOverlay.ViewModels
             set
             {
                 _myClassDrivers = value;
-                //OnPropertyChanged("MyClassDrivers");
+                OnPropertyChanged("MyClassDrivers");
             }
         }
 
         public Driver MyDriver;
 
-        public TelemetryInfo telemetryInfo;
-
         public LiveDataViewModel()
         {
-
-            Sim.Instance.Start(10);
-
-            CustomList = new ObservableCollection<CustomDriver>();
+            _simInstance = Sim.Instance;
+            Sim.Instance.Start();
+            
             AllSessionDrivers = new ObservableCollection<Driver>();
             MyClassDrivers = new ObservableCollection<Driver>();
 
@@ -226,14 +228,12 @@ namespace iRacingLiveDataOverlay.ViewModels
             Sim.Instance.RaceEvent += OnRaceEventInfoUpdated;
             Sim.Instance.SimulationUpdated += OnSimulationUpdated;
 
-            TelemetryInfo telemetryInfo = Sim.Instance.Telemetry;
-
         }
 
 
-        private async void OnSimulationUpdated(object sender, EventArgs e)
+        private void OnSimulationUpdated(object sender, EventArgs e)
         {
-            await GetSessionInfo();
+            throw new NotImplementedException();
         }
 
         private void OnSimInstanceDisconnected(object sender, EventArgs e)
@@ -249,8 +249,9 @@ namespace iRacingLiveDataOverlay.ViewModels
 
         private void OnRaceEventInfoUpdated(object sender, Sim.RaceEventArgs e)
         {
+            Debug.WriteLine(e.Event.Type);
             //Resetting the clock when the race starts
-            if (e.Event.Type.Equals(1))
+            if (e.Event.Type == RaceEvent.EventTypes.GreenFlag)
             {
                 IsGreenFlag = true;
                 _elapsedTimeOffset = SessionTimeLeft - SessionTimeElapsed;
@@ -258,25 +259,17 @@ namespace iRacingLiveDataOverlay.ViewModels
             }
         }
 
-        private async void OnTelemetryInfoUpdated(object sender, SdkWrapper.TelemetryUpdatedEventArgs e)
+        private void OnTelemetryInfoUpdated(object sender, SdkWrapper.TelemetryUpdatedEventArgs e)
         {
-            await GetActiveDriversFromCurrentSession(AllSessionDrivers);
-
-            if (IsGreenFlag)
-            {
-                SessionTimeElapsed = Sim.Instance.SessionData.TimeRemaining + _elapsedTimeOffset;
-            }
-            else
-            {
-                SessionTimeElapsed = Sim.Instance.SessionData.TimeRemaining;
-            }
-
+            SessionTimeElapsed = Sim.Instance.SessionData.TimeRemaining;
+            
         }
 
         private async void OnSessionInfoUpdated(object sender, SdkWrapper.SessionInfoUpdatedEventArgs e)
         {
             await GetAllDriversFromCurrentSession();
             await GetSessionInfo();
+            //await GetActiveDriversFromCurrentSession(AllSessionDrivers);
         }
 
         private async Task GetAllDriversFromCurrentSession()
@@ -313,29 +306,40 @@ namespace iRacingLiveDataOverlay.ViewModels
             {
                 _isCurrentlyUpdating = true;
 
-                foreach (var d in drivers)
-                {  
+                for(int x = 0; x < drivers.Count; x++)
+                {
                     if(MyDriver == null)
-                    {
-                        MyClassDrivers.Add(d);
-                    }
-                    //Adding driver to standings list only if has completed a valid lap
-                    else 
-                    {
+                        MyClassDrivers.Add(drivers[x]);
 
+                    else
+                    {
                         //If driving, add only drivers from same class that has completed atleast one lap
-                        if (d.Results.Current.LapsComplete != 0 && d.Car.CarClassId == MyDriver.Car.CarClassId)
+                        if (drivers[x].Results.Current.LapsComplete != 0 && drivers[x].Car.CarClassId == MyDriver.Car.CarClassId)
                         {
-                            MyClassDrivers.Add(d);
-                        }  
+                            MyClassDrivers.Add(drivers[x]);
+                        }
                     }
                 }
+        
             }
 
-            await CalculateSofForMyClass();
+            
             _isCurrentlyUpdating = false;
             await Task.CompletedTask;
         }
+
+
+
+        public bool MyProperty
+        {
+            get { return (bool)GetValue(MyPropertyProperty); }
+            set { SetValue(MyPropertyProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MyPropertyProperty =
+            DependencyProperty.Register("MyProperty", typeof(bool), typeof(LiveDataViewModel), new PropertyMetadata(false));
+
 
         //Get track temps, sessiontype etc. there might be easier or simpler way to do this.. 
         private async Task GetSessionInfo()
@@ -343,7 +347,6 @@ namespace iRacingLiveDataOverlay.ViewModels
             TrackTemp = Sim.Instance.SessionData.TrackSurfaceTemp;
             CurrentSessionType = Sim.Instance.SessionData.SessionType;
             SessionTimeLeft = Sim.Instance.SessionData.RaceTime;
-            OffTrackLimit = "sds";
             await Task.CompletedTask;
         }
 
@@ -356,7 +359,7 @@ namespace iRacingLiveDataOverlay.ViewModels
                 SOF += driver.IRating;
             }
 
-            SOF = SOF / MyClassDrivers.Count();
+            //SOF = SOF / MyClassDrivers.Count();
 
             StrenghtOfFieldDisplay = SOF.ToString();
 
